@@ -32,14 +32,19 @@ Architecture:
 HTTP interface for making reminder requests and cancellation requests. 
 Transports for RabbitMQ look like a concrete requirement at this stage.
 
-Priority Queue - contains the times of all time-outs. The priority function is simply sorting items by time, so the most recent items can be popped off the front of the queue. Backed by a linked-list for O(log n) complexity, since we will be doing plenty of inserts.
+Priority Queue - contains the times of all time-outs. The priority function is simply sorting items by time, so the most recent items can be popped off the front of the queue. Backed by a linked-list for O(log n) insertion complexity, since we will be doing plenty of inserts.
 
-Backed by one of binary heap, linked-list, binary-search-tree.
+Backed by one of binary heap, linked-list, binary-search-tree? Maybe too complex if we dont need to delete items.
 
 Deletion - couple of ideas:
   - when cancelling a timeout we can remove from the priority queue
 OR
-  - we can keep another list of cancelled timeouts(revocation lilst). When a timeout occurs we can check against the revocation list. If the item is in the list, we do not send the payload AND we remove the item from the list. ELSE we send the payload.
+  - we can keep another list of cancelled timeouts (revocation list). When a timeout occurs we can check against the revocation list. If the item is in the list, we do not send the payload AND we remove the item from the list. ELSE we send the payload.
 
 Prefer 2 because it means that we dont have to remove items from the file. If we keep 1 then we are only ever appending to the file -> forward only, immutable. Can get leverage from GES transaction log for this?
 
+OR
+--
+
+We just build this on top of EventStore!
+Ask Paul Stack about Vagrant box with EventStore
