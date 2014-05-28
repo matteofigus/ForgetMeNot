@@ -48,3 +48,7 @@ OR
 
 We just build this on top of EventStore!
 Ask Paul Stack about Vagrant box with EventStore
+Append Reminder requests to a stream.
+Have streams scavenged - acts as compaction
+Revocation List as a stream.
+
