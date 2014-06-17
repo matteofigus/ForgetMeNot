@@ -3,14 +3,14 @@
 namespace ReminderService.DataStructures
 {
     [TestFixture]
-    public class WhenRemovingFromAPriorityQueue
+	public class WhenRemovingFromAMinPriorityQueue
     {
-        private PriorityQueue<string> _pq;
+		private MinPriorityQueue<string> _pq;
 
         [TestFixtureSetUp]
         public void Initial()
         {
-            _pq = new PriorityQueue<string>(1);
+			_pq = new MinPriorityQueue<string>(1);
             _pq.Insert("p");
             _pq.Insert("r");
             _pq.Insert("i");
@@ -25,15 +25,19 @@ namespace ReminderService.DataStructures
             _pq.Insert("u");
             _pq.Insert("e");
 
-            var expected = new string[] {"y","u","u","t","r","r","q","p","o","i","i","e","e"};
+			var expected = new string[] {"e","e","i","i","o","p","q","r","r","t","u","u","y"};
             CollectionAssert.AreEqual(expected, _pq);
         }
 
         [Test]
         public void Should_return_the_max_item()
         {
-            Assert.AreEqual("y", _pq.RemoveMax());
+			Assert.AreEqual("e", _pq.RemoveMin());
             Assert.AreEqual(12, _pq.Size);
+			Assert.AreEqual("e", _pq.RemoveMin());
+			Assert.AreEqual(11, _pq.Size);
+			Assert.AreEqual("i", _pq.RemoveMin());
+			Assert.AreEqual(10, _pq.Size);
         }
     }
 }

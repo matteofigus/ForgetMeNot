@@ -2,18 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace PriorityQueue
+namespace ReminderService.DataStructures
 {
     /// <summary>
     /// Basically taken from: http://algs4.cs.princeton.edu/24pq/
     /// Priority queue implemented with a heap.
     /// The heap is always maintained in order; the maximum element is always on top.
-    /// Therefore, the Max() operation is completed in constant time.
+	/// Therefore, the Min() operation is completed in constant time (it just peaks the item on top).
+	/// RemoveMin() requires that the heap be resorted, so takes N log N time (the top item is 
+	/// removed and replaced by the item on the bottom. Heap order is then restored by sinking the new item on top).
     /// Inserts are done in log N time; the item is added to the end of the queue.
     /// Heap order is then maintained by swimming the latest element up the heap.
     /// Construction of the heap is proportional to the number of elements to add.
     /// Array will double / halve in size as needed; this is fine as we amortize this
     /// for inserts / deletions.
+	/// This data structure should be good enough to get us started...we can optimze later!
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class PriorityQueue<T> : IEnumerable<T>

@@ -5,14 +5,18 @@ using NUnit.Framework;
 namespace ReminderService.DataStructures
 {
     [TestFixture]
-    public class WhenBuildingAPriorityQueue
+	public class WhenBuildingAMinPriorityQueue
     {
-        private PriorityQueue<int> _pq;
+		private MinPriorityQueue<int> _pq;
 
         [TestFixtureSetUp]
         public void Initial()
         {
-            _pq = new PriorityQueue<int>(1);
+			_pq = new MinPriorityQueue<int>(1);
+			_pq.Insert(9);
+			_pq.Insert(10);
+			_pq.Insert(11);
+			_pq.Insert(12);
             _pq.Insert(1);
             _pq.Insert(2);
             _pq.Insert(3);
@@ -21,17 +25,13 @@ namespace ReminderService.DataStructures
             _pq.Insert(6);
             _pq.Insert(7);
             _pq.Insert(8);
-            _pq.Insert(9);
-            _pq.Insert(10);
-            _pq.Insert(11);
-            _pq.Insert(12);
             _pq.Insert(13);
         }
 
         [Test]
-        public void Should_return_the_highest_key()
+		public void Should_peak_the_smallest_key()
         {
-            Assert.AreEqual(13, _pq.Max());
+			Assert.AreEqual(1, _pq.Min());
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace ReminderService.DataStructures
         [Test]
         public void Should_keep_elements_in_order()
         {
-            var expected = new int[] {13,12,11,10,9,8,7,6,5,4,3,2,1};
+			var expected = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13};
             CollectionAssert.AreEqual(expected, _pq);
         }
     }

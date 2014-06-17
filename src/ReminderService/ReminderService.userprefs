@@ -1,0 +1,37 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="PriorityQueue/TimeoutController.cs">
+    <Files>
+      <File FileName="PriorityQueue/MinPriorityQueue.cs" Line="61" Column="42" />
+      <File FileName="PriorityQueue/TimeoutController.cs" Line="40" Column="25" />
+      <File FileName="PriorityQueue.Tests/TimeoutController_Spec.cs" Line="49" Column="26" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="ReminderService.DataStructures.Tests" expanded="True">
+            <Node name="ReminderService" expanded="True">
+              <Node name="DataStructures" expanded="True">
+                <Node name="Tests" expanded="True">
+                  <Node name="TimeoutController_Spec" expanded="True" selected="True">
+                    <Node name="A_TimeoutController" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue/ExtensionMethods.cs" line="25" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue.Tests/TimeoutController_Spec.cs" line="47" column="9" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue/TimeoutController.cs" line="38" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="PriorityQueue/ExtensionMethods.cs" line="25" offsetX="400" offsetY="226" expression="pq" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>
