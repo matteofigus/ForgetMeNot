@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.DataStructures.Tests
 {
     [TestFixture]
 	public class WhenRemovingFromAMinPriorityQueue

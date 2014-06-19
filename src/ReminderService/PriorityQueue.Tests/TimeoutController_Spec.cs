@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,7 +24,9 @@ namespace ReminderService.DataStructures.Tests
 			{
 				var reminderCallback = new Action<IEnumerable<ScheduledReminder>> ((r) => {
 					_pastReminders.AddRange (r);
-					_resetEvent.Set();
+					Console.WriteLine(string.Format("{0} reminders due", r.Count()));
+					if(_pastReminders.Count == 3)
+						_resetEvent.Set();
 				});
 				timeoutController = new TimeoutController (
 					reminderCallback,
@@ -45,37 +48,27 @@ namespace ReminderService.DataStructures.Tests
 					now,
 					new object (), 
 					new Uri ("http://some/place/3")));
-
-				var signaled = _resetEvent.WaitOne (300);
-
-				Assert.True (signaled);
-				Assert.AreEqual (1, _pastReminders.Count);
-				Assert.AreEqual (now, _pastReminders [0].TimeOutAt);
-				Assert.AreEqual (new Uri ("http://some/place/3"), _pastReminders [0].Destination);
-
-				_resetEvent.Reset ();
-				SystemTime.Set (now.AddMilliseconds(100));
 				timeoutController.Add (new ScheduledReminder (
 					Guid.NewGuid (),
 					now.AddMilliseconds(200),
 					new object (), 
 					new Uri ("http://some/place/2")));
-				_resetEvent.WaitOne (300);
-				Assert.True (signaled);
-				Assert.AreEqual (2, _pastReminders.Count);
-				Assert.AreEqual (now.AddMilliseconds(200), _pastReminders [1].TimeOutAt);
-				Assert.AreEqual (new Uri ("http://some/place/2"), _pastReminders [1].Destination);
-
-				_resetEvent.Reset ();
-				SystemTime.Set (now.AddSeconds(100));
 				timeoutController.Add (new ScheduledReminder (
 					Guid.NewGuid (),
 					now.AddSeconds(320),
 					new object (), 
 					new Uri ("http://some/place/1")));
-				_resetEvent.WaitOne (300);
+
+				var signaled = _resetEvent.WaitOne (300);
+
 				Assert.True (signaled);
 				Assert.AreEqual (3, _pastReminders.Count);
+				Assert.AreEqual (now, _pastReminders [0].TimeOutAt);
+				Assert.AreEqual (new Uri ("http://some/place/3"), _pastReminders [0].Destination);
+
+				Assert.AreEqual (now.AddMilliseconds(200), _pastReminders [1].TimeOutAt);
+				Assert.AreEqual (new Uri ("http://some/place/2"), _pastReminders [1].Destination);
+
 				Assert.AreEqual (now.AddSeconds(320), _pastReminders [2].TimeOutAt);
 				Assert.AreEqual (new Uri ("http://some/place/1"), _pastReminders [2].Destination);
 			}

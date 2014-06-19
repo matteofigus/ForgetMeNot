@@ -17,7 +17,7 @@ namespace ReminderService.DataStructures
 		//private readonly Timer _timer;
 		private int _running = 0;
 		private Action<IEnumerable<ScheduledReminder>> _timeoutCallback;
-		private CancellationTokenSource _cancelationToken;
+		private CancellationTokenSource _cancelationToken = new CancellationTokenSource();
 		private TaskScheduler _scheduler;
 
 		/// <summary>
@@ -54,20 +54,23 @@ namespace ReminderService.DataStructures
         {
 			if (_running > 0 && !_pq.IsEmpty)
             {
-				_cancelationToken = new CancellationTokenSource ();
 				var nextTimeoutAt = _pq.Min ().TimeOutAt;
 				var timeToNext = nextTimeoutAt.Subtract(SystemTime.Now()).Milliseconds;
+				Console.WriteLine ("GetNextTimeout, timeToNext: " + timeToNext);
 				try
 				{
 				Task
 					.Delay (timeToNext, _cancelationToken.Token)
 					.ContinueWith ((task) => {
+							Console.WriteLine(string.Format("Reminder due at {0:H:mm:ss fff}", nextTimeoutAt));
 							var remindersDue = _pq.GetRemindersAtTime(nextTimeoutAt);
-							_timeoutCallback(remindersDue);
+							_timeoutCallback(remindersDue); //do we want to run this async?
+							GetNextTimeout();
 						});
 				}
 				catch (TaskCanceledException tce) {
 					// task has been canceled because a new incoming timeout will expire before the current timeout
+					Console.WriteLine (string.Format("Task cancelled for time {0:H:mm:ss fff}", nextTimeoutAt));
 					GetNextTimeout ();
 				}
 				catch(Exception ee){
@@ -96,10 +99,15 @@ namespace ReminderService.DataStructures
 			//on the top of the queue.
 			//if so, we need to add to the queue (so that it is resorted) and then get the new current min
 			if (!_pq.IsEmpty && _pq.Min ().TimeOutAt.Subtract (reminder.TimeOutAt) > TimeSpan.Zero) {
+				Console.WriteLine (
+					string.Format ("Inserting reminder {0} {1:H:mm:ss fff}, cancelling previous", 
+						reminder.ReminderId, reminder.TimeOutAt));
 				_cancelationToken.Cancel ();
 				_pq.Insert (reminder);
 			}
 			else
+				Console.WriteLine (
+					string.Format("Inserting reminder {0} {1:H:mm:ss fff}", reminder.ReminderId, reminder.TimeOutAt));
 				_pq.Insert (reminder);
 
 			GetNextTimeout ();

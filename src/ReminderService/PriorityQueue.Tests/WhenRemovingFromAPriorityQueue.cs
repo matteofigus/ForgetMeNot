@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
+using ReminderService.DataStructures;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.DataStructures.Tests
 {
     [TestFixture]
     public class WhenRemovingFromAPriorityQueue
