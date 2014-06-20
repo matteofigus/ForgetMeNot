@@ -25,7 +25,7 @@ namespace ReminderService.Router
                 multiplexer.Handle(message);
         }
 
-        public void SubscribeTo<T>(IConsume<T> consumer) where T : IMessage
+        public void Subscribe<T>(IConsume<T> consumer) where T : IMessage
         {
             var wideningConsumer = new WideningConsumer<IMessage, T>(consumer);
             _subscribers.AddOrUpdate(typeof (T).FullName,
@@ -37,7 +37,7 @@ namespace ReminderService.Router
                                          });
         }
 
-        public void UnSubscribeTo<T>(IConsume<T> handler) where T : IMessage
+        public void UnSubscribe<T>(IConsume<T> handler) where T : IMessage
         {
             throw new System.NotImplementedException();
         }

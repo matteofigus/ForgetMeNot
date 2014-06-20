@@ -2,7 +2,7 @@
 {
     public interface ISubscribe
     {
-        void SubscribeTo<T>(IConsume<T> handler) where T : IMessage;
-        void UnSubscribeTo<T>(IConsume<T> handler) where T : IMessage;
+        void Subscribe<T>(IConsume<T> handler) where T : IMessage;
+        void UnSubscribe<T>(IConsume<T> handler) where T : IMessage;
     }
 }

@@ -11,7 +11,7 @@ namespace ReminderService.Router.Tests
         private readonly List<IMessage> _routedMessages = new List<IMessage>();
         private readonly Bus _bus = new Bus();
         private Action<IMessage> _recordRoutedMessages;
-        private TestMessage _publishedMessage;
+		private TestMessages.TestMessage _publishedMessage;
         
         [TestFixtureSetUp]
 		public void Given_a_router()
@@ -20,17 +20,17 @@ namespace ReminderService.Router.Tests
 
             // this consumer should not receive the TestMessage that is published; 
             // it is listening for a AnEvent message that is not derived from TestMessage
-            _bus.SubscribeTo(new FakeConsumer<AnEvent>(_recordRoutedMessages));
-            _bus.SubscribeTo(new FakeConsumer<IMessage>(_recordRoutedMessages));
-            _bus.SubscribeTo(new FakeConsumer<TestMessage>(_recordRoutedMessages));
-            _bus.SubscribeTo(new FakeConsumer<AnotherTestMessage>(_recordRoutedMessages)); //this comsumer should not receive the message; AnotherTestMessage is too specialized
+			_bus.Subscribe(new FakeConsumer<TestMessages.NotDerivedTestMessage>(_recordRoutedMessages));
+            _bus.Subscribe(new FakeConsumer<IMessage>(_recordRoutedMessages));
+			_bus.Subscribe(new FakeConsumer<TestMessages.TestMessage>(_recordRoutedMessages));
+			_bus.Subscribe(new FakeConsumer<TestMessages.ADerivedTestMessage>(_recordRoutedMessages)); //this comsumer should not receive the message; AnotherTestMessage is too specialized
         }
 
         [SetUp]
         public void when_a_TestMessage_is_published()
         {
             _routedMessages.Clear();
-            _publishedMessage = new TestMessage();
+			_publishedMessage = new TestMessages.TestMessage();
             _bus.Publish(_publishedMessage);
         }
 
