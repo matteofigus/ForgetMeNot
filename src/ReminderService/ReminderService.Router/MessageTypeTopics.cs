@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReminderService.Router.TypeBased
+namespace ReminderService.Router
 {
     public sealed class MessageTypeTopics
     {

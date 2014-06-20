@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
+using ReminderService.Router.Consumers;
 
-namespace ReminderService.Router.TypeBased
+namespace ReminderService.Router
 {
     public class Bus : IBus
     {

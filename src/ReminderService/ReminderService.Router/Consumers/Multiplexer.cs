@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReminderService.Router
+namespace ReminderService.Router.Consumers
 {
     public sealed class Multiplexer<T> : IConsume<T> where T : IMessage
     {

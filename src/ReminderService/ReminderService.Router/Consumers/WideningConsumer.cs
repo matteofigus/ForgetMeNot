@@ -1,4 +1,4 @@
-﻿namespace ReminderService.Router
+﻿namespace ReminderService.Router.Consumers
 {
     /// <summary>
     /// A decorator over the IConsume interface.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using ReminderService.Router.TypeBased;
+using ReminderService.Router;
 
 namespace ReminderService.Router.Tests
 {
@@ -14,7 +14,7 @@ namespace ReminderService.Router.Tests
         private TestMessage _publishedMessage;
         
         [TestFixtureSetUp]
-        public void given_a_router()
+		public void Given_a_router()
         {
              _recordRoutedMessages = msg => _routedMessages.Add(msg);
 

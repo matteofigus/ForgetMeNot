@@ -45,11 +45,11 @@
     <Compile Include="IPublish.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="ITopic.cs" />
-    <Compile Include="Multiplexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeBased\MessageTypeTopics.cs" />
-    <Compile Include="TypeBased\Bus.cs" />
-    <Compile Include="WideningConsumer.cs" />
+    <Compile Include="Bus.cs" />
+    <Compile Include="MessageTypeTopics.cs" />
+    <Compile Include="Consumers\Multiplexer.cs" />
+    <Compile Include="Consumers\WideningConsumer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -59,4 +59,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Consumers\" />
+  </ItemGroup>
 </Project>
