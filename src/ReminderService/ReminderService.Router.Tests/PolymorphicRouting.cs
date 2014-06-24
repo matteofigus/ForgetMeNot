@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using ReminderService.Router;
+
+namespace ReminderService.Router.Tests
+{
+    [TestFixture]
+    public class PolymorphicRouting
+    {
+        private readonly List<IMessage> _routedMessages = new List<IMessage>();
+        private readonly Bus _bus = new Bus();
+		private FakeConsumer<IMessage> _baseConsumer = new FakeConsumer<IMessage>();
+		private FakeConsumer<TestMessages.TestMessage> _testMessageConsumer = new FakeConsumer<TestMessages.TestMessage>();
+		private FakeConsumer<TestMessages.ADerivedTestMessage> _derivedMessageConsumer = new FakeConsumer<TestMessages.ADerivedTestMessage>();
+		private FakeConsumer<TestMessages.NotDerivedTestMessage> _notADerivedMessageConsumer = new FakeConsumer<TestMessages.NotDerivedTestMessage>();
+
+        [TestFixtureSetUp]
+		public void When_a_TestMessage_is_published()
+        {
+			// this consumer should not receive the TestMessage that is published; there is no inheritance route to this message
+			_bus.Subscribe(_notADerivedMessageConsumer);
+			_bus.Subscribe(_baseConsumer);
+			_bus.Subscribe(_testMessageConsumer);
+			_bus.Subscribe(_derivedMessageConsumer); //this comsumer should not receive the message; ADerivedTestMessage is too specialized
+			_bus.Publish(new TestMessages.TestMessage());
+        }
+
+        [Test]
+		public void then_the_base_subscriber_receives_the_message()
+        {
+			Assert.AreEqual(1, _baseConsumer.ReceivedMessages.Count);
+        }
+
+		[Test]
+		public void then_the_TestMessage_subscriber_receives_the_message()
+		{
+			Assert.AreEqual(1, _testMessageConsumer.ReceivedMessages.Count);
+		}
+
+		[Test]
+		public void then_the_NotADerivedMessage_subscriber_does_not_receive_the_message()
+		{
+			Assert.AreEqual(0, _notADerivedMessageConsumer.ReceivedMessages.Count);
+		}
+
+		[Test]
+		public void then_the_ADerivedMessage_subscriber_does_not_receive_the_message()
+		{
+			Assert.AreEqual(0, _derivedMessageConsumer.ReceivedMessages.Count);
+		}
+    }
+}

@@ -44,9 +44,9 @@
   <ItemGroup>
     <Compile Include="FakeConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestingPolymorphicRouting.cs" />
     <Compile Include="TestMessages.cs" />
     <Compile Include="Consumers\WideningConsumerTests.cs" />
+    <Compile Include="PolymorphicRouting.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

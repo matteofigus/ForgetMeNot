@@ -37,6 +37,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBus.cs" />
@@ -50,6 +51,8 @@
     <Compile Include="MessageTypeTopics.cs" />
     <Compile Include="Consumers\Multiplexer.cs" />
     <Compile Include="Consumers\WideningConsumer.cs" />
+    <Compile Include="Consumers\NarrowingConsumer.cs" />
+    <Compile Include="Consumers\MessageDispatcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

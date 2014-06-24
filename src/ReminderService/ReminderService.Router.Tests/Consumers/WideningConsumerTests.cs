@@ -13,11 +13,10 @@ namespace ReminderService.Router.Tests
 		public void CanHandleContravariantMessages ()
 		{
 			var handledMessages = new List<IMessage> ();
-			FakeConsumer<TestMessages.ADerivedTestMessage> consumer = 
-				new FakeConsumer<TestMessages.ADerivedTestMessage> (msg => handledMessages.Add (msg));
-			var wideningConsumer = new WideningConsumer<IMessage, TestMessages.ADerivedTestMessage>(consumer);
+			IConsume<TestMessages.ADerivedTestMessage> consumer = new FakeConsumer<TestMessages.ADerivedTestMessage> (msg => handledMessages.Add (msg));
+			var wideningConsumer = new WideningConsumer<TestMessages.ADerivedTestMessage, IMessage>(consumer);
 
-			IMessage message = new TestMessages.ADerivedTestMessage ();
+			var message = new TestMessages.ADerivedTestMessage ();
 			wideningConsumer.Handle (message);
 
 			Assert.AreEqual (1, handledMessages.Count);

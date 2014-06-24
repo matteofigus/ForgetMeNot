@@ -7,21 +7,22 @@
     /// </summary>
     /// <typeparam name="TBase"></typeparam>
     /// <typeparam name="TExpected"></typeparam>
-    public class WideningConsumer<TBase, TExpected> : IConsume<TBase> 
-        where TExpected : TBase 
-        where TBase : IMessage
+	public class WideningConsumer<TInput, TOutput> : IConsume<TOutput> 
+		where TInput : TOutput
+		where TOutput : IMessage
     {
-        private readonly IConsume<TExpected> _innerConsumer;
+		private readonly IConsume<TInput> _innerConsumer;
 
-        public WideningConsumer(IConsume<TExpected> innerConsumer)
+		public WideningConsumer(IConsume<TInput> innerConsumer)
         {
             _innerConsumer = innerConsumer;
         }
 
-        public void Handle(TBase instance)
+		public void Handle(TOutput message)
         {
-            if (instance is TExpected)
-                _innerConsumer.Handle((TExpected)instance);
+			//dangerous - essentially this is going to "swallow" the case when the cast is not valid
+			//if (message is TOutput)
+			_innerConsumer.Handle((TInput)message);
         }
     }
 }

@@ -7,4 +7,9 @@
     {
         //empty marker interface
     }
+
+	public abstract class Message
+	{
+
+	}
 }
