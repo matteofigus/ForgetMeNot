@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using ReminderService.Router;
 using ReminderService.Router.Consumers;
+using ReminderService.Router.Tests.Helpers;
 
 namespace ReminderService.Router.Tests
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using ReminderService.Router;
+using ReminderService.Router.Tests.Helpers;
 
 namespace ReminderService.Router.Tests
 {

@@ -7,20 +7,16 @@ using ReminderService.Router.Tests.Helpers;
 namespace ReminderService.Router.Tests
 {
 	[TestFixture ()]
-	public class WhenPublishingManyMessagesToManySubscribers : Given_a_bus_instance
+	public class WhenPublishingManyMessagesToOneSubscriber : Given_a_bus_instance
 	{
 		private readonly List<IMessage> _messagesToPublish = new List<IMessage>();
 
 		[TestFixtureSetUp]
-		public void Given_a_bus()
-		{	
-
-			WithConsumer (new FakeConsumer<TestMessages.ADerivedTestMessage> (RecordRoutedMessages));
-			WithConsumer (new FakeConsumer<TestMessages.NotDerivedTestMessage>(RecordRoutedMessages));
-			WithConsumer (new FakeConsumer<TestMessages.SiblingOfADerivedTestMessage> (RecordRoutedMessages));
+		public void Given_a_bus_with_a_single_subscriber()
+		{
+			WithConsumer (new FakeConsumer<TestMessages.TestMessage>(RecordRoutedMessages));
 
 			_messagesToPublish.Add (new TestMessages.ADerivedTestMessage());
-			_messagesToPublish.Add (new TestMessages.NotDerivedTestMessage());
 			_messagesToPublish.Add (new TestMessages.SiblingOfADerivedTestMessage());
 			_messagesToPublish.Add (new TestMessages.ADerivedTestMessage());
 		}
@@ -31,8 +27,8 @@ namespace ReminderService.Router.Tests
 			_messagesToPublish.ForEach (msg => Bus.Publish (msg));
 		}
 
-		[Test]
-		public void Then_all_messages_are_received()
+		[Test ()]
+		public void Then_the_subscriber_receives_all_messages ()
 		{
 			CollectionAssert.AreEquivalent (_messagesToPublish, _routedMessages);
 		}

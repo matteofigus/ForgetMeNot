@@ -42,14 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FakeConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestMessages.cs" />
     <Compile Include="Consumers\WideningConsumerTests.cs" />
     <Compile Include="PolymorphicRouting.cs" />
     <Compile Include="WhenNoSubscribers.cs" />
     <Compile Include="WhenPublishingManyMessagesToManySubscribers.cs" />
-    <Compile Include="GivenABusInstance.cs" />
+    <Compile Include="Helpers\FakeConsumer.cs" />
+    <Compile Include="Helpers\GivenABusInstance.cs" />
+    <Compile Include="TestMessages.cs" />
+    <Compile Include="WhenPublishingManyMessagesToOneSubscriber.cs" />
+    <Compile Include="WhenPublishingOneMessageToManySubscribers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
@@ -67,5 +69,6 @@
   -->
   <ItemGroup>
     <Folder Include="Consumers\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

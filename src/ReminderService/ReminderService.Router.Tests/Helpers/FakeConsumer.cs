@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.Helpers
 {
     public class FakeConsumer<T> : IConsume<T> where T : IMessage
     {

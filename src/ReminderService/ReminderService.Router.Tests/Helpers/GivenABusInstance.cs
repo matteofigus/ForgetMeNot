@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.Helpers
 {
 	public abstract class Given_a_bus_instance
 	{
