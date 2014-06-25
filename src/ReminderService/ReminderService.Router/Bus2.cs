@@ -5,6 +5,9 @@ using ReminderService.Router.Consumers;
 
 namespace ReminderService.Router
 {
+	//playing arround with implementations
+	//this bus uses a List of a non-generic wrapper type that delegates messages to their
+	//wrapped IConsumer<T> instance - avoids the generics in this class
     public class Bus : IBus
     {
         private readonly MessageTypeTopics _messageTypeTopics = new MessageTypeTopics();

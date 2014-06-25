@@ -53,6 +53,7 @@
     <Compile Include="Consumers\WideningConsumer.cs" />
     <Compile Include="Consumers\NarrowingConsumer.cs" />
     <Compile Include="Consumers\MessageDispatcher.cs" />
+    <Compile Include="Bus2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
