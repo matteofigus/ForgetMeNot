@@ -6,10 +6,8 @@ using ReminderService.Router;
 namespace ReminderService.Router.Tests
 {
     [TestFixture]
-    public class PolymorphicRouting
+	public class PolymorphicRouting : Given_a_bus_instance
     {
-        private readonly List<IMessage> _routedMessages = new List<IMessage>();
-        private readonly Bus _bus = new Bus();
 		private FakeConsumer<IMessage> _baseConsumer = new FakeConsumer<IMessage>();
 		private FakeConsumer<TestMessages.TestMessage> _testMessageConsumer = new FakeConsumer<TestMessages.TestMessage>();
 		private FakeConsumer<TestMessages.ADerivedTestMessage> _derivedMessageConsumer = new FakeConsumer<TestMessages.ADerivedTestMessage>();
@@ -19,11 +17,12 @@ namespace ReminderService.Router.Tests
 		public void When_a_TestMessage_is_published()
         {
 			// this consumer should not receive the TestMessage that is published; there is no inheritance route to this message
-			_bus.Subscribe(_notADerivedMessageConsumer);
-			_bus.Subscribe(_baseConsumer);
-			_bus.Subscribe(_testMessageConsumer);
-			_bus.Subscribe(_derivedMessageConsumer); //this comsumer should not receive the message; ADerivedTestMessage is too specialized
-			_bus.Publish(new TestMessages.TestMessage());
+			WithConsumer(_notADerivedMessageConsumer);
+			WithConsumer(_baseConsumer);
+			WithConsumer(_testMessageConsumer);
+			WithConsumer(_derivedMessageConsumer); //this comsumer should not receive the message; ADerivedTestMessage is too specialized
+
+			Bus.Publish(new TestMessages.TestMessage());
         }
 
         [Test]
