@@ -14,7 +14,17 @@ namespace ReminderService.Router.Tests
 
 		}
 
+		public class SiblingOfADerivedTestMessage : TestMessage
+		{
+
+		}
+
 		public class NotDerivedTestMessage : IMessage
+		{
+
+		}
+
+		public class NotATestMessage
 		{
 
 		}

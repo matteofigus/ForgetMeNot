@@ -47,6 +47,9 @@
     <Compile Include="TestMessages.cs" />
     <Compile Include="Consumers\WideningConsumerTests.cs" />
     <Compile Include="PolymorphicRouting.cs" />
+    <Compile Include="WhenNoSubscribers.cs" />
+    <Compile Include="WhenPublishingManyMessagesToManySubscribers.cs" />
+    <Compile Include="GivenABusInstance.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
