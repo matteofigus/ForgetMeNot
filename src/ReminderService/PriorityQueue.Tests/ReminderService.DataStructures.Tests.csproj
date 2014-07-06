@@ -67,7 +67,7 @@
       <Name>ReminderService.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriorityQueue\ReminderService.DataStructures.csproj">
-      <Project>{b9e7ff0e-b1bd-4882-bf20-2dea75248e47}</Project>
+      <Project>{B9E7FF0E-B1BD-4882-BF20-2DEA75248E47}</Project>
       <Name>ReminderService.DataStructures</Name>
     </ProjectReference>
   </ItemGroup>
