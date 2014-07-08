@@ -11,6 +11,8 @@ namespace ReminderService.API.HTTP
 			//keeps this noisy logging code (try-catch, etc...) out of the route handlers
 			pipelines.OnError += (ctx, Exception) => {
 				//log
+
+				//do i need to return null here?
 				return null;
 			};
 		}

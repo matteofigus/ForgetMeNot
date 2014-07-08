@@ -25,8 +25,6 @@ namespace ReminderService.API.HTTP
 			};
 
 			Post["/"] = x => {
-				//handle scheduling
-
 				var model = this.Bind<ScheduleReminder>();
 				model.ReminderId = Guid.NewGuid();
 				var result = this.Validate(model);
