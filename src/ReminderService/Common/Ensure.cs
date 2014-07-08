@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.Common
 {
     public static class Ensure
     {
