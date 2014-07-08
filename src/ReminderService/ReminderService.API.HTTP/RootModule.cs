@@ -9,6 +9,7 @@ namespace ReminderService.API.HTTP
 		{
 			Get ["/"] = _ => {
 				//do lbstatus in here
+				return this.Response.AsText("OTWEB_ON");
 			};
 		}
 	}

@@ -8,7 +8,7 @@ namespace ReminderService.Router
 	//playing arround with implementations
 	//this bus uses a List of a non-generic wrapper type that delegates messages to their
 	//wrapped IConsumer<T> instance - avoids the generics in Bus class
-    public class Bus : IBus
+	public class Bus2 : IBus
     {
         private readonly MessageTypeTopics _messageTypeTopics = new MessageTypeTopics();
 		private readonly ConcurrentDictionary<string, List<IDispatchMessages>> _subscribers
