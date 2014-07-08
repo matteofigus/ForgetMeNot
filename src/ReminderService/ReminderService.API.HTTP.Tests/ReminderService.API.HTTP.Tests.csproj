@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CD8ED87-DFD4-4289-A7ED-F5837D2CAFC6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ReminderService.API.HTTP.Tests</RootNamespace>
+    <AssemblyName>ReminderService.API.HTTP.Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework" />
+    <Reference Include="Nancy.Testing">
+      <HintPath>..\libs\Nancy.Testing\Nancy.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy">
+      <HintPath>..\libs\Nancy\Nancy.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WhenSchedulingAReminder.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\ReminderService.API.HTTP\ReminderService.API.HTTP.csproj">
+      <Project>{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}</Project>
+      <Name>ReminderService.API.HTTP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Messages\ReminderService.Messages.csproj">
+      <Project>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</Project>
+      <Name>ReminderService.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
+      <Project>{B94EDE09-A3D0-4079-A938-2DD0FFFF546C}</Project>
+      <Name>ReminderService.Router</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
