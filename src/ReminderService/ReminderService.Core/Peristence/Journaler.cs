@@ -11,6 +11,8 @@ namespace ReminderService.Core
 	/// </summary>
 	public class Journaler : IConsume<ReminderMessages.ScheduleReminder> //todo: write a QueuedConsumer<T> and use it here
 	{
+		// can this class implement ISubscribe<T> as a way to wire-up / route messages between components?
+		// can delegate to an inner IBus instance for sending messages to subscribers?
 		private readonly IPublish _bus;
 
 		public Journaler (IPublish bus)

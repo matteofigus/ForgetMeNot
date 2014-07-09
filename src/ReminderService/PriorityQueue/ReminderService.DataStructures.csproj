@@ -49,6 +49,8 @@
     <Compile Include="ScheduledReminderGroup.cs" />
     <Compile Include="TimeoutController.cs" />
     <Compile Include="MinPriorityQueue.cs" />
+    <Compile Include="ITimer.cs" />
+    <Compile Include="ThreadingTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">
