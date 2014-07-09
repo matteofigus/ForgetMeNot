@@ -9,7 +9,7 @@ namespace ReminderService.Core
 	/// Journaler writes all incoming messages to a persistent journal. Publishes a JournaledMessage<c></c> that can be consumed
 	/// by other interested components once a message has been journaled.
 	/// </summary>
-	public class Journaler : IConsume<ScheduleReminder>
+	public class Journaler : IConsume<ReminderMessages.ScheduleReminder> //todo: write a QueuedConsumer<T> and use it here
 	{
 		private readonly IPublish _bus;
 
@@ -21,10 +21,10 @@ namespace ReminderService.Core
 
 		#region IConsume implementation
 
-		public void Handle (ScheduleReminder msg)
+		public void Handle (ReminderMessages.ScheduleReminder msg)
 		{
 			//write message to persistence
-			IMessage journaled = new JournaledMessage<ScheduleReminder> (msg) as IMessage;
+			IMessage journaled = new JournaledMessage<ReminderMessages.ScheduleReminder> (msg) as IMessage;
 			_bus.Publish (journaled);
 		}
 

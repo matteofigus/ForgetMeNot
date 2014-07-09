@@ -5,7 +5,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core
 {
-	public class ScheduleReminderConsumer : IConsume<ScheduleReminder>
+	public class ScheduleReminderConsumer : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>
 	{
 		public ScheduleReminderConsumer ()
 		{
@@ -13,10 +13,9 @@ namespace ReminderService.Core
 
 		#region IConsume implementation
 
-		public void Handle (ScheduleReminder scheduleReminder)
+		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled msg)
 		{
-			Ensure.NotNull (scheduleReminder, "scheduleReminder");
-
+			throw new NotImplementedException ();
 		}
 
 		#endregion
