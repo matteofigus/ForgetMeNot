@@ -1,4 +1,5 @@
 ﻿using System;
+using ReminderService.Common;
 using ReminderService.Router;
 
 namespace ReminderService.Messages
@@ -31,6 +32,22 @@ namespace ReminderService.Messages
 		public class ScheduledReminderHasBeenJournaled : IMessage
 		{
 			public ScheduleReminder Inner { get; private set; }
+
+			public ScheduledReminderHasBeenJournaled (ScheduleReminder inner)
+			{
+				Ensure.NotNull(inner, "inner");
+				Inner = inner;
+			}
+		}
+
+		public class CancelReminder : IMessage
+		{
+			public Guid ReminderId { get; set; }
+
+			public CancelReminder (Guid reminderId)
+			{
+				ReminderId = reminderId;
+			}
 		}
 	}
 }

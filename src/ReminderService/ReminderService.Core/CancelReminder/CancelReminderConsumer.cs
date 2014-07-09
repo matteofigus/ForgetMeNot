@@ -4,7 +4,7 @@ using ReminderService.Router;
 
 namespace ReminderService.Core
 {
-	public class CancelReminderConsumer : IConsume<CancelReminder>
+	public class CancelReminderConsumer : IConsume<ReminderMessages.CancelReminder>
 	{
 		public CancelReminderConsumer ()
 		{
@@ -13,7 +13,7 @@ namespace ReminderService.Core
 
 		#region IConsume implementation
 
-		public void Handle (CancelReminder msg)
+		public void Handle (ReminderMessages.CancelReminder msg)
 		{
 			throw new NotImplementedException ();
 		}
