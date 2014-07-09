@@ -13,7 +13,7 @@ namespace ReminderService.API.HTTP.Tests
 		public void Should_return_a_reminderId ()
 		{
 			// Given
-			var bootstrapper = new CustomBootstrapper();
+			var bootstrapper = new Bootstrapper();
 			var browser = new Browser(bootstrapper);
 
 			// When
@@ -35,7 +35,7 @@ namespace ReminderService.API.HTTP.Tests
 		public void Should_fail_when_TimoutAt_value_is_in_the_past()
 		{
 			// Given
-			var bootstrapper = new CustomBootstrapper();
+			var bootstrapper = new Bootstrapper();
 			var browser = new Browser(bootstrapper);
 
 			// When

@@ -1,12 +1,16 @@
 ﻿using System;
 using Nancy;
+using log4net;
 using OpenTable.Services.Components.Logging;
+using OpenTable.Services.Components.Logging.Log4Net;
 
 namespace ReminderService.API.HTTP
 {
-	public class CustomBootstrapper : DefaultNancyBootstrapper
+	public class Bootstrapper : DefaultNancyBootstrapper
 	{
-		private static ILogger Logger = log4net.LogManager.GetLogger("ReminderService.API.HTTP");
+		//hmmm, I dont want this to log an entry against the BootStrapper type. I want it to log
+		//against something like "ReminderService.API.HTTP.Request"
+		private static ILogger<Bootstrapper> Logger = new BasicLogger<Bootstrapper>();
 
 		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
 		{
