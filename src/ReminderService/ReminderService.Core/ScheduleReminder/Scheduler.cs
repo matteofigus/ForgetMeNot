@@ -1,24 +1,26 @@
 ﻿using System;
+using ReminderService.DataStructures;
 using ReminderService.Router;
 using ReminderService.Messages;
 using ReminderService.Common;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.ScheduleReminder
 {
-	public class ScheduleReminderConsumer : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>
+	public class Scheduler : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>
 	{
-		public ScheduleReminderConsumer ()
+		private readonly ITimer _timer;
+		private readonly PriorityQueue<ScheduledReminder> _reminders;
+
+		public Scheduler (ITimer timer)
 		{
+			Ensure.NotNull (timer, "timer");
 		}
-
-		#region IConsume implementation
-
+			
 		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled msg)
 		{
 			throw new NotImplementedException ();
 		}
 
-		#endregion
 	}
 }
 

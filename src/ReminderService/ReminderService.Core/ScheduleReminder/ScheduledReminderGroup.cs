@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.Core.ScheduleReminder
 {
     public class ScheduledReminderGroup : IEnumerable<ScheduledReminder>
     {

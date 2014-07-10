@@ -9,7 +9,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReminderService.DataStructures.Tests</RootNamespace>
     <AssemblyName>PriorityQueue.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -48,14 +47,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ReminderTests.cs" />
-    <Compile Include="ScheduledReminderCollectionTests.cs" />
-    <Compile Include="ScheduledReminderTests.cs" />
     <Compile Include="WhenBuildingAPriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WhenRemovingFromAPriorityQueue.cs" />
-    <Compile Include="ExtensionMethodTests.cs" />
-    <Compile Include="TimeoutController_Spec.cs" />
     <Compile Include="Helpers\CurrentThreadTaskScheduler.cs" />
     <Compile Include="Helpers\NotifySyncronizationContext.cs" />
     <Compile Include="WhenBuildingAMinPriorityQueue.cs" />

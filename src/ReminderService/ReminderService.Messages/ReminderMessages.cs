@@ -29,6 +29,9 @@ namespace ReminderService.Messages
 			public Guid ReminderId {get; set;}
 		}
 
+		// may not need this message type if we can wire-up consumers in chains
+		// i.e. ScheduleReminder is first routed to the Journaler, then it is routed by the Journaler to the
+		// PriorityQueue
 		public class ScheduledReminderHasBeenJournaled : IMessage
 		{
 			public ScheduleReminder Inner { get; private set; }

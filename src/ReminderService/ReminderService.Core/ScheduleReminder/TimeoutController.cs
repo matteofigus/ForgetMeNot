@@ -2,52 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
 using ReminderService.DataStructures;
 using ReminderService.Common;
-using Timer = System.Timers.Timer;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.Core.ScheduleReminder
 {
     public class TimeoutController
     {
 		private readonly MinPriorityQueue<ScheduledReminder> _pq;
-		//private readonly Timer _timer;
+		private readonly ITimer _timer;
 		private int _running = 0;
 		private Action<IEnumerable<ScheduledReminder>> _timeoutCallback;
-		private CancellationTokenSource _cancelationToken = new CancellationTokenSource();
-		private TaskScheduler _scheduler;
-
-		/// <summary>
-		/// You can override the default scheduler with this constructor. Intended for unit testing.
-		/// </summary>
-		/// <param name="timeoutCallback">This funtion will be called when reminders are due.</param>
-		/// <param name="scheduler">Scheduler.</param>
-		public TimeoutController(Action<IEnumerable<ScheduledReminder>> timeoutCallback, TaskScheduler scheduler)
-			: this(timeoutCallback)
-		{
-			_scheduler = scheduler;
-		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReminderService.DataStructures.TimeoutController"/> class.
 		/// </summary>
 		/// <param name="timeoutCallback">This funtion will be called when reminders are due.</param>
-		public TimeoutController(Action<IEnumerable<ScheduledReminder>> timeoutCallback)
+		public TimeoutController(ITimer timer, Action<IEnumerable<ScheduledReminder>> timeoutCallback)
         {
+			Ensure.NotNull (timer, "timer");
+			Ensure.NotNull (timeoutCallback, "timeoutCallback");
+
+			_timer = timer;
 			_pq = new MinPriorityQueue<ScheduledReminder>(100);
-			_scheduler = TaskScheduler.Default;
-//            _timer = new Timer();
-//            _timer.Elapsed += TimerOnElapsed;
 			_timeoutCallback = timeoutCallback;
         }
 
         public void Start()
         {
 			Interlocked.Increment (ref _running);
-			Task.Run (() => GetNextTimeout ());
         }
 
 		private void GetNextTimeout()
@@ -59,14 +44,14 @@ namespace ReminderService.DataStructures
 				Console.WriteLine ("GetNextTimeout, timeToNext: " + timeToNext);
 				try
 				{
-				Task
-					.Delay (timeToNext, _cancelationToken.Token)
-					.ContinueWith ((task) => {
-							Console.WriteLine(string.Format("Reminder due at {0:H:mm:ss fff}", nextTimeoutAt));
-							var remindersDue = _pq.GetRemindersAtTime(nextTimeoutAt);
-							_timeoutCallback(remindersDue); //do we want to run this async?
-							GetNextTimeout();
-						});
+//				Task
+//					.Delay (timeToNext, _cancelationToken.Token)
+//					.ContinueWith ((task) => {
+//							Console.WriteLine(string.Format("Reminder due at {0:H:mm:ss fff}", nextTimeoutAt));
+//							var remindersDue = _pq.GetRemindersAtTime(nextTimeoutAt);
+//							_timeoutCallback(remindersDue); //do we want to run this async?
+//							GetNextTimeout();
+//						});
 				}
 				catch (TaskCanceledException tce) {
 					// task has been canceled because a new incoming timeout will expire before the current timeout
@@ -85,7 +70,6 @@ namespace ReminderService.DataStructures
         public void Stop()
         {
 			Interlocked.Decrement (ref _running);
-			_cancelationToken.Cancel ();
         }
 
 		public bool IsRunning
@@ -102,7 +86,6 @@ namespace ReminderService.DataStructures
 				Console.WriteLine (
 					string.Format ("Inserting reminder {0} {1:H:mm:ss fff}, cancelling previous", 
 						reminder.ReminderId, reminder.TimeOutAt));
-				_cancelationToken.Cancel ();
 				_pq.Insert (reminder);
 			}
 			else

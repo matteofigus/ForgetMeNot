@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using ReminderService.Core.ScheduleReminder;
 
-namespace ReminderService.DataStructures
+namespace ReminderService.Core.Tests.ScheduleReminder
 {
     [TestFixture]
     public class ScheduledReminderCollectionTests

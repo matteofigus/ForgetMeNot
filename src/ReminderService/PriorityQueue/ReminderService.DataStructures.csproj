@@ -9,7 +9,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReminderService.DataStructures</RootNamespace>
     <AssemblyName>PriorityQueue</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,15 +41,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScheduledReminder.cs" />
-    <Compile Include="ScheduledReminderGroup.cs" />
-    <Compile Include="TimeoutController.cs" />
     <Compile Include="MinPriorityQueue.cs" />
-    <Compile Include="ITimer.cs" />
-    <Compile Include="ThreadingTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">

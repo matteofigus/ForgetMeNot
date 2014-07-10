@@ -1,17 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Peristence/Journaler.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PriorityQueue.Tests/ExtensionMethodTests.cs">
     <Files>
-      <File FileName="ReminderService.Core/ScheduleReminder/ScheduleReminderConsumer.cs" Line="16" Column="73" />
-      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="15" Column="6" />
-      <File FileName="ReminderService.Messages/ReminderMessages.cs" Line="38" Column="36" />
-      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="40" Column="27" />
+      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="1" Column="14" />
+      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="31" Column="4" />
+      <File FileName="ReminderService.Messages/ReminderMessages.cs" Line="35" Column="60" />
+      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/ScheduleReminder/ITimer.cs" Line="5" Column="39" />
+      <File FileName="ReminderService.Core/ScheduleReminder/ThreadingTimer.cs" Line="20" Column="4" />
+      <File FileName="PriorityQueue.Tests/ExtensionMethodTests.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

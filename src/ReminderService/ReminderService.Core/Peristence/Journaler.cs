@@ -26,8 +26,8 @@ namespace ReminderService.Core
 		public void Handle (ReminderMessages.ScheduleReminder msg)
 		{
 			//write message to persistence
-			IMessage journaled = new ReminderMessages.ScheduledReminderHasBeenJournaled (msg) as IMessage;
-			_bus.Publish (journaled);
+			IMessage journaledEvent = new ReminderMessages.ScheduledReminderHasBeenJournaled (msg) as IMessage;
+			_bus.Publish (journaledEvent);
 		}
 
 		#endregion

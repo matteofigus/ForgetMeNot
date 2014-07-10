@@ -2,8 +2,9 @@
 using System;
 using System.Linq;
 using ReminderService.DataStructures;
+using ReminderService.Core.ScheduleReminder;
 
-namespace PriorityQueue.Tests
+namespace ReminderService.Core.Tests.ScheduleReminder
 {
 	[TestFixture ()]
 	public class ExtensionMethodTests

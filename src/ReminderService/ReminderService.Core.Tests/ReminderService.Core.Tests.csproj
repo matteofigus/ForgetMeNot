@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}</ProjectGuid>
+    <ProjectGuid>{7386CC41-3A17-4131-A961-2904147E03EC}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ReminderService.Core</RootNamespace>
-    <AssemblyName>ReminderService.Core</AssemblyName>
+    <RootNamespace>ReminderService.Core.Tests</RootNamespace>
+    <AssemblyName>ReminderService.Core.Tests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,41 +28,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CancelReminder\CancelReminderConsumer.cs" />
-    <Compile Include="Peristence\Journaler.cs" />
-    <Compile Include="ScheduleReminder\Scheduler.cs" />
-    <Compile Include="ScheduleReminder\ITimer.cs" />
-    <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
-    <Compile Include="ScheduleReminder\TimeoutController.cs" />
-    <Compile Include="ScheduleReminder\ScheduledReminder.cs" />
-    <Compile Include="ScheduleReminder\ScheduledReminderGroup.cs" />
-    <Compile Include="ScheduleReminder\ExtensionMethods.cs" />
+    <Reference Include="nunit.framework" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ScheduleReminder\" />
-    <Folder Include="CancelReminder\" />
-    <Folder Include="Peristence\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
-      <Project>{B94EDE09-A3D0-4079-A938-2DD0FFFF546C}</Project>
-      <Name>ReminderService.Router</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReminderService.Messages\ReminderService.Messages.csproj">
-      <Project>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</Project>
-      <Name>ReminderService.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
-      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
-      <Name>ReminderService.Common</Name>
+    <Compile Include="ScheduleReminder\ScheduledReminderCollectionTests.cs" />
+    <Compile Include="ScheduleReminder\ScheduledReminderTests.cs" />
+    <Compile Include="ScheduleReminder\TimeoutController_Spec.cs" />
+    <Compile Include="ScheduleReminder\ExtensionMethodTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
+      <Project>{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}</Project>
+      <Name>ReminderService.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriorityQueue\ReminderService.DataStructures.csproj">
       <Project>{B9E7FF0E-B1BD-4882-BF20-2DEA75248E47}</Project>
       <Name>ReminderService.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
+      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
+      <Name>ReminderService.Common</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
