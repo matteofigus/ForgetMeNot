@@ -23,7 +23,6 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			var reminders = new List<ScheduledReminder>();
 			var reminder = pq.RemoveMin ();
-			reminders.Add (reminder);
 			while(!pq.IsEmpty && reminder.TimeOutAt.CompareTo(time) == 0)
 			{
 				reminders.Add (reminder);

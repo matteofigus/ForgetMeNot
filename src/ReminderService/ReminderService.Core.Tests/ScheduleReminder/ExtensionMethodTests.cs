@@ -13,7 +13,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 		public void GetRemindersAtTime ()
 		{
 			var now = DateTime.Now;
-			var pq = new MinPriorityQueue<ScheduledReminder>(4);
+			var pq = new MinPriorityQueue<ScheduledReminder>(4, (x,y) => x.TimeOutAt > y.TimeOutAt);
 			pq.Insert(new ScheduledReminder(
 				Guid.NewGuid(),
 				now,

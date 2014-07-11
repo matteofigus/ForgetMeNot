@@ -18,11 +18,11 @@ namespace ReminderService.Core.Tests.ScheduleReminder
             var reminder1 = new ScheduledReminder(id, now, new object(), new Uri("http://desitination/url"));
             var reminder2 = new ScheduledReminder(id, now.AddSeconds(2), new object(), new Uri("http://desitination/url"));
 
-            Assert.True(reminder1.Equals(reminder2));
+            Assert.IsTrue(reminder1.Equals(reminder2));
 
             var reminder3 = new ScheduledReminder(Guid.NewGuid(), now, new object(), new Uri("http://desitination/url"));
 
-            Assert.False(reminder1.Equals(reminder3));
+            Assert.IsFalse(reminder1.Equals(reminder3));
         }
 
         [Test]
@@ -37,7 +37,10 @@ namespace ReminderService.Core.Tests.ScheduleReminder
             collection.Add(new ScheduledReminder(id, now.AddSeconds(5), new object(), new Uri("http://desitination/url")));
             collection.Sort();
 
-            CollectionAssert.IsOrdered(collection);
+			Assert.AreEqual (now, collection [0].TimeOutAt);
+			Assert.AreEqual (now.AddSeconds(4), collection [1].TimeOutAt);
+			Assert.AreEqual (now.AddSeconds(5), collection [2].TimeOutAt);
+			Assert.AreEqual (now.AddSeconds(10), collection [3].TimeOutAt);
         }
     }
 }

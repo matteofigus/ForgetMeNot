@@ -146,17 +146,7 @@ namespace ReminderService.DataStructures
     **********************************************************************/
 		private bool Greater(int i, int j) 
 		{
-			//if (_comparer == null)
-				//System.Diagnostics.Debugger.Break ();
-
 			return _comparer (_pq[i], _pq[j]);
-
-//			if (_comparer == null) {
-//				return ((IComparable<T>) _pq[i]).CompareTo(_pq[j]) > 0;
-//			}
-//			else {
-//				return _comparer.Compare(_pq[i], _pq[j]) > 0;
-//			}
 		}
 
 		private void Exchange(int i, int j) 

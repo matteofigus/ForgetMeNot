@@ -59,7 +59,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder {
 
 			var signaled = _resetEvent.WaitOne (300);
 
-			Assert.True (signaled);
+			Assert.IsTrue (signaled);
 			Assert.AreEqual (3, _pastReminders.Count);
 			Assert.AreEqual (now, _pastReminders [0].TimeOutAt);
 			Assert.AreEqual (new Uri ("http://some/place/3"), _pastReminders [0].Destination);
