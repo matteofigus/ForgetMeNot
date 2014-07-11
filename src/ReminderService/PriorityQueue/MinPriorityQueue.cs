@@ -6,7 +6,8 @@ namespace ReminderService.DataStructures
 {
 	public class MinPriorityQueue<T> : IEnumerable<T> 
 	{
-		private readonly IComparer<T> _comparer;
+		//private readonly IComparer<T> _comparer;
+		private readonly Func<T, T, bool> _comparer;
 		private int N = 0;
 		private T[] _pq;
 
@@ -18,7 +19,7 @@ namespace ReminderService.DataStructures
 			_pq = new T[size];
 		}
 
-		public MinPriorityQueue(int size, IComparer<T> comparer)
+		public MinPriorityQueue(int size, Func<T, T, bool> comparer)
 		{
 			if (comparer == null) throw new ArgumentNullException("comparer");
 			if (size < 1) throw new ArgumentOutOfRangeException("size", "size must be greater than 0");
@@ -27,7 +28,7 @@ namespace ReminderService.DataStructures
 			_pq = new T[size];
 		}
 			
-		public MinPriorityQueue(IComparer<T> comparer) : 
+		public MinPriorityQueue(Func<T, T, bool> comparer) : 
 			this(1, comparer)
 		{
 			//empty
@@ -37,8 +38,9 @@ namespace ReminderService.DataStructures
 		/// Initializes a priority queue from the array of keys.
 		/// Takes time proportional to the number of keys, using sink-based heap construction.
 		/// </summary>
-		public MinPriorityQueue(T[] keys) 
+		public MinPriorityQueue(T[] keys, Func<T, T, bool> comparer) 
 		{
+			_comparer = comparer;
 			N = keys.Length;
 			_pq = new T[keys.Length + 1];
 			for (int i = 0; i < N; i++)
@@ -134,17 +136,19 @@ namespace ReminderService.DataStructures
 			}
 		}
 
-		/***********************************************************************
+	/***********************************************************************
     * Helper functions for compares and swaps.
     **********************************************************************/
 		private bool Greater(int i, int j) 
 		{
-			if (_comparer == null) {
-				return ((IComparable<T>) _pq[i]).CompareTo(_pq[j]) > 0;
-			}
-			else {
-				return _comparer.Compare(_pq[i], _pq[j]) > 0;
-			}
+			return _comparer (_pq[i], _pq[j]);
+
+//			if (_comparer == null) {
+//				return ((IComparable<T>) _pq[i]).CompareTo(_pq[j]) > 0;
+//			}
+//			else {
+//				return _comparer.Compare(_pq[i], _pq[j]) > 0;
+//			}
 		}
 
 		private void Exchange(int i, int j) 
