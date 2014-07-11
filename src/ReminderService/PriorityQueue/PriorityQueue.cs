@@ -23,6 +23,7 @@ namespace ReminderService.DataStructures
     {
         private readonly IComparer<T> _comparer;
         private readonly Func<T, T, bool> _comparerFunc; 
+		private readonly bool _useFuncComparer = false;
         private int _count = 0;
         private T[] _heap;
 
@@ -54,6 +55,7 @@ namespace ReminderService.DataStructures
 
             _comparerFunc = comparer;
             _heap = new T[size];
+			_useFuncComparer = true;
         }
 
         public PriorityQueue(Func<T,T,bool> comparer) :
@@ -171,7 +173,9 @@ namespace ReminderService.DataStructures
 
         private bool Less(int i, int j)
         {
-            //return _comparerFunc(_heap[i], _heap[j]);
+			if(_useFuncComparer) 
+				return _comparerFunc(_heap[i], _heap[j]);
+
             if (_comparer == null)
                 return ((IComparable<T>) _heap[i]).CompareTo(_heap[j]) < 0;
             return _comparer.Compare(_heap[i], _heap[j]) < 0;
