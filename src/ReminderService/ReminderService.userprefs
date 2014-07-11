@@ -1,15 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PriorityQueue.Tests/ExtensionMethodTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PriorityQueue.Tests/WhenBuildingAPriorityQueue.cs">
     <Files>
-      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="1" Column="14" />
-      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="31" Column="4" />
-      <File FileName="ReminderService.Messages/ReminderMessages.cs" Line="35" Column="60" />
-      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="29" Column="13" />
+      <File FileName="ReminderService.Core/ScheduleReminder/TimeoutController.cs" Line="38" Column="32" />
       <File FileName="ReminderService.Core/ScheduleReminder/ITimer.cs" Line="5" Column="39" />
       <File FileName="ReminderService.Core/ScheduleReminder/ThreadingTimer.cs" Line="20" Column="4" />
-      <File FileName="PriorityQueue.Tests/ExtensionMethodTests.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/ScheduleReminder/ScheduledReminder.cs" Line="6" Column="44" />
+      <File FileName="PriorityQueue/MinPriorityQueue.cs" Line="151" Column="7" />
+      <File FileName="PriorityQueue/PriorityQueue.cs" Line="165" Column="19" />
+      <File FileName="ReminderService.Core.Tests/ScheduleReminder/ExtensionMethodTests.cs" Line="21" Column="33" />
+      <File FileName="ReminderService.Core.Tests/ScheduleReminder/TimeoutController_Spec.cs" Line="16" Column="19" />
+      <File FileName="PriorityQueue.Tests/WhenBuildingAMinPriorityQueue.cs" Line="41" Column="15" />
+      <File FileName="PriorityQueue.Tests/WhenBuildingAPriorityQueue.cs" Line="15" Column="45" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="ReminderService.DataStructures.Tests" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -18,10 +29,13 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue.Tests/ExtensionMethodTests.cs" line="35" column="32" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router/Bus.cs" line="17" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router/Consumers/MessageHandler.cs" line="26" column="5" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue/MinPriorityQueue.cs" line="144" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="PriorityQueue/ExtensionMethods.cs" line="25" offsetX="317" offsetY="158" expression="pq" liveUpdate="False" />
     <Watch file="ReminderService.Router/Bus.cs" line="14" offsetX="654" offsetY="162" expression="topics" liveUpdate="False" />
+    <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="448" offsetY="2032" expression="i" liveUpdate="False" />
+    <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="560" offsetY="2032" expression="j" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

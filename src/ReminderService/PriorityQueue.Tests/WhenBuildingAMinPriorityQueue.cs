@@ -5,12 +5,11 @@ namespace ReminderService.DataStructures.Tests
     [TestFixture]
 	public class WhenBuildingAMinPriorityQueue
     {
-		private MinPriorityQueue<int> _pq;
+		private MinPriorityQueue<int> _pq = new MinPriorityQueue<int> ((x, y) => x > y);
 
         [TestFixtureSetUp]
         public void Initial()
         {
-			_pq = new MinPriorityQueue<int>(1);
 			_pq.Insert(9);
 			_pq.Insert(10);
 			_pq.Insert(11);

@@ -5,12 +5,11 @@ namespace ReminderService.DataStructures.Tests
     [TestFixture]
 	public class WhenRemovingFromAMinPriorityQueue
     {
-		private MinPriorityQueue<string> _pq;
+		private MinPriorityQueue<string> _pq = new MinPriorityQueue<string>((x,y) => x.CompareTo(y) > 0);
 
         [TestFixtureSetUp]
         public void Initial()
         {
-			_pq = new MinPriorityQueue<string>(1);
             _pq.Insert("p");
             _pq.Insert("r");
             _pq.Insert("i");
@@ -30,7 +29,7 @@ namespace ReminderService.DataStructures.Tests
         }
 
         [Test]
-        public void Should_return_the_max_item()
+        public void Should_return_the_min_item()
         {
 			Assert.AreEqual("e", _pq.RemoveMin());
             Assert.AreEqual(12, _pq.Size);

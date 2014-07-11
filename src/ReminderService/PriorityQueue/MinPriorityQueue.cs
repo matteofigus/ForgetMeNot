@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using ReminderService.Common;
 
 namespace ReminderService.DataStructures
 {
 	public class MinPriorityQueue<T> : IEnumerable<T> 
 	{
 		//private readonly IComparer<T> _comparer;
-		private readonly Func<T, T, bool> _comparer;
+		protected readonly Func<T, T, bool> _comparer;
 		private int N = 0;
 		private T[] _pq;
 
 		public MinPriorityQueue(int size)
 		{
-			if(size < 1)
-				throw new ArgumentOutOfRangeException("size", "size must be greater than 0");
+			Ensure.Positive(size, "size");
 
 			_pq = new T[size];
 		}
 
-		public MinPriorityQueue(int size, Func<T, T, bool> comparer)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReminderService.DataStructures.MinPriorityQueue`1"/> class.
+		/// </summary>
+		/// <param name="size">The initial size of the priority queue.</param>
+		/// <param name="greaterThanComparer">Greater than comparer: returns true if T1 is greater than T2, else false</param>
+		public MinPriorityQueue(int size, Func<T, T, bool> greaterThanComparer) :
+			this(size)
 		{
-			if (comparer == null) throw new ArgumentNullException("comparer");
-			if (size < 1) throw new ArgumentOutOfRangeException("size", "size must be greater than 0");
+			Ensure.NotNull (greaterThanComparer, "greaterThanComparer");
 
-			_comparer = comparer;
-			_pq = new T[size];
+			_comparer = greaterThanComparer;
 		}
 			
 		public MinPriorityQueue(Func<T, T, bool> comparer) : 
@@ -141,6 +146,9 @@ namespace ReminderService.DataStructures
     **********************************************************************/
 		private bool Greater(int i, int j) 
 		{
+			//if (_comparer == null)
+				//System.Diagnostics.Debugger.Break ();
+
 			return _comparer (_pq[i], _pq[j]);
 
 //			if (_comparer == null) {
@@ -200,7 +208,7 @@ namespace ReminderService.DataStructures
 
 			public PqEnumerator(MinPriorityQueue<T> queue)
 			{
-				_copy = new MinPriorityQueue<T>(queue.Size);
+				_copy = new MinPriorityQueue<T>(queue.Size, queue._comparer);
 				//start at 1 because we always keep the 0th element empty
 				for (var i = 1; i <= queue.Size; i++)
 				{
