@@ -74,10 +74,10 @@ namespace ReminderService.Core.Tests
 		public void publish_reminders_as_they_become_due()
 		{
 			var now = SystemTime.Now ();
-			SystemTime.Set (now);
 			foreach (var reminder in LoadReminders()) {
 				_scheduler.Handle (reminder);
 			}
+			SystemTime.Set (now);
 
 			_timer.Fire ();
 			Assert.AreEqual (1, _receivedMessages.Count);

@@ -23,7 +23,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt < b.Reminder.TimeoutAt);
+			_pq = new MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt > b.Reminder.TimeoutAt);
 		}
 			
 		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled reminder)
