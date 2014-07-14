@@ -36,7 +36,6 @@
     <Compile Include="ScheduleReminder\Scheduler.cs" />
     <Compile Include="ScheduleReminder\ITimer.cs" />
     <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
-    <Compile Include="ScheduleReminder\TimeoutController.cs" />
     <Compile Include="ScheduleReminder\ScheduledReminder.cs" />
     <Compile Include="ScheduleReminder\ScheduledReminderGroup.cs" />
     <Compile Include="ScheduleReminder\ExtensionMethods.cs" />

@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="ScheduleReminder\ScheduledReminderCollectionTests.cs" />
     <Compile Include="ScheduleReminder\ScheduledReminderTests.cs" />
-    <Compile Include="ScheduleReminder\TimeoutController_Spec.cs" />
     <Compile Include="ScheduleReminder\ExtensionMethodTests.cs" />
     <Compile Include="ScheduleReminder\A_Scheduler_should.cs" />
   </ItemGroup>

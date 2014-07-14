@@ -42,10 +42,10 @@ namespace ReminderService.Core.Tests
 			_scheduler.Stop ();
 
 			var reminder = new ReminderMessages.ScheduleReminder (
-				"http://deliveryUrl",
-				"content/type",
-				SystemTime.Now (),
-				new byte[0]);
+				               "http://deliveryUrl",
+				               "content/type",
+				               SystemTime.Now (),
+				               new byte[0]);
 			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
 			_scheduler.Handle (journaledReminder);
 			_timer.Fire ();
@@ -53,7 +53,7 @@ namespace ReminderService.Core.Tests
 			Assert.AreEqual (0, _receivedMessages.Count);
 		}
 
-		[Test ()]
+		[Test]
 		public void publish_the_expected_type ()
 		{
 			var reminder = new ReminderMessages.ScheduleReminder (
@@ -67,7 +67,6 @@ namespace ReminderService.Core.Tests
 
 			Assert.AreEqual (1, _receivedMessages.Count);
 			Assert.IsInstanceOfType(typeof(ReminderMessages.ScheduledReminderHasBeenJournaled), _receivedMessages[0]);
-			Assert.AreSame(journaledReminder, _receivedMessages[0]);
 		}
 
 		[Test]
@@ -89,6 +88,40 @@ namespace ReminderService.Core.Tests
 
 			SystemTime.Set (now.AddMilliseconds (25));
 			_timer.Fire ();
+
+			Assert.AreEqual (3, _receivedMessages.Count);
+
+			SystemTime.Set (now.AddMilliseconds (101));
+			_timer.Fire ();
+		}
+
+		[Test]
+		public void publish_due_reminders_even_in_the_past()
+		{
+			var now = SystemTime.Now ();
+			var reminder = new ReminderMessages.ScheduleReminder (
+				"http://deliveryUrl",
+				"content/type",
+				now.AddMilliseconds(-100),
+				new byte[0]);
+			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
+			_scheduler.Handle (journaledReminder);
+
+			reminder = new ReminderMessages.ScheduleReminder (
+				"http://deliveryUrl",
+				"content/type",
+				now.AddMilliseconds(50),
+				new byte[0]);
+			journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
+			_scheduler.Handle (journaledReminder);
+
+			SystemTime.Set (now);
+			_timer.Fire ();
+			Assert.AreEqual (1, _receivedMessages.Count);
+
+			SystemTime.Set (now.AddMilliseconds(100));
+			_timer.Fire ();
+			Assert.AreEqual (2, _receivedMessages.Count);
 		}
 
 		private IEnumerable<ReminderMessages.ScheduledReminderHasBeenJournaled> LoadReminders()
