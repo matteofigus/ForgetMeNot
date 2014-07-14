@@ -9,38 +9,47 @@ namespace ReminderService.Core.ScheduleReminder
 {
 	public class Scheduler : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>, IDisposable
 	{
-		private readonly IBus _bus;
+		private readonly object _locker = new object ();
+		private readonly IPublish _bus;
 		private readonly ITimer _timer;
-		private readonly MinPriorityQueue<ScheduledReminder> _pq;
+		private readonly MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> _pq;
+		//private readonly Action<ReminderMessages.ScheduledReminderHasBeenJournaled> _onDueRemindersCallback;
 		private int _running = 0;
 
-		public Scheduler (IBus bus, ITimer timer)
+		public Scheduler (IPublish bus, ITimer timer)
 		{
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (timer, "timer");
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ScheduledReminder> ((a, b) => a.TimeOutAt < b.TimeOutAt);
+			_pq = new MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt < b.Reminder.TimeoutAt);
 		}
 			
-		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled msg)
+		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled reminder)
 		{
-			//Add ();
+			lock (_locker) {
+				_pq.Insert (reminder);
+				SetTimeout ();
+			}
 		}
 
 		public void Start()
 		{
-			Interlocked.Increment (ref _running);
+			Interlocked.CompareExchange (ref _running, 1, 0);
+
+			//Interlocked.Increment (ref _running);
 		}
 
 		private void OnTimerFired()
 		{
 			//get all the items from the pq that are due
-			var dueTime = _pq.Min ().TimeOutAt;
-			while (!_pq.IsEmpty && _pq.Min ().TimeOutAt <= dueTime) {
-				//publish on the bus
-
+			lock (_locker) {
+				var dueTime = _pq.Min ().Reminder.TimeoutAt;
+				while (!_pq.IsEmpty && _pq.Min ().Reminder.TimeoutAt <= dueTime) {
+					//IMessage dueReminder = _pq.RemoveMin ();
+					_bus.Publish (_pq.RemoveMin()); //TODO: do we want to have an Action<T> that we invoke here?
+				}
 			}
 		}
 
@@ -48,7 +57,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			if (_running > 0 && !_pq.IsEmpty)
 			{
-				var nextTimeoutAt = _pq.Min ().TimeOutAt;
+				var nextTimeoutAt = _pq.Min ().Reminder.TimeoutAt;
 				var timeToNext = nextTimeoutAt.Subtract(SystemTime.Now()).Milliseconds;
 				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);
@@ -63,31 +72,6 @@ namespace ReminderService.Core.ScheduleReminder
 		public bool IsRunning
 		{
 			get { return _running != 0; }
-		}
-
-		public void Add(ScheduledReminder reminder)
-		{
-			//just add to the pq
-			//pq will re-order
-			//grab the min off the pq and set the timer
-			_pq.Insert (reminder);
-			SetTimeout ();
-
-			//need to check if this incoming reminder is going to timeout sooner than the current reminder
-			//on the top of the queue.
-			//if so, we need to add to the queue (so that it is resorted) and then get the new current min
-//			if (!_pq.IsEmpty && _pq.Min ().TimeOutAt.Subtract (reminder.TimeOutAt) > TimeSpan.Zero) {
-//				Console.WriteLine (
-//					string.Format ("Inserting reminder {0} {1:H:mm:ss fff}, cancelling previous", 
-//						reminder.ReminderId, reminder.TimeOutAt));
-//				_pq.Insert (reminder);
-//			}
-//			else
-//				Console.WriteLine (
-//					string.Format("Inserting reminder {0} {1:H:mm:ss fff}", reminder.ReminderId, reminder.TimeOutAt));
-//			_pq.Insert (reminder);
-//
-//			GetNextTimeout ();
 		}
 
 		public void Dispose ()

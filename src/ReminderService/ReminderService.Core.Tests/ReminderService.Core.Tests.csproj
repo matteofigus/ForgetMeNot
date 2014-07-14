@@ -39,6 +39,7 @@
     <Compile Include="ScheduleReminder\ScheduledReminderTests.cs" />
     <Compile Include="ScheduleReminder\TimeoutController_Spec.cs" />
     <Compile Include="ScheduleReminder\ExtensionMethodTests.cs" />
+    <Compile Include="ScheduleReminder\A_Scheduler_should.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -52,6 +53,14 @@
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">
       <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
       <Name>ReminderService.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
+      <Project>{B94EDE09-A3D0-4079-A938-2DD0FFFF546C}</Project>
+      <Name>ReminderService.Router</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Messages\ReminderService.Messages.csproj">
+      <Project>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</Project>
+      <Name>ReminderService.Messages</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

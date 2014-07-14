@@ -34,12 +34,12 @@ namespace ReminderService.Messages
 		// PriorityQueue
 		public class ScheduledReminderHasBeenJournaled : IMessage
 		{
-			public ScheduleReminder Inner { get; private set; }
+			public ScheduleReminder Reminder { get; private set; }
 
 			public ScheduledReminderHasBeenJournaled (ScheduleReminder inner)
 			{
 				Ensure.NotNull(inner, "inner");
-				Inner = inner;
+				Reminder = inner;
 			}
 		}
 
