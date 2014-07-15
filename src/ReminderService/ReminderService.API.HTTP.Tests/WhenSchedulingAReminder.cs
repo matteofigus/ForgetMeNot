@@ -17,7 +17,7 @@ namespace ReminderService.API.HTTP.Tests
 			var browser = new Browser(bootstrapper);
 
 			// When
-			var requestBody = new ReminderMessages.ScheduleReminder (
+			var requestBody = new ReminderMessage.ScheduleReminder (
 				                  "deliveryurl",
 				                  "application/json",
 				                  DateTime.Now.AddDays (1),
@@ -39,7 +39,7 @@ namespace ReminderService.API.HTTP.Tests
 			var browser = new Browser(bootstrapper);
 
 			// When
-			var requestBody = new ReminderMessages.ScheduleReminder (
+			var requestBody = new ReminderMessage.ScheduleReminder (
 				"deliveryurl",
 				"application/json",
 				DateTime.Now.AddMinutes(-1),

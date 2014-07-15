@@ -39,6 +39,7 @@
     <Compile Include="ScheduleReminder\ScheduledReminder.cs" />
     <Compile Include="ScheduleReminder\ScheduledReminderGroup.cs" />
     <Compile Include="ScheduleReminder\ExtensionMethods.cs" />
+    <Compile Include="Peristence\IJournaler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -13,12 +13,12 @@ namespace ReminderService.Core.Tests
 		public void given_there_are_some_reminders()
 		{
 			SetNow(SystemTime.Now());
-			var reminder = new ReminderMessages.ScheduleReminder (
+			var reminder = new ReminderMessage.ScheduleReminder (
 				"http://deliveryUrl",
 				"content/type",
 				Now,
 				new byte[0]);
-			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
+			var journaledReminder = new ReminderMessage.ScheduledReminderHasBeenJournaled (reminder);
 
 			GivenA (journaledReminder);
 		}

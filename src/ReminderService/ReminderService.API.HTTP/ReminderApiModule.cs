@@ -25,7 +25,7 @@ namespace ReminderService.API.HTTP
 			};
 
 			Post["/"] = x => {
-				var model = this.Bind<ReminderMessages.ScheduleReminder>();
+				var model = this.Bind<ReminderMessage.ScheduleReminder>();
 				model.ReminderId = Guid.NewGuid();
 				var result = this.Validate(model);
 
@@ -37,7 +37,7 @@ namespace ReminderService.API.HTTP
 				//errors are handled by an application level error handler, no need to try-catch here...
 				_bus.Publish(model);
 				return this.Response.AsJson(
-					new ReminderMessages.ScheduledReminderResponse{ReminderId = model.ReminderId},
+					new ReminderMessage.ScheduledReminderResponse{ReminderId = model.ReminderId},
 					HttpStatusCode.Created);
 			};
 

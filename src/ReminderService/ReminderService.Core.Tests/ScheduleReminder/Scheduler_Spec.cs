@@ -10,7 +10,7 @@ using ReminderService.Core.ScheduleReminder;
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public abstract class Scheduler_Spec : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>
+	public abstract class Scheduler_Spec : IConsume<ReminderMessage.ScheduledReminderHasBeenJournaled>
 	{
 		private readonly TestTimer _timer = new TestTimer();
 		private readonly IBus _bus = new Bus ();
@@ -28,12 +28,12 @@ namespace ReminderService.Core.Tests
 			_scheduler.Handle (startMessage);
 		}
 
-		public void GivenA(ReminderMessages.ScheduledReminderHasBeenJournaled journaledReminder)
+		public void GivenA(ReminderMessage.ScheduledReminderHasBeenJournaled journaledReminder)
 		{
 			_scheduler.Handle (journaledReminder);
 		}
 
-		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled msg)
+		public void Handle (ReminderMessage.ScheduledReminderHasBeenJournaled msg)
 		{
 			_receivedMessages.Add (msg);
 		}
