@@ -6,7 +6,7 @@ using ReminderService.Router;
 
 namespace ReminderService.Core.Tests
 {
-	[TestFixture ()]
+	[TestFixture]
 	public class When_not_started : Scheduler_Spec
 	{
 		private DateTime now;

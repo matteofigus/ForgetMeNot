@@ -21,14 +21,12 @@ namespace ReminderService.Core.Tests
 		{
 			_scheduler  = new Scheduler (_bus, _timer);
 			_bus.Subscribe (this);
-			_scheduler.Start ();
 		}
 			
 		[SetUp]
 		public void BeforeEach()
 		{
 			_receivedMessages.Clear ();
-			_scheduler.Start ();
 		}
 
 		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled msg)
@@ -39,8 +37,6 @@ namespace ReminderService.Core.Tests
 		[Test]
 		public void not_do_anything_until_started()
 		{
-			_scheduler.Stop ();
-
 			var reminder = new ReminderMessages.ScheduleReminder (
 				               "http://deliveryUrl",
 				               "content/type",
@@ -62,6 +58,7 @@ namespace ReminderService.Core.Tests
 				               SystemTime.Now (),
 				               new byte[0]);
 			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
+			_scheduler.Handle (new SystemMessage.Start());
 			_scheduler.Handle (journaledReminder);
 			_timer.Fire ();
 
@@ -73,11 +70,12 @@ namespace ReminderService.Core.Tests
 		public void publish_reminders_as_they_become_due()
 		{
 			var now = SystemTime.Now ();
+			_scheduler.Handle (new SystemMessage.Start());
 			foreach (var reminder in LoadReminders()) {
 				_scheduler.Handle (reminder);
 			}
-			SystemTime.Set (now);
 
+			SystemTime.Set (now);
 			_timer.Fire ();
 			Assert.AreEqual (1, _receivedMessages.Count);
 
@@ -105,6 +103,7 @@ namespace ReminderService.Core.Tests
 				now.AddMilliseconds(-100),
 				new byte[0]);
 			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
+			_scheduler.Handle (new SystemMessage.Start());
 			_scheduler.Handle (journaledReminder);
 
 			reminder = new ReminderMessages.ScheduleReminder (
@@ -128,6 +127,7 @@ namespace ReminderService.Core.Tests
 		public void publish_all_reminders_that_are_due_at_the_same_time()
 		{
 			var now = SystemTime.Now ();
+			_scheduler.Handle (new SystemMessage.Start());
 			foreach (var reminder in LoadSimultaneousReminders(now)) {
 				_scheduler.Handle (reminder);
 			}

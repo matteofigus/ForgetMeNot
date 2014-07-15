@@ -41,6 +41,7 @@
     <Compile Include="ScheduleReminder\A_Scheduler_should.cs" />
     <Compile Include="ScheduleReminder\Scheduler_Spec.cs" />
     <Compile Include="ScheduleReminder\When_not_started.cs" />
+    <Compile Include="ScheduleReminder\Publishing_messages_as_they_become_due.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

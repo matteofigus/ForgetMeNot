@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Router;
 using ReminderService.Core;
@@ -39,6 +40,12 @@ namespace ReminderService.Core.Tests
 
 		public void FireTimer()
 		{
+			_timer.Fire ();
+		}
+
+		public void FireTimer(DateTime atTime)
+		{
+			SystemTime.Set (atTime);
 			_timer.Fire ();
 		}
 
