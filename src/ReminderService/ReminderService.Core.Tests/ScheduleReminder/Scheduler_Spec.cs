@@ -38,6 +38,20 @@ namespace ReminderService.Core.Tests
 			_receivedMessages.Add (msg);
 		}
 
+		public DateTime Now {
+			get { return SystemTime.Now (); }
+		}
+
+		public void SetNow(DateTime now)
+		{
+			SystemTime.Set (now);
+		}
+
+		public void AdvanceTimeBy(int milliseconds)
+		{
+			SetNow(SystemTime.Now ().AddMilliseconds (milliseconds));
+		}
+
 		public void FireTimer()
 		{
 			_timer.Fire ();

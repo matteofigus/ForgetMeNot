@@ -9,16 +9,14 @@ namespace ReminderService.Core.Tests
 	[TestFixture]
 	public class When_not_started : Scheduler_Spec
 	{
-		private DateTime now;
-
 		[TestFixtureSetUp]
 		public void given_there_are_some_reminders()
 		{
-			now = SystemTime.Now();
+			SetNow(SystemTime.Now());
 			var reminder = new ReminderMessages.ScheduleReminder (
 				"http://deliveryUrl",
 				"content/type",
-				SystemTime.Now (),
+				Now,
 				new byte[0]);
 			var journaledReminder = new ReminderMessages.ScheduledReminderHasBeenJournaled (reminder);
 
@@ -28,7 +26,6 @@ namespace ReminderService.Core.Tests
 		[SetUp]
 		public void when_they_are_due()
 		{
-			SystemTime.Set (now);
 			FireTimer ();
 		}
 
