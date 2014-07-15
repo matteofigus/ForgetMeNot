@@ -124,6 +124,23 @@ namespace ReminderService.Core.Tests
 			Assert.AreEqual (2, _receivedMessages.Count);
 		}
 
+		[Test]
+		public void publish_all_reminders_that_are_due_at_the_same_time()
+		{
+			var now = SystemTime.Now ();
+			foreach (var reminder in LoadSimultaneousReminders(now)) {
+				_scheduler.Handle (reminder);
+			}
+
+			SystemTime.Set (now);
+			_timer.Fire ();
+			Assert.AreEqual (3, _receivedMessages.Count);
+
+			SystemTime.Set (now.AddMilliseconds (101));
+			_timer.Fire ();
+			Assert.AreEqual (4, _receivedMessages.Count);
+		}
+
 		private IEnumerable<ReminderMessages.ScheduledReminderHasBeenJournaled> LoadReminders()
 		{
 			var reminders = new List<ReminderMessages.ScheduledReminderHasBeenJournaled>();
@@ -141,7 +158,6 @@ namespace ReminderService.Core.Tests
 					SystemTime.Now ().AddMilliseconds(15),
 					new byte[0])));
 
-
 			reminders.Add (new ReminderMessages.ScheduledReminderHasBeenJournaled (
 				new ReminderMessages.ScheduleReminder (
 					"http://deliveryUrl/3",
@@ -154,6 +170,41 @@ namespace ReminderService.Core.Tests
 					"http://deliveryUrl/4",
 					"content/type",
 					SystemTime.Now ().AddMilliseconds(100),
+					new byte[0])));
+
+			return reminders;
+		}
+
+		private IEnumerable<ReminderMessages.ScheduledReminderHasBeenJournaled> LoadSimultaneousReminders(DateTime simultaneousTime)
+		{
+			var reminders = new List<ReminderMessages.ScheduledReminderHasBeenJournaled>();
+			reminders.Add (new ReminderMessages.ScheduledReminderHasBeenJournaled (
+				new ReminderMessages.ScheduleReminder (
+					"http://deliveryUrl/1",
+					"content/type",
+					simultaneousTime,
+					new byte[0])));
+
+			reminders.Add (new ReminderMessages.ScheduledReminderHasBeenJournaled (
+				new ReminderMessages.ScheduleReminder (
+					"http://deliveryUrl/2",
+					"content/type",
+					simultaneousTime,
+					new byte[0])));
+
+
+			reminders.Add (new ReminderMessages.ScheduledReminderHasBeenJournaled (
+				new ReminderMessages.ScheduleReminder (
+					"http://deliveryUrl/3",
+					"content/type",
+					simultaneousTime,
+					new byte[0])));
+
+			reminders.Add (new ReminderMessages.ScheduledReminderHasBeenJournaled (
+				new ReminderMessages.ScheduleReminder (
+					"http://deliveryUrl/4",
+					"content/type",
+					simultaneousTime.AddMilliseconds(100),
 					new byte[0])));
 
 			return reminders;

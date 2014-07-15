@@ -21,16 +21,12 @@ namespace ReminderService.Core
 			_bus = bus;
 		}
 
-		#region IConsume implementation
-
 		public void Handle (ReminderMessages.ScheduleReminder msg)
 		{
 			//write message to persistence
 			IMessage journaledEvent = new ReminderMessages.ScheduledReminderHasBeenJournaled (msg) as IMessage;
 			_bus.Publish (journaledEvent);
 		}
-
-		#endregion
 
 	}
 }

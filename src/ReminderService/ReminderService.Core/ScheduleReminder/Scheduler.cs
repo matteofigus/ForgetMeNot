@@ -7,7 +7,10 @@ using ReminderService.Common;
 
 namespace ReminderService.Core.ScheduleReminder
 {
-	public class Scheduler : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>, IDisposable
+	public class Scheduler : IConsume<ReminderMessages.ScheduledReminderHasBeenJournaled>, 
+								IConsume<SystemMessage.Start>, 
+								IConsume<SystemMessage.ShutDown>,
+								IDisposable
 	{
 		private readonly object _locker = new object ();
 		private readonly IPublish _bus;
@@ -26,19 +29,22 @@ namespace ReminderService.Core.ScheduleReminder
 			_pq = new MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt > b.Reminder.TimeoutAt);
 		}
 			
+		public void Handle (SystemMessage.Start startMessage)
+		{
+			Start ();
+		}
+
+		public void Handle (SystemMessage.ShutDown stopMessage)
+		{
+			Stop ();
+		}
+
 		public void Handle (ReminderMessages.ScheduledReminderHasBeenJournaled reminder)
 		{
 			lock (_locker) {
 				_pq.Insert (reminder);
 				SetTimeout ();
 			}
-		}
-
-		public void Start()
-		{
-			Interlocked.CompareExchange (ref _running, 1, 0);
-
-			//Interlocked.Increment (ref _running);
 		}
 
 		private void OnTimerFired()
@@ -62,6 +68,11 @@ namespace ReminderService.Core.ScheduleReminder
 				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);
 			}
+		}
+
+		public void Start()
+		{
+			Interlocked.CompareExchange (ref _running, 1, 0);
 		}
 
 		public void Stop()

@@ -39,6 +39,8 @@
     <Compile Include="ScheduleReminder\ScheduledReminderTests.cs" />
     <Compile Include="ScheduleReminder\ExtensionMethodTests.cs" />
     <Compile Include="ScheduleReminder\A_Scheduler_should.cs" />
+    <Compile Include="ScheduleReminder\Scheduler_Spec.cs" />
+    <Compile Include="ScheduleReminder\When_not_started.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
