@@ -35,6 +35,7 @@
     <Compile Include="JournaledMessage.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="ReminderMessage.cs" />
+    <Compile Include="ReminderExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

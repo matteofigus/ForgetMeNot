@@ -1,13 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Peristence/Journaler.cs">
     <Files>
-      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="26" Column="116" />
+      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="1" Column="1" />
       <File FileName="ReminderService.Core/ScheduleReminder/ScheduledReminder.cs" Line="1" Column="1" />
-      <File FileName="PriorityQueue/MinPriorityQueue.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" Line="98" Column="9" />
-      <File FileName="ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="23" Column="3" />
+      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="11" Column="16" />
+      <File FileName="ReminderService.Core/Peristence/IJournaler.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,7 +17,11 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router/Consumers/MessageHandler.cs" line="26" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/PriorityQueue.Tests/WhenRemovingFromAMinPriorityQueue.cs" line="34" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/ExtensionMethodTests.cs" line="36" column="39" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" line="66" column="19" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" line="63" column="19" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" line="131" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Scheduler_Spec.cs" line="57" column="13" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/When_not_started.cs" line="28" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Publish_reminders_even_in_the_past.cs" line="44" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
