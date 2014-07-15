@@ -15,36 +15,36 @@ namespace ReminderService.Core.Tests
 			SetNow (SystemTime.Now ());
 			GivenA (new SystemMessage.Start ());
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl/1",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl/2",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl/3",
 					"content/type",
 					Now.AddMilliseconds (25),
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl/4",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl/3",
 					"content/type",
 					Now.AddMilliseconds (25),

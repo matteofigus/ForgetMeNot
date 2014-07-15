@@ -10,7 +10,7 @@ namespace ReminderService.Core
 	/// Journaler writes all incoming messages to a persistent journal. Publishes a JournaledMessage that can be consumed
 	/// by other interested components once a message has been journaled.
 	/// </summary>
-	public class Journaler : IConsume<ReminderMessage.ScheduleReminder> //todo: write a QueuedConsumer<T> and use it here
+	public class Journaler : IConsume<ReminderMessage.Schedule> //todo: write a QueuedConsumer<T> and use it here
 	{
 		// can this class implement ISubscribe<T> as a way to wire-up / route messages between components?
 		// can delegate to an inner IBus instance for sending messages to subscribers?
@@ -28,11 +28,11 @@ namespace ReminderService.Core
 			_journaler = journaler;
 		}
 
-		public void Handle (ReminderMessage.ScheduleReminder msg)
+		public void Handle (ReminderMessage.Schedule msg)
 		{
 			try {
 				_journaler.Write (msg);
-				IMessage journaledEvent = new ReminderMessage.ScheduledReminderHasBeenJournaled (msg) as IMessage;
+				IMessage journaledEvent = new ReminderMessage.ScheduledHasBeenJournaled (msg) as IMessage;
 				_bus.Publish (journaledEvent);
 			}
 			catch (Exception ex) {

@@ -8,18 +8,18 @@ using OpenTable.Services.Components.Logging;
 
 namespace ReminderService.Core
 {
-	public class CancelReminderConsumer : IConsume<ReminderMessage.CancelReminder>, IConsume<ReminderMessage.DueReminder>
+	public class CancelReminderConsumer : IConsume<ReminderMessage.Cancel>, IConsume<ReminderMessage.Due>
 	{
-		private readonly HashSet<ReminderMessage.CancelReminder> _cancellations;
+		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
 		private readonly IBus _bus;
 		private readonly ILogger _logger;
 
 		public CancelReminderConsumer (IBus bus, ILogger logger)
 		{
-			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.CancelReminder> (
+			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.Cancel> (
 				               c => c.ReminderId.GetHashCode (),
 				               (x, y) => x.ReminderId == y.ReminderId);
-			_cancellations = new HashSet<ReminderMessage.CancelReminder> (comparer);
+			_cancellations = new HashSet<ReminderMessage.Cancel> (comparer);
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (logger, "logger");
 
@@ -27,7 +27,7 @@ namespace ReminderService.Core
 			_logger = logger;
 		}
 
-		public void Handle (ReminderMessage.CancelReminder msg)
+		public void Handle (ReminderMessage.Cancel msg)
 		{
 			if (!_cancellations.Any (x => x.ReminderId == msg.ReminderId)) {
 				_cancellations.Add (msg);
@@ -35,7 +35,7 @@ namespace ReminderService.Core
 			}
 		}
 
-		public void Handle (ReminderMessage.DueReminder due)
+		public void Handle (ReminderMessage.Due due)
 		{
 			var found = _cancellations.SingleOrDefault (x => x.ReminderId == due.ReminderId);
 

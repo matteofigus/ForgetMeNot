@@ -6,9 +6,9 @@ namespace ReminderService.Messages
 {
 	public static class ReminderExtensions
 	{
-		public static ReminderMessage.DueReminder CreateFrom(this ReminderMessage.ScheduledReminderHasBeenJournaled source)
+		public static ReminderMessage.Due CreateFrom(this ReminderMessage.ScheduledHasBeenJournaled source)
 		{
-			return new ReminderMessage.DueReminder (
+			return new ReminderMessage.Due (
 				source.Reminder.ReminderId,
 				source.Reminder.DeliveryUrl,
 				source.Reminder.ContentType,

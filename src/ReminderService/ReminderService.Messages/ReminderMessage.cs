@@ -7,7 +7,7 @@ namespace ReminderService.Messages
 {
 	public static class ReminderMessage
 	{
-		public class ScheduleReminder : IMessage
+		public class Schedule : IMessage
 		{
 			public Guid ReminderId { get; set; }
 			public string DeliveryUrl { get; private set; }
@@ -16,7 +16,7 @@ namespace ReminderService.Messages
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public ScheduleReminder (string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Schedule (string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				DeliveryUrl = deliveryUrl;
 				ContentType = contentType;
@@ -25,7 +25,7 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class ScheduledReminderResponse : IMessage
+		public class ScheduledResponse : IMessage
 		{
 			public Guid ReminderId {get; set;}
 		}
@@ -33,18 +33,18 @@ namespace ReminderService.Messages
 		// may not need this message type if we can wire-up consumers in chains
 		// i.e. ScheduleReminder is first routed to the Journaler, then it is routed by the Journaler to the
 		// PriorityQueue
-		public class ScheduledReminderHasBeenJournaled : IMessage
+		public class ScheduledHasBeenJournaled : IMessage
 		{
-			public ScheduleReminder Reminder { get; private set; }
+			public Schedule Reminder { get; private set; }
 
-			public ScheduledReminderHasBeenJournaled (ScheduleReminder inner)
+			public ScheduledHasBeenJournaled (Schedule inner)
 			{
 				Ensure.NotNull(inner, "inner");
 				Reminder = inner;
 			}
 		}
 
-		public class DueReminder : IMessage
+		public class Due : IMessage
 		{
 			public Guid ReminderId { get; set; }
 			public string DeliveryUrl { get; private set; }
@@ -53,7 +53,7 @@ namespace ReminderService.Messages
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public DueReminder (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Due (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				ReminderId = reminderId;
 				DeliveryUrl = deliveryUrl;
@@ -63,11 +63,11 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class CancelReminder : IMessage
+		public class Cancel : IMessage
 		{
 			public Guid ReminderId { get; set; }
 
-			public CancelReminder (Guid reminderId)
+			public Cancel (Guid reminderId)
 			{
 				ReminderId = reminderId;
 			}
@@ -91,7 +91,7 @@ namespace ReminderService.Messages
 				Payload = payload;
 			}
 
-			public static DueReminderNotCanceled CreateFrom (DueReminder due)
+			public static DueReminderNotCanceled CreateFrom (Due due)
 			{
 				return new DueReminderNotCanceled (
 					due.ReminderId,

@@ -16,22 +16,22 @@ namespace ReminderService.Core.Tests
 
 			GivenA (new SystemMessage.Start ());
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl",
 					"content/type",
 					Now.AddMilliseconds (-100),
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl",
 					"content/type",
 					Now.AddMilliseconds (-160),
 					new byte[0])));
 
-			GivenA (new ReminderMessage.ScheduledReminderHasBeenJournaled (
-				new ReminderMessage.ScheduleReminder (
+			GivenA (new ReminderMessage.ScheduledHasBeenJournaled (
+				new ReminderMessage.Schedule (
 					"http://deliveryUrl",
 					"content/type",
 					Now.AddMilliseconds (50),

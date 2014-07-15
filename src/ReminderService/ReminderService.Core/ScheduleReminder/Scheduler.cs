@@ -7,7 +7,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core.ScheduleReminder
 {
-	public class Scheduler : IConsume<ReminderMessage.ScheduledReminderHasBeenJournaled>, 
+	public class Scheduler : IConsume<ReminderMessage.ScheduledHasBeenJournaled>, 
 								IConsume<SystemMessage.Start>, 
 								IConsume<SystemMessage.ShutDown>,
 								IDisposable
@@ -15,7 +15,7 @@ namespace ReminderService.Core.ScheduleReminder
 		private readonly object _locker = new object ();
 		private readonly IPublish _bus;
 		private readonly ITimer _timer;
-		private readonly MinPriorityQueue<ReminderMessage.ScheduledReminderHasBeenJournaled> _pq;
+		private readonly MinPriorityQueue<ReminderMessage.ScheduledHasBeenJournaled> _pq;
 		private int _running = 0;
 
 		public Scheduler (IPublish bus, ITimer timer)
@@ -25,7 +25,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ReminderMessage.ScheduledReminderHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt > b.Reminder.TimeoutAt);
+			_pq = new MinPriorityQueue<ReminderMessage.ScheduledHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt > b.Reminder.TimeoutAt);
 		}
 			
 		public void Handle (SystemMessage.Start startMessage)
@@ -38,7 +38,7 @@ namespace ReminderService.Core.ScheduleReminder
 			Stop ();
 		}
 
-		public void Handle (ReminderMessage.ScheduledReminderHasBeenJournaled reminder)
+		public void Handle (ReminderMessage.ScheduledHasBeenJournaled reminder)
 		{
 			lock (_locker) {
 				_pq.Insert (reminder);
