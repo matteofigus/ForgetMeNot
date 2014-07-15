@@ -16,7 +16,6 @@ namespace ReminderService.Core.ScheduleReminder
 		private readonly IPublish _bus;
 		private readonly ITimer _timer;
 		private readonly MinPriorityQueue<ReminderMessages.ScheduledReminderHasBeenJournaled> _pq;
-		//private readonly Action<ReminderMessages.ScheduledReminderHasBeenJournaled> _onDueRemindersCallback;
 		private int _running = 0;
 
 		public Scheduler (IPublish bus, ITimer timer)
@@ -51,8 +50,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			//get all the items from the pq that are due
 			lock (_locker) {
-				var dueTime = _pq.Min ().Reminder.TimeoutAt;
-				while (!_pq.IsEmpty && _pq.Min ().Reminder.TimeoutAt <= dueTime) {
+				while (!_pq.IsEmpty && _pq.Min ().Reminder.TimeoutAt <= SystemTime.Now()) {
 					//IMessage dueReminder = _pq.RemoveMin ();
 					_bus.Publish (_pq.RemoveMin()); //TODO: do we want to have an Action<T> that we invoke here?
 				}
