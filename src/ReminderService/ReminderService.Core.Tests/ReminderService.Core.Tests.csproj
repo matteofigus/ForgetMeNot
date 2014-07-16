@@ -64,9 +64,6 @@
     <Folder Include="CancelReminder\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScheduleReminder\ScheduledReminderCollectionTests.cs" />
-    <Compile Include="ScheduleReminder\ScheduledReminderTests.cs" />
-    <Compile Include="ScheduleReminder\ExtensionMethodTests.cs" />
     <Compile Include="ScheduleReminder\Scheduler_Spec.cs" />
     <Compile Include="ScheduleReminder\When_not_started.cs" />
     <Compile Include="ScheduleReminder\Publishing_messages_as_they_become_due.cs" />
