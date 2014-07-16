@@ -4,7 +4,7 @@ using ReminderService.Router;
 
 namespace ReminderService.Messages
 {
-	public class JournaledMessage<T> where T : class, IMessage
+	public class JournaledEnvelope<T> : IMessage where T : class, IMessage
 	{
 		private readonly T _inner;
 
@@ -12,7 +12,7 @@ namespace ReminderService.Messages
 			get {return _inner;}
 		}
 
-		public JournaledMessage (T journaledMessage)
+		public JournaledEnvelope (T journaledMessage)
 		{
 			Ensure.NotNull (journaledMessage, "innerMessage");
 

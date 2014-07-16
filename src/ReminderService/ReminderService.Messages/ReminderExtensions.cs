@@ -6,14 +6,14 @@ namespace ReminderService.Messages
 {
 	public static class ReminderExtensions
 	{
-		public static ReminderMessage.Due CreateFrom(this ReminderMessage.ScheduledHasBeenJournaled source)
+		public static ReminderMessage.Due DueReminder(this ReminderMessage.Schedule source)
 		{
 			return new ReminderMessage.Due (
-				source.Reminder.ReminderId,
-				source.Reminder.DeliveryUrl,
-				source.Reminder.ContentType,
-				source.Reminder.TimeoutAt,
-				source.Reminder.Payload);
+				source.ReminderId,
+				source.DeliveryUrl,
+				source.ContentType,
+				source.TimeoutAt,
+				source.Payload);
 		}
 	}
 }

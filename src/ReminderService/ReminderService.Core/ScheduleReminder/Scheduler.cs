@@ -7,7 +7,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core.ScheduleReminder
 {
-	public class Scheduler : IConsume<ReminderMessage.ScheduledHasBeenJournaled>, 
+	public class Scheduler : IConsume<JournaledEnvelope<ReminderMessage.Schedule>>, 
 								IConsume<SystemMessage.Start>, 
 								IConsume<SystemMessage.ShutDown>,
 								IDisposable
@@ -15,7 +15,7 @@ namespace ReminderService.Core.ScheduleReminder
 		private readonly object _locker = new object ();
 		private readonly IPublish _bus;
 		private readonly ITimer _timer;
-		private readonly MinPriorityQueue<ReminderMessage.ScheduledHasBeenJournaled> _pq;
+		private readonly MinPriorityQueue<ReminderMessage.Schedule> _pq;
 		private int _running = 0;
 
 		public Scheduler (IPublish bus, ITimer timer)
@@ -25,7 +25,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ReminderMessage.ScheduledHasBeenJournaled> ((a, b) => a.Reminder.TimeoutAt > b.Reminder.TimeoutAt);
+			_pq = new MinPriorityQueue<ReminderMessage.Schedule> ((a, b) => a.TimeoutAt > b.TimeoutAt);
 		}
 			
 		public void Handle (SystemMessage.Start startMessage)
@@ -38,10 +38,10 @@ namespace ReminderService.Core.ScheduleReminder
 			Stop ();
 		}
 
-		public void Handle (ReminderMessage.ScheduledHasBeenJournaled reminder)
+		public void Handle (JournaledEnvelope<ReminderMessage.Schedule> journaled)
 		{
 			lock (_locker) {
-				_pq.Insert (reminder);
+				_pq.Insert (journaled.Message);
 				SetTimeout ();
 			}
 		}
@@ -50,9 +50,9 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			//get all the items from the pq that are due
 			lock (_locker) {
-				while (!_pq.IsEmpty && _pq.Min ().Reminder.TimeoutAt <= SystemTime.Now()) {
+				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.Now()) {
 					//IMessage dueReminder = _pq.RemoveMin ();
-					_bus.Publish (_pq.RemoveMin()); //TODO: do we want to have an Action<T> that we invoke here?
+					_bus.Publish (_pq.RemoveMin().DueReminder()); //TODO: do we want to have an Action<T> that we invoke here?
 				}
 			}
 		}
@@ -61,7 +61,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			if (_running > 0 && !_pq.IsEmpty)
 			{
-				var nextTimeoutAt = _pq.Min ().Reminder.TimeoutAt;
+				var nextTimeoutAt = _pq.Min ().TimeoutAt;
 				var timeToNext = nextTimeoutAt.Subtract(SystemTime.Now()).Milliseconds;
 				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);

@@ -32,7 +32,7 @@ namespace ReminderService.Core
 		{
 			try {
 				_journaler.Write (msg);
-				IMessage journaledEvent = new ReminderMessage.ScheduledHasBeenJournaled (msg) as IMessage;
+				IMessage journaledEvent = new JournaledEnvelope<ReminderMessage.Schedule> (msg) as IMessage;
 				_bus.Publish (journaledEvent);
 			}
 			catch (Exception ex) {

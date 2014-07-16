@@ -32,10 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JournaledMessage.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="ReminderMessage.cs" />
     <Compile Include="ReminderExtensions.cs" />
+    <Compile Include="JournaledEnvelope.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
