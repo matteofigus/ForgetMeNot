@@ -1,4 +1,4 @@
-﻿namespace ReminderService.Router
+﻿namespace ReminderService.Router.Topics
 {
     public interface ITopic
     {

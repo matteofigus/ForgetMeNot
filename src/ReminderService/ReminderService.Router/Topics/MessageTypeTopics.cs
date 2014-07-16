@@ -3,13 +3,13 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReminderService.Router
+namespace ReminderService.Router.Topics
 {
-    public sealed class MessageTypeTopics
+	public sealed class MessageTypeTopics : ITopicFactory<Type>
     {
         private readonly ConcurrentDictionary<Type, string[]> _topics = new ConcurrentDictionary<Type, string[]>();
 
-        public IList<string> GetTopicsForType(Type type)
+        public IList<string> GetTopicsFor(Type type)
         {
             var topics = _topics.GetOrAdd(type, t => GetMessageTopics(t).ToArray());
             return topics.ToList();

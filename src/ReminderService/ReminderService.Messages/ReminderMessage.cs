@@ -77,7 +77,7 @@ namespace ReminderService.Messages
 		{
 			public Guid ReminderId { get; set; }
 			public string DeliveryUrl { get; private set; }
-			public string DeadLetterUrl { get; private set; } //messages will be sent here if delivery to the DeliveryUrl fails.
+			public string DeadLetterUrl { get; private set; }
 			public string ContentType { get; private set; }
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }

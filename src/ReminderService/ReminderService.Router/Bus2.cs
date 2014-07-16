@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using ReminderService.Router.Consumers;
+using ReminderService.Router.Topics;
 
 namespace ReminderService.Router
 {
@@ -10,13 +12,13 @@ namespace ReminderService.Router
 	//wrapped IConsumer<T> instance - avoids the generics in Bus class
 	public class Bus2 : IBus
     {
-        private readonly MessageTypeTopics _messageTypeTopics = new MessageTypeTopics();
+        private readonly ITopicFactory<Type> _messageTypeTopics = new MessageTypeTopics();
 		private readonly ConcurrentDictionary<string, List<IDispatchMessages>> _subscribers
 		= new ConcurrentDictionary<string, List<IDispatchMessages>>();
 
         public void Publish(IMessage message)
         {
-            var topics = _messageTypeTopics.GetTopicsForType(message.GetType());
+            var topics = _messageTypeTopics.GetTopicsFor(message.GetType());
             foreach (var topic in topics)
             {
                 PublishToTopic(topic, message);

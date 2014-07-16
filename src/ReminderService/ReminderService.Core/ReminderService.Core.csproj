@@ -68,12 +68,16 @@
     <Compile Include="ScheduleReminder\ExtensionMethods.cs" />
     <Compile Include="Peristence\IJournaler.cs" />
     <Compile Include="CancelReminder\CancelledRemindersManager.cs" />
+    <Compile Include="PublishReminders\PublishRouter.cs" />
+    <Compile Include="PublishReminders\HTTPPublisher.cs" />
+    <Compile Include="PublishReminders\AmqpPublisher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ScheduleReminder\" />
     <Folder Include="CancelReminder\" />
     <Folder Include="Peristence\" />
+    <Folder Include="PublishReminders\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

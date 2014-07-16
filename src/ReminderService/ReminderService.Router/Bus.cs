@@ -1,17 +1,19 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using ReminderService.Router.Consumers;
+using ReminderService.Router.Topics;
 
 namespace ReminderService.Router
 {
     public class Bus : IBus
     {
-        private readonly MessageTypeTopics _messageTypeTopics = new MessageTypeTopics();
+        private readonly ITopicFactory<Type> _messageTypeTopics = new MessageTypeTopics();
         private readonly ConcurrentDictionary<string, Multiplexer<IMessage>> _subscribers
             = new ConcurrentDictionary<string, Multiplexer<IMessage>>();
 
         public void Publish(IMessage message)
         {
-            var topics = _messageTypeTopics.GetTopicsForType(message.GetType());
+            var topics = _messageTypeTopics.GetTopicsFor(message.GetType());
             foreach (var topic in topics)
             {
                 PublishToTopic(topic, message);
