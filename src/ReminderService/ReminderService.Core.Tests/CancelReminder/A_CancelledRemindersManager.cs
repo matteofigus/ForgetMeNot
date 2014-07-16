@@ -29,6 +29,12 @@ namespace ReminderService.Core.Tests
 			_received.Add (msg);
 		}
 
+		[SetUp]
+		public void BeforeEach()
+		{
+			_received.Clear ();
+		}
+
 		[Test]
 		public void should_keep_track_of_cancelled_reminders ()
 		{
@@ -63,6 +69,19 @@ namespace ReminderService.Core.Tests
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
 
 			Assert.AreEqual (0, _received.Count);
+		}
+
+		[Test]
+		public void should_not_keep_track_of_cancellations_once_they_are_due()
+		{
+			var reminderId = Guid.NewGuid ();
+
+			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+			//will handle this message the second time because it has been removed from the CancellationManagers internal list
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+
+			Assert.AreEqual (1, _received.Count);
 		}
 	}
 
