@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using ReminderService.Common;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Topics;
 
@@ -10,6 +11,12 @@ namespace ReminderService.Router
         private readonly ITopicFactory<Type> _messageTypeTopics = new MessageTypeTopics();
         private readonly ConcurrentDictionary<string, Multiplexer<IMessage>> _subscribers
             = new ConcurrentDictionary<string, Multiplexer<IMessage>>();
+
+//		public Bus (ITopicFactory<Type> topicFactory)
+//		{
+//			Ensure.NotNull (topicFactory, "topicFactory");
+//			_messageTypeTopics = topicFactory;
+//		}
 
         public void Publish(IMessage message)
         {

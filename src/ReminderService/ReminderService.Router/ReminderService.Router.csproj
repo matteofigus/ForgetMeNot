@@ -68,4 +68,10 @@
     <Folder Include="Consumers\" />
     <Folder Include="Topics\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
+      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
+      <Name>ReminderService.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
