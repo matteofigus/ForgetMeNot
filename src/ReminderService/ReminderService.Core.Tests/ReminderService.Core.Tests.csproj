@@ -29,10 +29,39 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="nunit.framework" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\packages\StackExchange.Redis.1.0.320\lib\net40\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.Logging">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.3.1.9\lib\net40\OpenTable.Services.Components.Logging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ScheduleReminder\" />
+    <Folder Include="CancelReminder\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScheduleReminder\ScheduledReminderCollectionTests.cs" />
@@ -43,6 +72,7 @@
     <Compile Include="ScheduleReminder\Publishing_messages_as_they_become_due.cs" />
     <Compile Include="ScheduleReminder\Publish_reminders_even_in_the_past.cs" />
     <Compile Include="ScheduleReminder\Publish_all_reminders_that_are_due_at_the_same_time.cs" />
+    <Compile Include="CancelReminder\A_CancelledRemindersManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -65,5 +95,8 @@
       <Project>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</Project>
       <Name>ReminderService.Messages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

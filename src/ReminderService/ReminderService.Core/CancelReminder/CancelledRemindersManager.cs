@@ -8,13 +8,15 @@ using OpenTable.Services.Components.Logging;
 
 namespace ReminderService.Core
 {
-	public class CancelReminderConsumer : IConsume<ReminderMessage.Cancel>, IConsume<ReminderMessage.Due>
+	public class CancelledRemindersManager : 
+		IConsume<ReminderMessage.Cancel>, 
+		IConsume<ReminderMessage.Due>
 	{
 		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
 		private readonly IBus _bus;
 		private readonly ILogger _logger;
 
-		public CancelReminderConsumer (IBus bus, ILogger logger)
+		public CancelledRemindersManager (IBus bus, ILogger logger)
 		{
 			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.Cancel> (
 				               c => c.ReminderId.GetHashCode (),
