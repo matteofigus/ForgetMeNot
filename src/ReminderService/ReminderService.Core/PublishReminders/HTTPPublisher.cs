@@ -18,7 +18,8 @@ namespace ReminderService.Core.PublishReminders
 		public void Send(ReminderMessage.Due dueReminder)
 		{
 			Deliver(dueReminder, dueReminder.DeliveryUrl,
-				(success) => {/*do something if we succeed*/},
+				(success) => {
+					/*do something if we succeed*/},
 				(failed) => {
 					//failed, try sending to dead message url
 					Deliver(dueReminder, dueReminder.DeadLetterUrl,

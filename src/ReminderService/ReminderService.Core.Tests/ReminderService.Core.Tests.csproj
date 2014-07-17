@@ -57,6 +57,9 @@
     <Reference Include="OpenTable.Services.Components.Logging">
       <HintPath>..\packages\OpenTable.Services.Components.Logging.3.1.9\lib\net40\OpenTable.Services.Components.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -74,6 +77,9 @@
     <Compile Include="CancelReminder\A_CancelledRemindersManager.cs" />
     <Compile Include="PublishReminders\When_routing_reminders_to_publish.cs" />
     <Compile Include="Helpers\FakeLogger.cs" />
+    <Compile Include="PublishReminders\An_HttpPublisher.cs" />
+    <Compile Include="Helpers\FakeRestClient.cs" />
+    <Compile Include="Helpers\RoutableBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

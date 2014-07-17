@@ -89,6 +89,17 @@ namespace ReminderService.Messages
 			}
 		}
 
+		public class Sent : IMessage
+		{
+			public Guid ReminderId { get; private set;}
+
+			public Sent (Guid reminderId)
+			{
+				Ensure.NotEmptyGuid(reminderId, "reminderId");
+				ReminderId = reminderId;
+			}
+		}
+
 		public class EqualityComparer<T> : IEqualityComparer<T> where T : IMessage
 		{
 			private readonly Func<T, int> _getHashCode;

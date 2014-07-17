@@ -6,21 +6,20 @@ using ReminderService.Messages;
 using ReminderService.Router;
 using ReminderService.Core;
 using ReminderService.Core.ScheduleReminder;
+using ReminderService.Core.Tests.Helpers;
 
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public abstract class Scheduler_Spec : IConsume<ReminderMessage.Due>
+	public abstract class Scheduler_Spec : RoutableBase, IConsume<ReminderMessage.Due>
 	{
 		private readonly TestTimer _timer = new TestTimer();
-		private readonly IBus _bus = new Bus ();
 		private readonly Scheduler _scheduler;
-		private readonly List<IMessage> _receivedMessages = new List<IMessage>();
 
 		public Scheduler_Spec ()
 		{
-			_scheduler  = new Scheduler (_bus, _timer);
-			_bus.Subscribe (this);
+			_scheduler  = new Scheduler (Bus, _timer);
+			Subscribe (this);
 		}
 
 		public void GivenA(SystemMessage.Start startMessage)
@@ -35,7 +34,7 @@ namespace ReminderService.Core.Tests
 
 		public void Handle (ReminderMessage.Due msg)
 		{
-			_receivedMessages.Add (msg);
+			Received.Add (msg);
 		}
 
 		public DateTime Now {
@@ -61,11 +60,6 @@ namespace ReminderService.Core.Tests
 		{
 			SystemTime.Set (atTime);
 			_timer.Fire ();
-		}
-
-		public List<IMessage> Received
-		{
-			get { return _receivedMessages; }
 		}
 	}
 
