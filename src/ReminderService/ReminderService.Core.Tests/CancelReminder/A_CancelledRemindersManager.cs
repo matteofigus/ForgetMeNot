@@ -39,7 +39,7 @@ namespace ReminderService.Core.Tests
 			var cancelledReminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (cancelledReminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
 			Assert.AreEqual (1, Received.Count);
 		}
@@ -50,7 +50,7 @@ namespace ReminderService.Core.Tests
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
 			Assert.AreEqual (0, Received.Count);
 		}
@@ -61,9 +61,9 @@ namespace ReminderService.Core.Tests
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 			//will handle this message the second time because it has been removed from the CancellationManagers internal list
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
 			Assert.AreEqual (1, Received.Count);
 		}

@@ -26,7 +26,7 @@ namespace ReminderService.Core.Tests
 			var handlers = new []{ httpHandler, anotherHandler };
 			var router = new PublishRouter (logger, handlers);
 
-			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 
 			Assert.IsTrue (called);
 		}
@@ -42,7 +42,7 @@ namespace ReminderService.Core.Tests
 			var handlers = new []{ anotherHandler };
 			var router = new PublishRouter (logger, handlers);
 
-			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 		}
 	}
 

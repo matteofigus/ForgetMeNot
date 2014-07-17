@@ -15,9 +15,10 @@ namespace ReminderService.Core.Tests
 	[TestFixture]
 	public class An_HttpPublisher : RoutableBase, IConsume<ReminderMessage.Sent>
 	{
-		public An_HttpPublisher ()
+		[SetUp]
+		public void BeforeEach()
 		{
-			Subscribe (this);
+			ClearReceived ();
 		}
 
 		[Test]
@@ -25,7 +26,7 @@ namespace ReminderService.Core.Tests
 		{
 			//arrange
 			var payload = Encoding.UTF8.GetBytes ("payload as plain/text");
-			var due = new ReminderMessage.Due (Guid.NewGuid (), "http://delivery/url", "content", SystemTime.Now (), payload);
+			var due = new ReminderMessage.Due (Guid.NewGuid (), "http://delivery/url", "deadletterurl","content", SystemTime.Now (), payload);
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (expectedResponse);
 			var publisher = new HTTPPublisher (fakeClient);
@@ -37,10 +38,9 @@ namespace ReminderService.Core.Tests
 			Assert.AreEqual (1, Received.Count);
 		}
 
-		[SetUp]
-		public void BeforeEach()
+		public An_HttpPublisher ()
 		{
-			ClearReceived ();
+			Subscribe (this);
 		}
 
 		public void Handle (ReminderMessage.Sent msg)

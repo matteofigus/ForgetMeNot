@@ -16,9 +16,10 @@ namespace ReminderService.Messages
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public Schedule (string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Schedule (string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				DeliveryUrl = deliveryUrl;
+				DeadLetterUrl = deadLetterUrl;
 				ContentType = contentType;
 				TimeoutAt = timeoutAt;
 				Payload = payload;
@@ -39,10 +40,11 @@ namespace ReminderService.Messages
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public Due (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Due (Guid reminderId, string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				ReminderId = reminderId;
 				DeliveryUrl = deliveryUrl;
+				DeadLetterUrl = deadLetterUrl;
 				ContentType = contentType;
 				TimeoutAt = timeoutAt;
 				Payload = payload;
@@ -68,10 +70,11 @@ namespace ReminderService.Messages
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public DueReminderNotCanceled (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public DueReminderNotCanceled (Guid reminderId, string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				ReminderId = reminderId;
 				DeliveryUrl = deliveryUrl;
+				DeadLetterUrl = deadLetterUrl;
 				ContentType = contentType;
 				TimeoutAt = timeoutAt;
 				Payload = payload;
@@ -82,6 +85,7 @@ namespace ReminderService.Messages
 				return new DueReminderNotCanceled (
 					due.ReminderId,
 					due.DeliveryUrl,
+					due.DeadLetterUrl,
 					due.ContentType,
 					due.TimeoutAt,
 					due.Payload

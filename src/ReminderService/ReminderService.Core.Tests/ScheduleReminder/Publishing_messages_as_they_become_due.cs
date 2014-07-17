@@ -18,6 +18,7 @@ namespace ReminderService.Core.Tests
 			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/1",
+					"deadletterurl",
 					"content/type",
 					Now,
 					new byte[0])));
@@ -25,6 +26,7 @@ namespace ReminderService.Core.Tests
 			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/2",
+					"deadletterurl",
 					"content/type",
 					Now.AddMilliseconds(15),
 					new byte[0])));
@@ -32,6 +34,7 @@ namespace ReminderService.Core.Tests
 			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/3",
+					"deadletterurl",
 					"content/type",
 					Now.AddMilliseconds(25),
 					new byte[0])));
@@ -39,6 +42,7 @@ namespace ReminderService.Core.Tests
 			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/4",
+					"deadletterurl",
 					"content/type",
 					Now.AddMilliseconds(100),
 					new byte[0])));

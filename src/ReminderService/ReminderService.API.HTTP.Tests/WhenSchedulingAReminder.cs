@@ -19,6 +19,7 @@ namespace ReminderService.API.HTTP.Tests
 			// When
 			var requestBody = new ReminderMessage.Schedule (
 				                  "deliveryurl",
+								  "deadletterurl",
 				                  "application/json",
 				                  DateTime.Now.AddDays (1),
 				                  new byte[0]
@@ -41,6 +42,7 @@ namespace ReminderService.API.HTTP.Tests
 			// When
 			var requestBody = new ReminderMessage.Schedule (
 				"deliveryurl",
+				"deadletterurl",
 				"application/json",
 				DateTime.Now.AddMinutes(-1),
 				new byte[0]
