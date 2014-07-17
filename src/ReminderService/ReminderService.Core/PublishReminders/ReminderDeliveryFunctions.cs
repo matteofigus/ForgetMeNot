@@ -4,7 +4,7 @@ using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.PublishReminders
 {
 	public static class ReminderDeliveryFunctions
 	{

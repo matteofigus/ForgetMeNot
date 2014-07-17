@@ -62,6 +62,8 @@
   <ItemGroup>
     <Folder Include="ScheduleReminder\" />
     <Folder Include="CancelReminder\" />
+    <Folder Include="PublishReminders\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScheduleReminder\Scheduler_Spec.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="ScheduleReminder\Publish_reminders_even_in_the_past.cs" />
     <Compile Include="ScheduleReminder\Publish_all_reminders_that_are_due_at_the_same_time.cs" />
     <Compile Include="CancelReminder\A_CancelledRemindersManager.cs" />
+    <Compile Include="PublishReminders\When_routing_reminders_to_publish.cs" />
+    <Compile Include="Helpers\FakeLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.PublishReminders
 {
 	public class AmqpPublisher
 	{

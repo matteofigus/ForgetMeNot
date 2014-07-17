@@ -58,7 +58,7 @@ namespace ReminderService.Messages
 				ReminderId = reminderId;
 			}
 		}
-			
+
 		public class DueReminderNotCanceled : IMessage
 		{
 			public Guid ReminderId { get; set; }

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
+using OpenTable.Services.Components.Logging;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.PublishReminders
 {
 	public class PublishRouter : IConsume<ReminderMessage.DueReminderNotCanceled>
 	{
-		//private readonly ILog _logger;
-		private readonly IBus _bus;
+		private readonly ILogger _logger;
 		private readonly List<Func<ReminderMessage.DueReminderNotCanceled, bool>> _handlerChain;
 
-		public PublishRouter (IBus bus, IEnumerable<Func<ReminderMessage.DueReminderNotCanceled, bool>> handlers)
+		public PublishRouter (ILogger logger, IEnumerable<Func<ReminderMessage.DueReminderNotCanceled, bool>> handlers)
 		{
-			Ensure.NotNull (bus, "bus");
+			Ensure.NotNull (logger, "logger");
 			Ensure.NotNull (handlers, "handlers");
 
-			_bus = bus;
+			_logger = logger;
 			_handlerChain = new List<Func<ReminderMessage.DueReminderNotCanceled, bool>> (handlers);
 		}
 
@@ -29,7 +29,10 @@ namespace ReminderService.Core
 			}
 
 			//if we get here then the transport scheme for the reminder is not supported.
-			throw new NotSupportedException (string.Format("Delivery scheme not supported for reminder [{0}]", msg.ReminderId));
+			var exception = new NotSupportedException (string.Format("Delivery scheme not supported for reminder [{0}]", msg.ReminderId));
+			_logger.LogException (Level.Error, exception, 
+				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", msg.DeliveryUrl));
+			throw exception;
 		}
 	}
 }

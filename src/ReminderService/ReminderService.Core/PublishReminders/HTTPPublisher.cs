@@ -2,7 +2,7 @@
 using RestSharp;
 using ReminderService.Messages;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.PublishReminders
 {
 	public class HTTPPublisher
 	{
