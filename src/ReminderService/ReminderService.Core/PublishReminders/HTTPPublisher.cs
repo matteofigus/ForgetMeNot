@@ -1,16 +1,18 @@
 ﻿using System;
 using RestSharp;
+using ReminderService.Common;
 using ReminderService.Messages;
 
 namespace ReminderService.Core.PublishReminders
 {
 	public class HTTPPublisher
 	{
-		private readonly RestClient _restClient;
+		private readonly IRestClient _restClient;
 
-		public HTTPPublisher ()
+		public HTTPPublisher (IRestClient restClient)
 		{
-			_restClient = new RestClient ();
+			Ensure.NotNull (restClient, "restClient");
+			_restClient = restClient;
 		}
 
 		public void Send(ReminderMessage.Due dueReminder)
