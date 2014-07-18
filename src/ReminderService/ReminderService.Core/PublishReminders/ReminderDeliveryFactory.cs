@@ -7,9 +7,18 @@ using RestSharp;
 
 namespace ReminderService.Core.PublishReminders
 {
-	public static class ReminderDeliveryFunctions
+	public static class ReminderDeliveryFactory
 	{
-		public static List<Func<ReminderMessage.Due, bool>> Build()
+		private static Func<HTTPPublisher> _httpInstanceFactory = () => {
+			return null;
+		};
+
+		public static Func<HTTPPublisher> HttpDeliveryFactory {
+			get { return _httpInstanceFactory; }
+			set { _httpInstanceFactory = value; }
+		}
+
+		public static List<Func<ReminderMessage.Due, bool>> BuildHandlers()
 		{
 			return new List<Func<ReminderMessage.Due, bool>> {
 				HttpHandler,
@@ -22,7 +31,7 @@ namespace ReminderService.Core.PublishReminders
 					if (!due.DeliveryUrl.ToUpper().StartsWith("HTTP"))
 						return false;
 
-					var handler = new HTTPPublisher(new RestClient());
+					var handler = _httpInstanceFactory();
 					handler.Send(due);
 					return true;
 				};

@@ -9,18 +9,33 @@ namespace ReminderService.Core.Tests
 {
 	public class FakeRestClient : IRestClient
 	{
-		private readonly IRestResponse _response;
+		private readonly List<IRestResponse> _responses;
+		private IRestRequest _lastRequest;
+		private int _requestCount = 0;
 
-		public FakeRestClient (IRestResponse response)
+		public IRestRequest LastRequest {
+			get { return _lastRequest; }
+		}
+
+		public FakeRestClient (IEnumerable<IRestResponse> responses)
 		{
-			_response = response;
+			_responses = new List<IRestResponse>(responses);
 		}
 
 		public RestRequestAsyncHandle ExecuteAsync (IRestRequest request, Action<IRestResponse, RestRequestAsyncHandle> callback)
 		{
 			var handle = new RestRequestAsyncHandle ();
-			callback (_response, handle);
+			_lastRequest = request;
+			callback (GetNextResponse(), handle);
 			return handle;
+		}
+
+		private IRestResponse GetNextResponse()
+		{
+			if (_responses.Count == 1)
+				return _responses [0];
+
+			return _responses [_requestCount++];
 		}
 
 		public RestRequestAsyncHandle ExecuteAsync<T> (IRestRequest request, Action<IRestResponse<T>, RestRequestAsyncHandle> callback)

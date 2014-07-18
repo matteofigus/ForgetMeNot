@@ -95,12 +95,15 @@ namespace ReminderService.Messages
 
 		public class Sent : IMessage
 		{
-			public Guid ReminderId { get; private set;}
+			public Guid ReminderId { get; private set; }
+			public DateTime SentStamp { get; private set; }
 
-			public Sent (Guid reminderId)
+			public Sent (Guid reminderId, DateTime sentStamp)
 			{
 				Ensure.NotEmptyGuid(reminderId, "reminderId");
+
 				ReminderId = reminderId;
+				SentStamp = sentStamp;
 			}
 		}
 

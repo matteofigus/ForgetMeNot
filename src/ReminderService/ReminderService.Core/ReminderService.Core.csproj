@@ -71,7 +71,7 @@
     <Compile Include="PublishReminders\PublishRouter.cs" />
     <Compile Include="PublishReminders\HTTPPublisher.cs" />
     <Compile Include="PublishReminders\AmqpPublisher.cs" />
-    <Compile Include="PublishReminders\ReminderDeliveryFunctions.cs" />
+    <Compile Include="PublishReminders\ReminderDeliveryFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,25 +1,35 @@
 ﻿using System;
+using System.Text;
 using RestSharp;
 using ReminderService.Common;
 using ReminderService.Messages;
+using ReminderService.Router;
+using OpenTable.Services.Components.Logging;
 
 namespace ReminderService.Core.PublishReminders
 {
 	public class HTTPPublisher
 	{
+		private readonly ILogger _logger;
 		private readonly IRestClient _restClient;
+		private readonly IBus _bus;
 
-		public HTTPPublisher (IRestClient restClient)
+		public HTTPPublisher (ILogger logger, IRestClient restClient, IBus bus)
 		{
+			Ensure.NotNull (logger, "logger");
 			Ensure.NotNull (restClient, "restClient");
+			Ensure.NotNull (bus, "bus");
+
+			_logger = logger;
 			_restClient = restClient;
+			_bus = bus;
 		}
 
 		public void Send(ReminderMessage.Due dueReminder)
 		{
 			Deliver(dueReminder, dueReminder.DeliveryUrl,
 				(success) => {
-					/*do something if we succeed*/},
+					_bus.Publish(dueReminder.AsSent());},
 				(failed) => {
 					//failed, try sending to dead message url
 					Deliver(dueReminder, dueReminder.DeadLetterUrl,
@@ -29,6 +39,8 @@ namespace ReminderService.Core.PublishReminders
 						},
 						(failed_dead) => {
 							//if sending to the dead message url fails, what do we want to do?
+							_logger.Log(Level.Error, "Unable to deliver reminder to any sepcified destination!");
+							throw new ReminderUndeliverableException<ReminderMessage.Due>(dueReminder);
 						});
 				});
 		}
@@ -39,8 +51,9 @@ namespace ReminderService.Core.PublishReminders
 			Action<ReminderMessage.Due> onSuccess, 
 			Action<ReminderMessage.Due> onFailed)
 		{
-			var req = new RestRequest (dueReminder.DeliveryUrl, Method.POST)
-				.AddBody (dueReminder.Payload)
+			var req = new RestRequest (url, Method.POST)
+				{RequestFormat = DataFormat.Json}
+				.AddBody (Encoding.UTF8.GetString (dueReminder.Payload))
 				.AddHeader ("content", dueReminder.ContentType);
 
 			_restClient.PostAsync (req, (res, handle) => {
