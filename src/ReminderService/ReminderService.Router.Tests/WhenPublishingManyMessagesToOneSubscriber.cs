@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ReminderService.Common;
 using ReminderService.Router.Tests.Helpers;
 
 namespace ReminderService.Router.Tests

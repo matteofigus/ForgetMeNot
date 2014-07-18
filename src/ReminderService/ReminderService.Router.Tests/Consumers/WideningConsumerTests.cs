@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Tests.Helpers;

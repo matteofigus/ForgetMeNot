@@ -1,4 +1,5 @@
 ﻿using System;
+using ReminderService.Common;
 
 namespace ReminderService.Router.Tests
 {

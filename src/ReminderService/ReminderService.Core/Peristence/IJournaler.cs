@@ -1,5 +1,5 @@
 ﻿using System;
-using ReminderService.Router;
+using ReminderService.Common;
 
 namespace ReminderService.Core
 {

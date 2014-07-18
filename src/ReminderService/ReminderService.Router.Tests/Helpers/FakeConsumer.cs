@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReminderService.Common;
 
 namespace ReminderService.Router.Tests.Helpers
 {

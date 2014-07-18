@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using ReminderService.Common;
 using ReminderService.Router.Tests.Helpers;
 
 namespace ReminderService.Router.Tests

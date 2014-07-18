@@ -1,4 +1,6 @@
-﻿namespace ReminderService.Router
+﻿using ReminderService.Common;
+
+namespace ReminderService.Router
 {
     public interface IPublish
     {

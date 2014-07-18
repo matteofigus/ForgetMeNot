@@ -1,4 +1,6 @@
-﻿namespace ReminderService.Router
+﻿using ReminderService.Common;
+
+namespace ReminderService.Router
 {
 	/// <summary>
 	/// Implementors of this interface must handle the subscription of consumers to specific message types.

@@ -2,6 +2,7 @@
 using System;
 using Nancy;
 using Nancy.Testing;
+using ReminderService.Common;
 using ReminderService.Messages;
 
 namespace ReminderService.API.HTTP.Tests

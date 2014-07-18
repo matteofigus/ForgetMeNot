@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
 

@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="IBus.cs" />
     <Compile Include="IConsume.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="IPublish.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
