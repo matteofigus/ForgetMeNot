@@ -79,9 +79,9 @@
     <Compile Include="Helpers\FakeLogger.cs" />
     <Compile Include="PublishReminders\An_HttpPublisher.cs" />
     <Compile Include="Helpers\FakeRestClient.cs" />
-    <Compile Include="Helpers\RoutableBase.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\TestPayload.cs" />
+    <Compile Include="Helpers\RoutableTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

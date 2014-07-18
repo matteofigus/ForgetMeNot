@@ -13,7 +13,7 @@ using RestSharp;
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public class An_HttpPublisher : RoutableBase, IConsume<ReminderMessage.Sent>
+	public class An_HttpPublisher : RoutableTestBase, IConsume<ReminderMessage.Sent>
 	{
 		[SetUp]
 		public void BeforeEach()

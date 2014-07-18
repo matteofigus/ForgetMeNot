@@ -6,7 +6,7 @@ using ReminderService.Messages;
 
 namespace ReminderService.Core.Tests.Helpers
 {
-	public abstract class RoutableBase
+	public abstract class RoutableTestBase
 	{
 		private readonly IBus _bus = new Bus ();
 		private readonly List<IMessage> _received = new List<IMessage> ();

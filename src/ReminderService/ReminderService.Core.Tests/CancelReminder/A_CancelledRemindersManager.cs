@@ -11,7 +11,7 @@ using ReminderService.Core.Tests.Helpers;
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public class A_CancelledRemindersManager : RoutableBase, IConsume<ReminderMessage.DueReminderNotCanceled>
+	public class A_CancelledRemindersManager : RoutableTestBase, IConsume<ReminderMessage.DueReminderNotCanceled>
 	{
 		[SetUp]
 		public void BeforeEach()

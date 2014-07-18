@@ -11,7 +11,7 @@ using ReminderService.Core.Tests.Helpers;
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public abstract class Scheduler_Spec : RoutableBase, IConsume<ReminderMessage.Due>
+	public abstract class Scheduler_Spec : RoutableTestBase, IConsume<ReminderMessage.Due>
 	{
 		private readonly TestTimer _timer = new TestTimer();
 		private readonly Scheduler _scheduler;
