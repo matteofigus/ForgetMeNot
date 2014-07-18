@@ -23,13 +23,18 @@ namespace ReminderService.Core.Tests
 		public void should_keep_track_of_cancelled_reminders ()
 		{
 			var reminderId = Guid.NewGuid ();
+			var due = new ReminderMessage.Due (reminderId,
+				"delivery",
+				"deadletter",
+				"application/json",
+				DateTime.Now,
+				new byte[0]
+			);
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
+			_cancellationManager.Handle (due);
 
-			Assert.IsTrue(
-				_logger.LastLoggedMessage.StartsWith(
-					string.Format("Cancellation for reminder [{0}] added to cancellation list", reminderId)
-				));
+			Assert.AreEqual (0, Received.Count);
 		}
 
 		[Test]
@@ -74,7 +79,7 @@ namespace ReminderService.Core.Tests
 		public A_CancelledRemindersManager ()
 		{
 			_logger = new FakeLogger ();
-			_cancellationManager = new CancelledRemindersManager (Bus, _logger);
+			_cancellationManager = new CancelledRemindersManager (Bus);
 			Subscribe (this);
 		}
 

@@ -13,7 +13,6 @@ namespace ReminderService.Core.Tests
 		[Test ()]
 		public void should_route_the_reminder_to_the_correct_handler ()
 		{
-			var logger = new FakeLogger ();
 			var called = false;
 			Func<ReminderMessage.DueReminderNotCanceled, bool> httpHandler = (due) => {
 				called = true;
@@ -24,7 +23,7 @@ namespace ReminderService.Core.Tests
 				return true;
 			};
 			var handlers = new []{ httpHandler, anotherHandler };
-			var router = new DeliveryRouter (logger, handlers);
+			var router = new DeliveryRouter (handlers);
 
 			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 
@@ -35,12 +34,11 @@ namespace ReminderService.Core.Tests
 		[ExpectedException(typeof(NotSupportedException))]
 		public void should_throw_if_no_handler_is_available()
 		{
-			var logger = new FakeLogger ();
 			Func<ReminderMessage.DueReminderNotCanceled, bool> anotherHandler = (due) => {
 				return false;
 			};
 			var handlers = new []{ anotherHandler };
-			var router = new DeliveryRouter (logger, handlers);
+			var router = new DeliveryRouter (handlers);
 
 			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 		}

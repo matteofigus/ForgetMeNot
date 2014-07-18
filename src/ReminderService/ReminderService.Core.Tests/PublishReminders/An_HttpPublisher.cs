@@ -32,7 +32,7 @@ namespace ReminderService.Core.Tests
 					Guid.NewGuid (), "http://delivery/url", "deadletterurl","content", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (new FakeLogger(), fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient, Bus);
 
 			//act
 			publisher.Send (due);
@@ -55,7 +55,7 @@ namespace ReminderService.Core.Tests
 			var firstResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var secondResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {firstResponse, secondResponse});
-			var publisher = new HTTPDelivery (new FakeLogger(), fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient, Bus);
 
 			//act
 			publisher.Send (due);
@@ -76,7 +76,7 @@ namespace ReminderService.Core.Tests
 					Guid.NewGuid (), "http://delivery/url", "http://deadletter/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (new FakeLogger(), fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient, Bus);
 
 			//act
 			publisher.Send (due);

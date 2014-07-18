@@ -1,8 +1,8 @@
 ﻿using System;
-using OpenTable.Services.Components.Logging;
 using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
+using log4net;
 
 namespace ReminderService.Core
 {
@@ -17,7 +17,7 @@ namespace ReminderService.Core
 
 		private readonly IPublish _bus;
 		private readonly IJournaler _journaler;
-		private readonly ILogger _logger;
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(Journaler));
 
 		public Journaler (IPublish bus, IJournaler journaler)
 		{
@@ -36,7 +36,7 @@ namespace ReminderService.Core
 				_bus.Publish (journaledEvent);
 			}
 			catch (Exception ex) {
-				_logger.LogException (Level.Error, ex, "Exception while attempting to write to journal.");
+				Logger.Error ("Exception while attempting to write to journal.", ex);
 				throw;
 			}
 		}

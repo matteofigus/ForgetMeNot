@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Router;
-using OpenTable.Services.Components.Logging;
+using log4net;
 
 namespace ReminderService.Core
 {
@@ -14,26 +14,24 @@ namespace ReminderService.Core
 	{
 		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
 		private readonly IBus _bus;
-		private readonly ILogger _logger;
+		private readonly ILog Logger = LogManager.GetLogger(typeof(CancelledRemindersManager));
 
-		public CancelledRemindersManager (IBus bus, ILogger logger)
+		public CancelledRemindersManager (IBus bus)
 		{
 			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.Cancel> (
 				               c => c.ReminderId.GetHashCode (),
 				               (x, y) => x.ReminderId == y.ReminderId);
 			_cancellations = new HashSet<ReminderMessage.Cancel> (comparer);
 			Ensure.NotNull (bus, "bus");
-			Ensure.NotNull (logger, "logger");
 
 			_bus = bus;
-			_logger = logger;
 		}
 
 		public void Handle (ReminderMessage.Cancel msg)
 		{
 			if (!_cancellations.Any (x => x.ReminderId == msg.ReminderId)) {
 				_cancellations.Add (msg);
-				_logger.Log (Level.Info, string.Format("Cancellation for reminder [{0}] added to cancellation list", msg.ReminderId));
+				Logger.Info (string.Format("Cancellation for reminder [{0}] added to cancellation list", msg.ReminderId));
 			}
 		}
 
@@ -45,7 +43,7 @@ namespace ReminderService.Core
 				_bus.Publish (ReminderMessage.DueReminderNotCanceled.CreateFrom (due));
 			else
 				_cancellations.Remove (found);
-				_logger.Log (Level.Info, string.Format("Cancelled Reminder [{0}] found and removed from cancellation list", due.ReminderId));
+				Logger.Info (string.Format("Cancelled Reminder [{0}] found and removed from cancellation list", due.ReminderId));
 		}
 	}
 }

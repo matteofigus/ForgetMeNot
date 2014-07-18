@@ -4,23 +4,21 @@ using RestSharp;
 using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Router;
-using OpenTable.Services.Components.Logging;
+using log4net;
 
 namespace ReminderService.Core.DeliverReminder
 {
 	public class HTTPDelivery
 	{
-		private readonly ILogger _logger;
+		private readonly ILog Logger = LogManager.GetLogger(typeof(HTTPDelivery));
 		private readonly IRestClient _restClient;
 		private readonly IBus _bus;
 
-		public HTTPDelivery (ILogger logger, IRestClient restClient, IBus bus)
+		public HTTPDelivery (IRestClient restClient, IBus bus)
 		{
-			Ensure.NotNull (logger, "logger");
 			Ensure.NotNull (restClient, "restClient");
 			Ensure.NotNull (bus, "bus");
 
-			_logger = logger;
 			_restClient = restClient;
 			_bus = bus;
 		}
@@ -39,7 +37,7 @@ namespace ReminderService.Core.DeliverReminder
 						},
 						(failed_dead) => {
 							//if sending to the dead message url fails, what do we want to do?
-							_logger.Log(Level.Error, "Unable to deliver reminder to any sepcified destination!");
+							Logger.Error("Unable to deliver reminder to any specified destination!");
 							throw new ReminderUndeliverableException<ReminderMessage.Due>(dueReminder);
 						});
 				});

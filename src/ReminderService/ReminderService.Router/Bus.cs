@@ -3,11 +3,13 @@ using System.Collections.Concurrent;
 using ReminderService.Common;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Topics;
+using log4net;
 
 namespace ReminderService.Router
 {
     public class Bus : IBus
     {
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(Bus));
         private readonly ITopicFactory<Type> _messageTypeTopics = new MessageTypeTopics();
         private readonly ConcurrentDictionary<string, Multiplexer<IMessage>> _subscribers
             = new ConcurrentDictionary<string, Multiplexer<IMessage>>();
