@@ -7,7 +7,7 @@ namespace ReminderService.Messages
 {
 	public static class ReminderExtensions
 	{
-		public static ReminderMessage.Due DueReminder(this ReminderMessage.Schedule source)
+		public static ReminderMessage.Due AsDue(this ReminderMessage.Schedule source)
 		{
 			return new ReminderMessage.Due (
 				source.ReminderId,

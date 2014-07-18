@@ -52,7 +52,7 @@ namespace ReminderService.Core.ScheduleReminder
 			lock (_locker) {
 				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.Now()) {
 					//IMessage dueReminder = _pq.RemoveMin ();
-					_bus.Publish (_pq.RemoveMin().DueReminder()); //TODO: do we want to have an Action<T> that we invoke here?
+					_bus.Publish (_pq.RemoveMin().AsDue()); //TODO: do we want to have an Action<T> that we invoke here?
 				}
 			}
 		}
