@@ -34,6 +34,7 @@ namespace ReminderService.Core.Tests
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
 			_cancellationManager.Handle (due);
 
+			//since the reminder has been cancelled, then the Due message will get blocked by the CancellationManager
 			Assert.AreEqual (0, Received.Count);
 		}
 
