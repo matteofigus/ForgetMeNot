@@ -5,14 +5,14 @@ using ReminderService.Router;
 using ReminderService.Messages;
 using OpenTable.Services.Components.Logging;
 
-namespace ReminderService.Core.PublishReminders
+namespace ReminderService.Core.DeliverReminder
 {
-	public class PublishRouter : IConsume<ReminderMessage.DueReminderNotCanceled>
+	public class DeliveryRouter : IConsume<ReminderMessage.DueReminderNotCanceled>
 	{
 		private readonly ILogger _logger;
 		private readonly List<Func<ReminderMessage.DueReminderNotCanceled, bool>> _handlerChain;
 
-		public PublishRouter (ILogger logger, IEnumerable<Func<ReminderMessage.DueReminderNotCanceled, bool>> handlers)
+		public DeliveryRouter (ILogger logger, IEnumerable<Func<ReminderMessage.DueReminderNotCanceled, bool>> handlers)
 		{
 			Ensure.NotNull (logger, "logger");
 			Ensure.NotNull (handlers, "handlers");

@@ -6,15 +6,15 @@ using ReminderService.Messages;
 using ReminderService.Router;
 using OpenTable.Services.Components.Logging;
 
-namespace ReminderService.Core.PublishReminders
+namespace ReminderService.Core.DeliverReminder
 {
-	public class HTTPPublisher
+	public class HTTPDelivery
 	{
 		private readonly ILogger _logger;
 		private readonly IRestClient _restClient;
 		private readonly IBus _bus;
 
-		public HTTPPublisher (ILogger logger, IRestClient restClient, IBus bus)
+		public HTTPDelivery (ILogger logger, IRestClient restClient, IBus bus)
 		{
 			Ensure.NotNull (logger, "logger");
 			Ensure.NotNull (restClient, "restClient");

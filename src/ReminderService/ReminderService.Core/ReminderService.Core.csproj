@@ -68,17 +68,17 @@
     <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
     <Compile Include="Peristence\IJournaler.cs" />
     <Compile Include="CancelReminder\CancelledRemindersManager.cs" />
-    <Compile Include="PublishReminders\PublishRouter.cs" />
-    <Compile Include="PublishReminders\HTTPPublisher.cs" />
-    <Compile Include="PublishReminders\AmqpPublisher.cs" />
-    <Compile Include="PublishReminders\ReminderDeliveryFactory.cs" />
+    <Compile Include="DeliverReminder\ReminderDeliveryFactory.cs" />
+    <Compile Include="DeliverReminder\DeliveryRouter.cs" />
+    <Compile Include="DeliverReminder\HTTPDelivery.cs" />
+    <Compile Include="DeliverReminder\AmqpDelivery.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ScheduleReminder\" />
     <Folder Include="CancelReminder\" />
     <Folder Include="Peristence\" />
-    <Folder Include="PublishReminders\" />
+    <Folder Include="DeliverReminder\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

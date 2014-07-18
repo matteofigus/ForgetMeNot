@@ -2,7 +2,7 @@
 using System;
 using ReminderService.Common;
 using ReminderService.Messages;
-using ReminderService.Core.PublishReminders;
+using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Tests.Helpers;
 
 namespace ReminderService.Core.Tests
@@ -24,7 +24,7 @@ namespace ReminderService.Core.Tests
 				return true;
 			};
 			var handlers = new []{ httpHandler, anotherHandler };
-			var router = new PublishRouter (logger, handlers);
+			var router = new DeliveryRouter (logger, handlers);
 
 			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 
@@ -40,7 +40,7 @@ namespace ReminderService.Core.Tests
 				return false;
 			};
 			var handlers = new []{ anotherHandler };
-			var router = new PublishRouter (logger, handlers);
+			var router = new DeliveryRouter (logger, handlers);
 
 			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 		}

@@ -5,15 +5,15 @@ using ReminderService.Router;
 using ReminderService.Messages;
 using RestSharp;
 
-namespace ReminderService.Core.PublishReminders
+namespace ReminderService.Core.DeliverReminder
 {
 	public static class ReminderDeliveryFactory
 	{
-		private static Func<HTTPPublisher> _httpInstanceFactory = () => {
+		private static Func<HTTPDelivery> _httpInstanceFactory = () => {
 			return null;
 		};
 
-		public static Func<HTTPPublisher> HttpDeliveryFactory {
+		public static Func<HTTPDelivery> HttpDeliveryFactory {
 			get { return _httpInstanceFactory; }
 			set { _httpInstanceFactory = value; }
 		}
