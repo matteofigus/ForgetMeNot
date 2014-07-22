@@ -7,19 +7,19 @@ using log4net;
 
 namespace ReminderService.Core.DeliverReminder
 {
-	public class DeliveryRouter : IConsume<ReminderMessage.DueReminderNotCanceled>
+	public class DeliveryRouter : IConsume<ReminderMessage.Due>
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(DeliveryRouter));
-		private readonly List<Func<ReminderMessage.DueReminderNotCanceled, bool>> _handlerChain;
+		private readonly List<Func<ReminderMessage.Due, bool>> _handlerChain;
 
-		public DeliveryRouter (IEnumerable<Func<ReminderMessage.DueReminderNotCanceled, bool>> handlers)
+		public DeliveryRouter (IEnumerable<Func<ReminderMessage.Due, bool>> handlers)
 		{
 			Ensure.NotNull (handlers, "handlers");
 
-			_handlerChain = new List<Func<ReminderMessage.DueReminderNotCanceled, bool>> (handlers);
+			_handlerChain = new List<Func<ReminderMessage.Due, bool>> (handlers);
 		}
 
-		public void Handle (ReminderMessage.DueReminderNotCanceled msg)
+		public void Handle (ReminderMessage.Due msg)
 		{
 			foreach (var handler in _handlerChain) {
 				if (handler (msg))

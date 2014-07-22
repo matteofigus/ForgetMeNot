@@ -14,18 +14,18 @@ namespace ReminderService.Core.Tests
 		public void should_route_the_reminder_to_the_correct_handler ()
 		{
 			var called = false;
-			Func<ReminderMessage.DueReminderNotCanceled, bool> httpHandler = (due) => {
+			Func<ReminderMessage.Due, bool> httpHandler = (due) => {
 				called = true;
 				return true;
 			};
-			Func<ReminderMessage.DueReminderNotCanceled, bool> anotherHandler = (due) => {
+			Func<ReminderMessage.Due, bool> anotherHandler = (due) => {
 				Assert.Fail();
 				return true;
 			};
 			var handlers = new []{ httpHandler, anotherHandler };
 			var router = new DeliveryRouter (handlers);
 
-			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 
 			Assert.IsTrue (called);
 		}
@@ -34,13 +34,13 @@ namespace ReminderService.Core.Tests
 		[ExpectedException(typeof(NotSupportedException))]
 		public void should_throw_if_no_handler_is_available()
 		{
-			Func<ReminderMessage.DueReminderNotCanceled, bool> anotherHandler = (due) => {
+			Func<ReminderMessage.Due, bool> anotherHandler = (due) => {
 				return false;
 			};
 			var handlers = new []{ anotherHandler };
 			var router = new DeliveryRouter (handlers);
 
-			router.Handle (new ReminderMessage.DueReminderNotCanceled(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
 		}
 	}
 
