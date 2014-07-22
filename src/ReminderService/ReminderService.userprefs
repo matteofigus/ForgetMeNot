@@ -1,22 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NancyTestProject/SampleModule.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs">
     <Files>
-      <File FileName="NancyTestProject.Tests/Test.cs" Line="41" Column="16" />
-      <File FileName="NancyTestProject/SampleModule.cs" Line="25" Column="7" />
-      <File FileName="ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs" Line="40" Column="1" />
-      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="4" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs" Line="15" Column="9" />
+      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="33" Column="1" />
+      <File FileName="ReminderService.API.HTTP/ErrorHandling/ErrorResponse.cs" Line="17" Column="4" />
+      <File FileName="ReminderService.API.HTTP/BootStrapper.cs" Line="18" Column="4" />
+      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="17" Column="32" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="NancyTestProject.Tests" expanded="True">
-            <Node name="NancySampleProject" expanded="True">
-              <Node name="Test" expanded="True">
-                <Node name="TestPost" selected="True" />
-              </Node>
-            </Node>
-          </Node>
+          <Node name="ReminderService.API.HTTP.Tests" selected="True" />
         </State>
       </Pad>
     </Pads>
@@ -48,7 +43,26 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/PolymorphicRouting.cs" line="22" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/PolymorphicRouting.cs" line="51" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/Helpers/GivenABusInstance.cs" line="37" column="5" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/NancyTestProject/SampleModule.cs" line="34" column="10" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/NancyTestProject/SampleModule.cs" line="35" column="10" />
+      <Catchpoint exceptionName="Nancy.Bootstrapper.BootstrapperException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.Bootstrapper.MultipleRootPathProvidersLocatedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ErrorHandling.RouteExecutionEarlyExitException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ModelBinding.ModelBindingException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ModelBinding.PropertyBindingException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.RequestExecutionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.Security.CsrfValidationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCAutoRegistrationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCConstructorResolutionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCRegistrationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCRegistrationTypeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCResolutionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.TinyIoc.TinyIoCWeakReferenceException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.Validation.ModelValidationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ViewEngines.AmbiguousViewsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ViewEngines.Razor.ViewRenderException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Nancy.ViewEngines.ViewNotFoundException" includeSubclasses="True" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="33" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs" line="35" column="6" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

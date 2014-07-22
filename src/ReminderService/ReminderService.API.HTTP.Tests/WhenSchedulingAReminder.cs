@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 using Nancy;
 using Nancy.Testing;
@@ -47,10 +48,10 @@ namespace ReminderService.API.HTTP.Tests
 			// When
 			var requestBody = new ReminderMessage.Schedule (
 				                  "deliveryurl",
-								  "deadletterurl",
+				                  "deadletterurl",
 				                  "application/json",
 				                  DateTime.Now.AddDays (1),
-				                  new byte[0]
+				                  Encoding.UTF8.GetBytes ("payload")
 			                  );
 			var result = browser.Post("/reminders", with => {
 				with.JsonBody(requestBody);
@@ -58,6 +59,8 @@ namespace ReminderService.API.HTTP.Tests
 
 			// Then
 			Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
+			var responseBody = result.Body.DeserializeJson<ReminderMessage.ScheduledResponse>();
+			Assert.AreNotEqual (Guid.Empty, responseBody.ReminderId);
 		}
 	}
 }
