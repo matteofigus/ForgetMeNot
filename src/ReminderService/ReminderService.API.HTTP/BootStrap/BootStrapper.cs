@@ -2,7 +2,7 @@
 using Nancy;
 using log4net;
 
-namespace ReminderService.API.HTTP
+namespace ReminderService.API.HTTP.BooStrap
 {
 	public class Bootstrapper : DefaultNancyBootstrapper
 	{

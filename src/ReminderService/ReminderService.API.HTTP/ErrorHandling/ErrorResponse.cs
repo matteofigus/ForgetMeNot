@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 
 namespace ReminderService.API.HTTP
 {
+	// Credit Due: based this article http://paulstovell.com/blog/consistent-error-handling-with-nancy
+
 	public class ErrorResponse : JsonResponse
 	{
 		private readonly Error error;
