@@ -69,6 +69,7 @@
     <Compile Include="DeliverReminder\DeliveryRouter.cs" />
     <Compile Include="DeliverReminder\HTTPDelivery.cs" />
     <Compile Include="DeliverReminder\AmqpDelivery.cs" />
+    <Compile Include="Peristence\InMemoryJournaler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

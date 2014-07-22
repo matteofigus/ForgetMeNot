@@ -77,6 +77,8 @@
     <Compile Include="Validation\ScheduleReminderRequestValidator.cs" />
     <Compile Include="ErrorHandling\ErrorResponse.cs" />
     <Compile Include="BootStrap\BootStrapper.cs" />
+    <Compile Include="BootStrap\BusFactory.cs" />
+    <Compile Include="BootStrap\IBusFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -91,6 +93,10 @@
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">
       <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
       <Name>ReminderService.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
+      <Project>{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}</Project>
+      <Name>ReminderService.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
