@@ -82,6 +82,7 @@
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\TestPayload.cs" />
     <Compile Include="Helpers\RoutableTestBase.cs" />
+    <Compile Include="Helpers\FakeConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

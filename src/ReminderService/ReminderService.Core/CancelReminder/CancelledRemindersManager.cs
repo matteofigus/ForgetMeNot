@@ -13,18 +13,19 @@ namespace ReminderService.Core
 		IConsume<ReminderMessage.Due>
 	{
 		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
-		private readonly IBus _bus;
+		private readonly IConsume<ReminderMessage.Due> _innerHandler;
 		private readonly ILog Logger = LogManager.GetLogger(typeof(CancelledRemindersManager));
 
-		public CancelledRemindersManager (IBus bus)
+		public CancelledRemindersManager (IConsume<ReminderMessage.Due> innerHandler)
 		{
 			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.Cancel> (
 				               c => c.ReminderId.GetHashCode (),
 				               (x, y) => x.ReminderId == y.ReminderId);
 			_cancellations = new HashSet<ReminderMessage.Cancel> (comparer);
-			Ensure.NotNull (bus, "bus");
 
-			_bus = bus;
+			Ensure.NotNull (innerHandler, "innerHandler");
+
+			_innerHandler = innerHandler;
 		}
 
 		public void Handle (ReminderMessage.Cancel msg)
@@ -40,7 +41,7 @@ namespace ReminderService.Core
 			var found = _cancellations.SingleOrDefault (x => x.ReminderId == due.ReminderId);
 
 			if (found == null)
-				_bus.Publish (ReminderMessage.DueReminderNotCanceled.CreateFrom (due));
+				_innerHandler.Handle (due);
 			else
 				_cancellations.Remove (found);
 				Logger.Info (string.Format("Cancelled Reminder [{0}] found and removed from cancellation list", due.ReminderId));

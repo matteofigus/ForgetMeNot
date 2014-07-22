@@ -11,12 +11,12 @@ using ReminderService.Core.Tests.Helpers;
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public class A_CancelledRemindersManager : RoutableTestBase, IConsume<ReminderMessage.DueReminderNotCanceled>
+	public class A_CancelledRemindersManager
 	{
 		[SetUp]
 		public void BeforeEach()
 		{
-			ClearReceived ();
+			_fakeConsumer.ClearReceived ();
 		}
 
 		[Test]
@@ -35,7 +35,7 @@ namespace ReminderService.Core.Tests
 			_cancellationManager.Handle (due);
 
 			//since the reminder has been cancelled, then the Due message will get blocked by the CancellationManager
-			Assert.AreEqual (0, Received.Count);
+			Assert.AreEqual (0, _fakeConsumer.Received.Count);
 		}
 
 		[Test]
@@ -47,7 +47,7 @@ namespace ReminderService.Core.Tests
 			_cancellationManager.Handle (new ReminderMessage.Cancel (cancelledReminderId));
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (1, Received.Count);
+			Assert.AreEqual (1, _fakeConsumer.Received.Count);
 		}
 
 		[Test]
@@ -58,7 +58,7 @@ namespace ReminderService.Core.Tests
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (0, Received.Count);
+			Assert.AreEqual (0, _fakeConsumer.Received.Count);
 		}
 
 		[Test]
@@ -71,22 +71,18 @@ namespace ReminderService.Core.Tests
 			//will handle this message the second time because it has been removed from the CancellationManagers internal list
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (1, Received.Count);
+			Assert.AreEqual (1, _fakeConsumer.Received.Count);
 		}
 
+		private readonly FakeConsumer<ReminderMessage.Due> _fakeConsumer;
 		private readonly FakeLogger _logger;
 		private readonly CancelledRemindersManager _cancellationManager;
 
 		public A_CancelledRemindersManager ()
 		{
 			_logger = new FakeLogger ();
-			_cancellationManager = new CancelledRemindersManager (Bus);
-			Subscribe (this);
-		}
-
-		public void Handle (ReminderMessage.DueReminderNotCanceled msg)
-		{
-			Received.Add (msg);
+			_fakeConsumer = new FakeConsumer<ReminderMessage.Due> ();
+			_cancellationManager = new CancelledRemindersManager (_fakeConsumer);
 		}
 	}
 }
