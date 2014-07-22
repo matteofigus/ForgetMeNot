@@ -10,11 +10,16 @@ namespace ReminderService.Messages
 		public class Schedule : IMessage
 		{
 			public Guid ReminderId { get; set; }
-			public string DeliveryUrl { get; private set; }
-			public string DeadLetterUrl { get; private set; } //messages will be sent here if delivery to the DeliveryUrl fails.
-			public string ContentType { get; private set; }
-			public DateTime TimeoutAt { get; private set; }
-			public byte[] Payload { get; private set; }
+			public string DeliveryUrl { get; set; }
+			public string DeadLetterUrl { get; set; } //messages will be sent here if delivery to the DeliveryUrl fails.
+			public string ContentType { get; set; }
+			public DateTime TimeoutAt { get; set; }
+			public byte[] Payload { get; set; }
+
+			public Schedule ()
+			{
+				//default constructor
+			}
 
 			public Schedule (string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{

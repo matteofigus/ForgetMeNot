@@ -8,17 +8,25 @@ namespace ReminderService.API.HTTP
 	{
 		private static readonly ILog Logger = LogManager.GetLogger("ReminderService.API.HTTP.Request");
 
-		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
+		protected override void RequestStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
 		{
-			//define a custom error handler that will log all errors that occur when invoking a route.
-			//keeps this noisy logging code (try-catch, etc...) out of the route handlers
-			pipelines.OnError += (ctx, e) => {
-				Logger.ErrorFormat("There was an error processing the request to {0}", ctx.Request.Url);
+			pipelines.OnError.AddItemToEndOfPipeline((z, a) =>
+				{
+					Logger.Error("Unhandled error on request: " + context.Request.Url + " : " + a.Message, a);
+					return ErrorResponse.FromException(a);
+				});
 
-				//do i need to return null here?
-				return null;
-			};
+			base.RequestStartup(container, pipelines, context);
 		}
+
+//		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
+//		{
+//			pipelines.OnError += (ctx, e) => {
+//				Logger.ErrorFormat("There was an error processing the request to {0}", ctx.Request.Url);
+//			};
+//
+//			base.ApplicationStartup (container, pipelines);
+//		}
 	}
 }
 

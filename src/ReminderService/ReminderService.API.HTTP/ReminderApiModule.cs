@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
@@ -24,18 +27,20 @@ namespace ReminderService.API.HTTP
 				return this.Response.AsText("your reminder...");
 			};
 
-			Post["/"] = x => {
+			Post["/"] = parameters => {
 				var model = this.Bind<ReminderMessage.Schedule>();
 				model.ReminderId = Guid.NewGuid();
 				var result = this.Validate(model);
 
 				if (!result.IsValid)
 				{
-					//return a 403 or something...
+					var errors = result.Errors.Values.SelectMany(ee => ee.Select(e => ErrorResponse.FromMessage(e.ErrorMessage)));
+					return Response.AsJson(errors, HttpStatusCode.BadRequest);
 				}
 					
 				//errors are handled by an application level error handler, no need to try-catch here...
 				_bus.Publish(model);
+
 				return this.Response.AsJson(
 					new ReminderMessage.ScheduledResponse{ReminderId = model.ReminderId},
 					HttpStatusCode.Created);
