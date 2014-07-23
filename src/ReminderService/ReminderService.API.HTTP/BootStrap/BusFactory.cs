@@ -21,7 +21,9 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe ((IConsume<SystemMessage.Start>)scheduler);
 			_bus.Subscribe ((IConsume<SystemMessage.ShutDown>)scheduler);
 
-
+			var cancellationFilter = GetCancellationsHandler ();
+			_bus.Subscribe ((IConsume<ReminderMessage.Due>)cancellationFilter);
+			_bus.Subscribe ((IConsume<ReminderMessage.Cancel>)cancellationFilter);
 
 			return _bus;
 		}
@@ -39,7 +41,9 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public CancelledRemindersManager GetCancellationsHandler()
 		{
-			return null;
+			var router = new DeliveryRouter (new [] { ReminderDeliveryFactory.HttpHandler });
+			var cancellationFilter = new CancelledRemindersManager (router);
+			return cancellationFilter;
 		}
 
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using Nancy;
 using log4net;
+using ReminderService.Router;
+using ReminderService.API.HTTP.BootStrap;
 
 namespace ReminderService.API.HTTP.BooStrap
 {
@@ -19,14 +21,16 @@ namespace ReminderService.API.HTTP.BooStrap
 			base.RequestStartup(container, pipelines, context);
 		}
 
-//		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
-//		{
-//			pipelines.OnError += (ctx, e) => {
-//				Logger.ErrorFormat("There was an error processing the request to {0}", ctx.Request.Url);
-//			};
-//
-//			base.ApplicationStartup (container, pipelines);
-//		}
+
+		protected override void ConfigureApplicationContainer (Nancy.TinyIoc.TinyIoCContainer container)
+		{
+			base.ConfigureApplicationContainer (container);
+
+			var instance = (Bus)container.Resolve<IBusFactory> ().Build ();
+			container
+				.Register<IBus, Bus> (instance)
+				.AsSingleton();
+		}
 	}
 }
 
