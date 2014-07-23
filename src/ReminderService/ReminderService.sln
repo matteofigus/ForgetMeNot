@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Core", "Rem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Core.Tests", "ReminderService.Core.Tests\ReminderService.Core.Tests.csproj", "{7386CC41-3A17-4131-A961-2904147E03EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Test.Common", "ReminderService.Test.Common\ReminderService.Test.Common.csproj", "{6096A7F3-7A97-48AF-B816-77BAEAF143E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{5F9F098A-A02A-40C3-9C99-15B50069B81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F9F098A-A02A-40C3-9C99-15B50069B81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F9F098A-A02A-40C3-9C99-15B50069B81C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -8,6 +8,9 @@ using Nancy.Testing;
 using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.API.HTTP.BootStrap;
+using ReminderService.Core.DeliverReminder;
+using ReminderService.Test.Common;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -43,12 +46,6 @@ namespace ReminderService.API.HTTP.Tests
 		public void Should_return_a_reminderId ()
 		{
 			// Given
-//			var browser = new Browser(
-//				with => {
-//					with.Module<ReminderApiModule>();
-//					with.EnableAutoRegistration();
-//				}
-//			);
 			var browser = new Browser (new BootStrapper());
 
 			// When
@@ -67,6 +64,35 @@ namespace ReminderService.API.HTTP.Tests
 			Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
 			var responseBody = result.Body.DeserializeJson<ReminderMessage.ScheduledResponse>();
 			Assert.AreNotEqual (Guid.Empty, responseBody.ReminderId);
+		}
+
+		[Test]
+		public void should_deliver_the_payload_when_due()
+		{
+			var now = SystemTime.FreezeTime ();
+			var fakeRestClient = new FakeRestClient (new []{ new RestResponse{ StatusCode = System.Net.HttpStatusCode.Created } });
+			var browser = new Browser (new BootStrapper());
+
+			// When
+			var requestBody = new ReminderMessage.Schedule (
+				"deliveryurl",
+				"deadletterurl",
+				"application/json",
+				now.AddMinutes (1),
+				Encoding.UTF8.GetBytes ("payload")
+			);
+			var result = browser.Post("/reminders", with => {
+				with.JsonBody(requestBody);
+			});
+
+			// Then
+			Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
+			var responseBody = result.Body.DeserializeJson<ReminderMessage.ScheduledResponse>();
+			Assert.AreNotEqual (Guid.Empty, responseBody.ReminderId);
+
+			//advance time to trigger the reminder
+			SystemTime.Set (now.AddMinutes (1));
+			Assert.IsNotNull (fakeRestClient.LastRequest);
 		}
 	}
 }

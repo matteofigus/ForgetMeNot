@@ -9,18 +9,13 @@ using ReminderService.Messages;
 using ReminderService.Router;
 using ReminderService.Core.Tests.Helpers;
 using RestSharp;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests
 {
 	[TestFixture]
-	public class An_HttpPublisher : RoutableTestBase, IConsume<ReminderMessage.Sent>
+	public class An_HttpPublisher
 	{
-		[SetUp]
-		public void BeforeEach()
-		{
-			ClearReceived ();
-		}
-
 		[Test]
 		public void should_send_reminders_to_the_DeliveryUrl ()
 		{
@@ -32,14 +27,13 @@ namespace ReminderService.Core.Tests
 					Guid.NewGuid (), "http://delivery/url", "deadletterurl","content", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient);
 
 			//act
 			publisher.Send (due);
 
 			//assert
-			Assert.AreEqual (1, Received.Count);
-			Assert.IsInstanceOfType(typeof(ReminderMessage.Sent), Received.First());
+			Assert.NotNull (fakeClient.LastRequest);
 			Assert.AreEqual ("http://delivery/url", fakeClient.LastRequest.Resource);
 		}
 
@@ -55,7 +49,7 @@ namespace ReminderService.Core.Tests
 			var firstResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var secondResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {firstResponse, secondResponse});
-			var publisher = new HTTPDelivery (fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient);
 
 			//act
 			publisher.Send (due);
@@ -76,20 +70,10 @@ namespace ReminderService.Core.Tests
 					Guid.NewGuid (), "http://delivery/url", "http://deadletter/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (fakeClient, Bus);
+			var publisher = new HTTPDelivery (fakeClient);
 
 			//act
 			publisher.Send (due);
-		}
-
-		public An_HttpPublisher ()
-		{
-			Subscribe (this);
-		}
-
-		public void Handle (ReminderMessage.Sent msg)
-		{
-			Received.Add (msg);
 		}
 	}
 }

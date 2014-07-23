@@ -15,11 +15,18 @@ namespace ReminderService.Common
         {
             _setTime = toSet;
         }
+
         public static DateTime Now()
         {
             if (_setTime == DateTime.MinValue)
                 return DateTime.Now;
             return _setTime;
         }
+
+		public static DateTime FreezeTime()
+		{
+			Set (Now ());
+			return Now ();
+		}
     }
 }

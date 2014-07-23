@@ -4,45 +4,38 @@ using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
+using RestSharp;
 
 namespace ReminderService.Core.Tests
 {
 	[TestFixture ()]
-	public class When_routing_reminders_to_publish
+	public class When_routing_reminders__that_are_due
 	{
 		[Test ()]
 		public void should_route_the_reminder_to_the_correct_handler ()
 		{
-			var called = false;
-			Func<ReminderMessage.Due, bool> httpHandler = (due) => {
-				called = true;
-				return true;
-			};
-			Func<ReminderMessage.Due, bool> anotherHandler = (due) => {
-				Assert.Fail();
-				return true;
-			};
-			var handlers = new []{ httpHandler, anotherHandler };
-			var router = new DeliveryRouter (handlers);
+			var dueReminder = new ReminderMessage.Due (Guid.NewGuid (), "http://delivery/url", "", "", DateTime.Now, new byte[0]);
+			var router = new DeliveryRouter ();
+			router.AddHandler (DeliveryTransport.HTTP, new FakeDelivery((due) => {
+				Assert.AreSame(dueReminder, due);
+			}));
+			router.AddHandler (DeliveryTransport.None, null);
 
-			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
-
-			Assert.IsTrue (called);
+			router.Handle (dueReminder);
 		}
 
 		[Test]
 		[ExpectedException(typeof(NotSupportedException))]
 		public void should_throw_if_no_handler_is_available()
 		{
-			Func<ReminderMessage.Due, bool> anotherHandler = (due) => {
-				return false;
-			};
-			var handlers = new []{ anotherHandler };
-			var router = new DeliveryRouter (handlers);
+			var fakeRestClient = new FakeRestClient (new []{ new RestResponse () });
+			var router = new DeliveryRouter ();
+			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient));
+			router.AddHandler (DeliveryTransport.None, null);
 
-			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "", "", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "rabbit://queue/name", "", "", DateTime.Now, new byte[0]));
 		}
 	}
-
 }
 

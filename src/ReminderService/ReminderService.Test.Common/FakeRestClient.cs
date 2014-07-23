@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using RestSharp;
 
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Test.Common
 {
 	public class FakeRestClient : IRestClient
 	{

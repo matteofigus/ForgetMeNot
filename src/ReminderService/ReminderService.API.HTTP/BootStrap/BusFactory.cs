@@ -4,6 +4,7 @@ using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Router;
 using ReminderService.Messages;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -43,12 +44,12 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public CancelledRemindersManager GetCancellationsHandler()
 		{
-			var router = new DeliveryRouter (new [] { ReminderDeliveryFactory.HttpHandler });
+			var httpDelivery = new HTTPDelivery (new RestClient());
+			var router = new DeliveryRouter ();
+			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			var cancellationFilter = new CancelledRemindersManager (router);
 			return cancellationFilter;
 		}
-
-
 	}
 }
 

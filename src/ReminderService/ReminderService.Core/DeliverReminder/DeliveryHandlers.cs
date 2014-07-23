@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace ReminderService.Core.DeliverReminder
 {
-	public static class ReminderDeliveryFactory
+	public static class DeliveryHandlers
 	{
 		private static Func<HTTPDelivery> _httpInstanceFactory = () => {
 			return null;

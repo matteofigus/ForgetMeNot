@@ -8,26 +8,22 @@ using log4net;
 
 namespace ReminderService.Core.DeliverReminder
 {
-	public class HTTPDelivery
+	public class HTTPDelivery : IDeliverReminders
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(HTTPDelivery));
 		private readonly IRestClient _restClient;
-		private readonly IBus _bus;
 
-		public HTTPDelivery (IRestClient restClient, IBus bus)
+		public HTTPDelivery (IRestClient restClient)
 		{
 			Ensure.NotNull (restClient, "restClient");
-			Ensure.NotNull (bus, "bus");
 
 			_restClient = restClient;
-			_bus = bus;
 		}
 
 		public void Send(ReminderMessage.Due dueReminder)
 		{
 			Deliver(dueReminder, dueReminder.DeliveryUrl,
-				(success) => {
-					_bus.Publish(dueReminder.AsSent());},
+				(success) => {},
 				(failed) => {
 					//failed, try sending to dead message url
 					Deliver(dueReminder, dueReminder.DeadLetterUrl,

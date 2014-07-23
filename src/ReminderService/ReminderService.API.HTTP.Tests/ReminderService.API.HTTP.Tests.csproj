@@ -48,6 +48,9 @@
       <HintPath>..\packages\Nancy.Serialization.JsonNet.0.23.2\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WhenSchedulingAReminder.cs" />
@@ -78,6 +81,10 @@
     <ProjectReference Include="..\PriorityQueue\ReminderService.DataStructures.csproj">
       <Project>{B9E7FF0E-B1BD-4882-BF20-2DEA75248E47}</Project>
       <Name>ReminderService.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Test.Common\ReminderService.Test.Common.csproj">
+      <Project>{6096A7F3-7A97-48AF-B816-77BAEAF143E1}</Project>
+      <Name>ReminderService.Test.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
