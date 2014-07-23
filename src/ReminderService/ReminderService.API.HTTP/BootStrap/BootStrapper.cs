@@ -4,9 +4,9 @@ using log4net;
 using ReminderService.Router;
 using ReminderService.API.HTTP.BootStrap;
 
-namespace ReminderService.API.HTTP.BooStrap
+namespace ReminderService.API.HTTP.BootStrap
 {
-	public class Bootstrapper : DefaultNancyBootstrapper
+	public class BootStrapper : DefaultNancyBootstrapper
 	{
 		private static readonly ILog Logger = LogManager.GetLogger("ReminderService.API.HTTP.Request");
 
@@ -28,8 +28,7 @@ namespace ReminderService.API.HTTP.BooStrap
 
 			var instance = (Bus)container.Resolve<IBusFactory> ().Build ();
 			container
-				.Register<IBus, Bus> (instance)
-				.AsSingleton();
+				.Register<IBus, Bus> (instance);
 		}
 	}
 }

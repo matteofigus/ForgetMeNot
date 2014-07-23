@@ -7,6 +7,7 @@ using Nancy;
 using Nancy.Testing;
 using ReminderService.Common;
 using ReminderService.Messages;
+using ReminderService.API.HTTP.BootStrap;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -42,8 +43,13 @@ namespace ReminderService.API.HTTP.Tests
 		public void Should_return_a_reminderId ()
 		{
 			// Given
-			var bootstrapper = new DefaultNancyBootstrapper();
-			var browser = new Browser(bootstrapper);
+//			var browser = new Browser(
+//				with => {
+//					with.Module<ReminderApiModule>();
+//					with.EnableAutoRegistration();
+//				}
+//			);
+			var browser = new Browser (new BootStrapper());
 
 			// When
 			var requestBody = new ReminderMessage.Schedule (

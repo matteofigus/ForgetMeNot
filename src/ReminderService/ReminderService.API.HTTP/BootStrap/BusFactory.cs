@@ -14,16 +14,18 @@ namespace ReminderService.API.HTTP.BootStrap
 		public IBus Build()
 		{
 			_bus = new Bus ();
-			_bus.Subscribe (GetJournaler ());
+
+			var journaler = GetJournaler ();
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
 
 			var scheduler = GetScheduler ();
-			_bus.Subscribe ((IConsume<ReminderMessage.Schedule>)scheduler);
-			_bus.Subscribe ((IConsume<SystemMessage.Start>)scheduler);
-			_bus.Subscribe ((IConsume<SystemMessage.ShutDown>)scheduler);
+			_bus.Subscribe (scheduler as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
+			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
+			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 
 			var cancellationFilter = GetCancellationsHandler ();
-			_bus.Subscribe ((IConsume<ReminderMessage.Due>)cancellationFilter);
-			_bus.Subscribe ((IConsume<ReminderMessage.Cancel>)cancellationFilter);
+			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
+			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Cancel>);
 
 			return _bus;
 		}
