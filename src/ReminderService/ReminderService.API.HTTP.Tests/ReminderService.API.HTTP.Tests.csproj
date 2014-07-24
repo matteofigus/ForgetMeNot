@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="WhenSchedulingAReminder.cs" />
     <Compile Include="TestBootStrapper.cs" />
+    <Compile Include="BusFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -89,5 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BootStrap\" />
   </ItemGroup>
 </Project>

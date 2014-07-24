@@ -7,6 +7,7 @@ using ReminderService.Router;
 using ReminderService.Core;
 using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests
 {
@@ -60,27 +61,6 @@ namespace ReminderService.Core.Tests
 		{
 			SystemTime.Set (atTime);
 			_timer.Fire ();
-		}
-	}
-
-	public class TestTimer : ITimer
-	{
-		private Action _callback;
-
-		public void FiresIn (int milliseconds, Action callback)
-		{
-			_callback = callback;
-		}
-
-		public void Fire()
-		{
-			if (_callback != null)
-				_callback.Invoke ();
-		}
-
-		public void Dispose ()
-		{
-			//nothing to do...
 		}
 	}
 }

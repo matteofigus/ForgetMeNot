@@ -36,8 +36,15 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="FakeRestClient.cs" />
+    <Compile Include="TestTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
+      <Project>{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}</Project>
+      <Name>ReminderService.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
