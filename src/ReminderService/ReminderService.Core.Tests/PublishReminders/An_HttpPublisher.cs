@@ -33,7 +33,7 @@ namespace ReminderService.Core.Tests
 			publisher.Send (due);
 
 			//assert
-			Assert.NotNull (fakeClient.LastRequest);
+			Assert.IsNotNull (fakeClient.LastRequest);
 			Assert.AreEqual ("http://delivery/url", fakeClient.LastRequest.Resource);
 		}
 

@@ -62,7 +62,7 @@ namespace ReminderService.Core.ScheduleReminder
 			if (_running > 0 && !_pq.IsEmpty)
 			{
 				var nextTimeoutAt = _pq.Min ().TimeoutAt;
-				var timeToNext = nextTimeoutAt.Subtract(SystemTime.Now()).Milliseconds;
+				var timeToNext = Convert.ToInt32 (nextTimeoutAt.Subtract (SystemTime.Now ()).TotalMilliseconds); //Int32.MaxValue in milliseconds is about 68 years! Hopefully nobody is going to schedule something that far in the future
 				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);
 			}

@@ -44,6 +44,7 @@
     <Compile Include="Ensure.cs" />
     <Compile Include="ReminderUndeliverableException.cs" />
     <Compile Include="IMessage.cs" />
+    <Compile Include="TimeExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

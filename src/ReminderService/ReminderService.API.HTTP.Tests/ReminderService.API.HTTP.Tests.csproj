@@ -56,6 +56,8 @@
     <Compile Include="WhenSchedulingAReminder.cs" />
     <Compile Include="TestBootStrapper.cs" />
     <Compile Include="BusFactory.cs" />
+    <Compile Include="ServiceSpec.cs" />
+    <Compile Include="SchedulingAReminder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
