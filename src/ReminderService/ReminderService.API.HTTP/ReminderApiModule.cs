@@ -27,6 +27,7 @@ namespace ReminderService.API.HTTP
 				return this.Response.AsText("your reminder...");
 			};
 
+			// Schedule a reminder
 			Post["/"] = parameters => {
 				var model = this.Bind<ReminderMessage.Schedule>();
 				model.ReminderId = Guid.NewGuid();
@@ -49,11 +50,21 @@ namespace ReminderService.API.HTTP
 				return res;
 			};
 
-
-
+			// Cancel a reminder
 			Delete ["/{reminderId}"] = parameters => {
-				//cancel a reminder
-				return 200;
+				Guid reminderId;
+				Guid.TryParse(parameters.reminderId, out reminderId);
+				if(reminderId == null) {
+					return Response.AsJson(
+						ErrorResponse.FromMessage(
+							string.Format("ReminderId [{0}] is not valid.", reminderId)), HttpStatusCode.BadRequest);
+				}
+
+				//do we need to make sure that the reminderId exists and fail if it doesn't?
+				//or can we just ignore the fact that the reminder does not exist?
+				_bus.Publish(new ReminderMessage.Cancel(reminderId));
+
+				return HttpStatusCode.NoContent;
 			};
 		}
 	}

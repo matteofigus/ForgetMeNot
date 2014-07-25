@@ -49,6 +49,11 @@ namespace ReminderService.API.HTTP.Tests
 			});
 		}
 
+		protected void DELETE(string url, Guid reminderId)
+		{
+			_response = _service.Delete(url + "/" + reminderId.ToString());
+		}
+
 		protected void SetHttpClientResponse(IRestResponse response)
 		{
 			_restResponse = response;
