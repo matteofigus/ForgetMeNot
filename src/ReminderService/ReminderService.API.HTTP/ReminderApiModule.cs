@@ -54,7 +54,7 @@ namespace ReminderService.API.HTTP
 			Delete ["/{reminderId}"] = parameters => {
 				Guid reminderId;
 				Guid.TryParse(parameters.reminderId, out reminderId);
-				if(reminderId == null) {
+				if(reminderId == null || reminderId == Guid.Empty) {
 					return Response.AsJson(
 						ErrorResponse.FromMessage(
 							string.Format("ReminderId [{0}] is not valid.", reminderId)), HttpStatusCode.BadRequest);
