@@ -17,7 +17,7 @@ using ReminderService.Router;
 namespace ReminderService.API.HTTP.Tests
 {
 	[TestFixture ()]
-	public class WhenSchedulingAReminder
+	public class When_a_request_is_not_valid
 	{
 		[Test]
 		public void Should_return_a_400_when_the_request_is_not_valid()

@@ -9,12 +9,13 @@ using System.Text;
 
 namespace ReminderService.API.HTTP.Tests
 {
-	public class SchedulingAReminder : ServiceSpec<ReminderApiModule>
+	public class When_scheduling_a_reminder : ServiceSpec<ReminderApiModule>
 	{
 		[SetUp]
 		public void when_scheduling_a_reminder()
 		{
 			FreezeTime ();
+
 			var scheduleRequest = new ReminderMessage.Schedule (
 				"http://delivery",
 				"http://deadletter",
@@ -40,6 +41,8 @@ namespace ReminderService.API.HTTP.Tests
 			AdvanceTimeBy (2.Hours());
 			FireScheduler ();
 			Assert.IsNotNull (DeliveryRequest);
+			Assert.AreEqual ("http://delivery", DeliveryRequest.Resource);
+			//hmmm, how to get the payload from the request that was made by the HTTPDelivery component?
 		}
 	}
 }
