@@ -17,10 +17,10 @@ using ReminderService.Router;
 namespace ReminderService.API.HTTP.Tests
 {
 	[TestFixture ()]
-	public class When_a_request_is_not_valid
+	public class When_a_schedule_request_is_not_valid
 	{
 		[Test]
-		public void Should_return_a_400_when_the_request_is_not_valid()
+		public void Should_return_a_400()
 		{
 			// Given
 			var bootstrapper = new DefaultNancyBootstrapper();

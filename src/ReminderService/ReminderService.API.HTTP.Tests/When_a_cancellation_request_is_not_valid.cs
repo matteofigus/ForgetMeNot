@@ -14,7 +14,7 @@ namespace ReminderService.API.HTTP.Tests
 		}
 
 		[Test]
-		public void Should_404()
+		public void Should_400()
 		{
 			Assert.AreEqual (HttpStatusCode.BadRequest, Response.StatusCode);
 			Assert.IsTrue (
