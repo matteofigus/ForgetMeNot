@@ -8,7 +8,7 @@ using ReminderService.Messages;
 using OpenTable.Services.Components.Logging;
 using ReminderService.Core.Tests.Helpers;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.CancelReminder
 {
 	[TestFixture]
 	public class A_CancelledRemindersManager

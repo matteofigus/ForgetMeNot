@@ -4,7 +4,7 @@ using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Router;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.ScheduleReminder
 {
 	[TestFixture]
 	public class When_not_started : Scheduler_Spec

@@ -7,7 +7,7 @@ using ReminderService.Core.Tests.Helpers;
 using ReminderService.Test.Common;
 using RestSharp;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.PublishReminders
 {
 	[TestFixture ()]
 	public class When_routing_reminders__that_are_due

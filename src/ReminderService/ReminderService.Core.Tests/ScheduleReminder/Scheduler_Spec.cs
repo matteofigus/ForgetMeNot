@@ -9,7 +9,7 @@ using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.Tests.Helpers;
 using ReminderService.Test.Common;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.ScheduleReminder
 {
 	[TestFixture]
 	public abstract class Scheduler_Spec : RoutableTestBase, IConsume<ReminderMessage.Due>

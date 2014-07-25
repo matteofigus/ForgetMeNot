@@ -11,7 +11,7 @@ using ReminderService.Core.Tests.Helpers;
 using RestSharp;
 using ReminderService.Test.Common;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.PublishReminders
 {
 	[TestFixture]
 	public class An_HttpPublisher

@@ -4,7 +4,7 @@ using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Router;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Core.Tests.ScheduleReminder
 {
 	[TestFixture ()]
 	public class Publishing_messages_as_they_become_due : Scheduler_Spec
