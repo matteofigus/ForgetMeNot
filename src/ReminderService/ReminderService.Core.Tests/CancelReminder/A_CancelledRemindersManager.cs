@@ -76,13 +76,13 @@ namespace ReminderService.Core.Tests
 
 		private readonly FakeConsumer<ReminderMessage.Due> _fakeConsumer;
 		private readonly FakeLogger _logger;
-		private readonly CancelledRemindersManager _cancellationManager;
+		private readonly CancellationFilter _cancellationManager;
 
 		public A_CancelledRemindersManager ()
 		{
 			_logger = new FakeLogger ();
 			_fakeConsumer = new FakeConsumer<ReminderMessage.Due> ();
-			_cancellationManager = new CancelledRemindersManager (_fakeConsumer);
+			_cancellationManager = new CancellationFilter (_fakeConsumer);
 		}
 	}
 }

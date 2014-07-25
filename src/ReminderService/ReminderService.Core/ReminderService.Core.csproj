@@ -64,12 +64,12 @@
     <Compile Include="ScheduleReminder\ITimer.cs" />
     <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
     <Compile Include="Peristence\IJournaler.cs" />
-    <Compile Include="CancelReminder\CancelledRemindersManager.cs" />
     <Compile Include="DeliverReminder\DeliveryRouter.cs" />
     <Compile Include="DeliverReminder\HTTPDelivery.cs" />
     <Compile Include="DeliverReminder\AmqpDelivery.cs" />
     <Compile Include="Peristence\InMemoryJournaler.cs" />
     <Compile Include="DeliverReminder\IDeliverReminders.cs" />
+    <Compile Include="CancelReminder\CancellationFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -71,7 +71,7 @@ namespace ReminderService.API.HTTP.Tests
 			return scheduler;
 		}
 
-		private CancelledRemindersManager GetCancellationsHandler()
+		private CancellationFilter GetCancellationsHandler()
 		{
 			var httpDelivery = new HTTPDelivery (_restClient);
 			var router = new DeliveryRouter ();
@@ -84,7 +84,7 @@ namespace ReminderService.API.HTTP.Tests
 				router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			}
 
-			var cancellationFilter = new CancelledRemindersManager (router);
+			var cancellationFilter = new CancellationFilter (router);
 			return cancellationFilter;
 		}
 			

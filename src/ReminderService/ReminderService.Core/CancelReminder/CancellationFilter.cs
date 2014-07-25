@@ -8,15 +8,15 @@ using log4net;
 
 namespace ReminderService.Core
 {
-	public class CancelledRemindersManager : 
+	public class CancellationFilter : 
 		IConsume<ReminderMessage.Cancel>, 
 		IConsume<ReminderMessage.Due>
 	{
 		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
 		private readonly IConsume<ReminderMessage.Due> _innerHandler;
-		private readonly ILog Logger = LogManager.GetLogger(typeof(CancelledRemindersManager));
+		private readonly ILog Logger = LogManager.GetLogger(typeof(CancellationFilter));
 
-		public CancelledRemindersManager (IConsume<ReminderMessage.Due> innerHandler)
+		public CancellationFilter (IConsume<ReminderMessage.Due> innerHandler)
 		{
 			var comparer = new ReminderMessage.EqualityComparer<ReminderMessage.Cancel> (
 				               c => c.ReminderId.GetHashCode (),

@@ -42,12 +42,12 @@ namespace ReminderService.API.HTTP.BootStrap
 			return scheduler;
 		}
 
-		public CancelledRemindersManager GetCancellationsHandler()
+		public CancellationFilter GetCancellationsHandler()
 		{
 			var httpDelivery = new HTTPDelivery (new RestClient());
 			var router = new DeliveryRouter ();
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
-			var cancellationFilter = new CancelledRemindersManager (router);
+			var cancellationFilter = new CancellationFilter (router);
 			return cancellationFilter;
 		}
 	}
