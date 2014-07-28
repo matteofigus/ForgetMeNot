@@ -7,6 +7,7 @@ using ReminderService.Router;
 using ReminderService.Messages;
 using OpenTable.Services.Components.Logging;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests.CancelReminder
 {
@@ -35,7 +36,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			_cancellationManager.Handle (due);
 
 			//since the reminder has been cancelled, then the Due message will get blocked by the CancellationManager
-			Assert.AreEqual (0, _fakeConsumer.Received.Count);
+			_fakeConsumer.Received.DoesNotContainAnyThing ();
 		}
 
 		[Test]
@@ -47,7 +48,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			_cancellationManager.Handle (new ReminderMessage.Cancel (cancelledReminderId));
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (1, _fakeConsumer.Received.Count);
+			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}
 
 		[Test]
@@ -58,7 +59,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (0, _fakeConsumer.Received.Count);
+			_fakeConsumer.Received.DoesNotContainAnyThing ();
 		}
 
 		[Test]
@@ -71,7 +72,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			//will handle this message the second time because it has been removed from the CancellationManagers internal list
 			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
 
-			Assert.AreEqual (1, _fakeConsumer.Received.Count);
+			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}
 
 		private readonly FakeConsumer<ReminderMessage.Due> _fakeConsumer;

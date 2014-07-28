@@ -17,6 +17,11 @@ namespace ReminderService.Test.Common
 			return collection.ContainsThisMany<TMessage>(0, predicate);
 		}
 
+		public static bool DoesNotContainAnyThing (this IEnumerable<object> collection)
+		{
+			return !collection.Any ();
+		}
+
 		public static bool ContainsOne<TMessage>(this IEnumerable<object> collection)
 		{
 			return collection.ContainsOne<TMessage>(v => true);
