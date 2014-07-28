@@ -18,6 +18,8 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Cancel>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Sent>);
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
@@ -45,7 +47,7 @@ namespace ReminderService.API.HTTP.BootStrap
 		public CancellationFilter GetCancellationsHandler()
 		{
 			var httpDelivery = new HTTPDelivery (new RestClient());
-			var router = new DeliveryRouter ();
+			var router = new DeliveryRouter (_bus);
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			var cancellationFilter = new CancellationFilter (router);
 			return cancellationFilter;

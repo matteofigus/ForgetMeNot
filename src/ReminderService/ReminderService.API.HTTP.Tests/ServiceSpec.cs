@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using Nancy.Testing;
 using Nancy;
 using RestSharp;
@@ -8,6 +9,7 @@ using ReminderService.Core.ScheduleReminder;
 using ReminderService.Router;
 using ReminderService.Messages;
 using ReminderService.Common;
+using ReminderService.Core;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -19,13 +21,16 @@ namespace ReminderService.API.HTTP.Tests
 		private IRestResponse _restResponse = new RestResponse{ StatusCode = System.Net.HttpStatusCode.Created, ResponseStatus = ResponseStatus.Completed };
 		private TestTimer _timer = new TestTimer();
 		private BrowserResponse _response;
+		private InMemoryJournaler _journaler;
 
 		[TestFixtureSetUp]
 		public void BeforeAll()
 		{
 			_restClient = new FakeRestClient (new []{ _restResponse });
+			_journaler = new InMemoryJournaler ();
 			var busFactory = new BusFactory ()
 				.WithRestClient (_restClient)
+				.WithJournaler (_journaler)
 				.WithTimer (_timer);
 
 			_service = new Browser (with => {
@@ -61,6 +66,10 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected IRestRequest DeliveryRequest{
 			get { return _restClient.LastRequest; }
+		}
+
+		protected IList<IMessage> JournaledMessages{
+			get { return _journaler.JournaledMessages; }
 		}
 
 		protected DateTime Now{

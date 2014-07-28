@@ -16,6 +16,7 @@ namespace ReminderService.API.HTTP.Tests
 		private Bus _bus;
 		private ITimer _timerInstance;
 		private IRestClient _restClient;
+		private IJournaler _journaler;
 		private bool _overrideDeliveryHandlers = false;
 		private List<Tuple<DeliveryTransport, IDeliverReminders>> _deliveryHandlers = new List<Tuple<DeliveryTransport, IDeliverReminders>> ();
 
@@ -33,11 +34,18 @@ namespace ReminderService.API.HTTP.Tests
 			return this;
 		}
 
-		public BusFactory WithDeliverHandler(DeliveryTransport transport, IDeliverReminders handler)
+		public BusFactory WithDeliveryHandler(DeliveryTransport transport, IDeliverReminders handler)
 		{
 			Ensure.NotNull(handler, "handler");
 			_deliveryHandlers.Add(Tuple.Create(transport, handler));
 			_overrideDeliveryHandlers = true;
+			return this;
+		}
+
+		public BusFactory WithJournaler(IJournaler journaler)
+		{
+			Ensure.NotNull (journaler, "journaler");
+			_journaler = journaler;
 			return this;
 		}
 
@@ -47,6 +55,8 @@ namespace ReminderService.API.HTTP.Tests
 
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Cancel>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Sent>);
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
@@ -62,7 +72,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		private Journaler GetJournaler()
 		{
-			return new Journaler (_bus, new InMemoryJournaler ());
+			return new Journaler (_bus, _journaler);
 		}
 
 		private Scheduler GetScheduler()
@@ -74,7 +84,7 @@ namespace ReminderService.API.HTTP.Tests
 		private CancellationFilter GetCancellationsHandler()
 		{
 			var httpDelivery = new HTTPDelivery (_restClient);
-			var router = new DeliveryRouter ();
+			var router = new DeliveryRouter (_bus);
 
 			if (_overrideDeliveryHandlers)
 				foreach (var handler in _deliveryHandlers) {

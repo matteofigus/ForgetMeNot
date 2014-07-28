@@ -17,11 +17,18 @@ namespace ReminderService.Core.DeliverReminder
 	public class DeliveryRouter : IConsume<ReminderMessage.Due>
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(DeliveryRouter));
+		private readonly IPublish _bus;
 		private readonly IDictionary<DeliveryTransport, IDeliverReminders> _handlers = new Dictionary<DeliveryTransport, IDeliverReminders> ();
 		private readonly Func<ReminderMessage.Due, DeliveryTransport, bool> _handlerSelector = 
 			(due, transport) => 
 				transport == DeliveryTransport.HTTP &&
 					due.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
+
+		public DeliveryRouter (IPublish bus)
+		{
+			Ensure.NotNull (bus, "bus");
+			_bus = bus;
+		}
 
 		public void AddHandler(DeliveryTransport transport, IDeliverReminders handler)
 		{
@@ -34,6 +41,7 @@ namespace ReminderService.Core.DeliverReminder
 			foreach (var handler in _handlers) {
 				if (_handlerSelector(msg, handler.Key)) {
 					handler.Value.Send (msg);
+					_bus.Publish (new ReminderMessage.Sent(msg.ReminderId, SystemTime.Now()));
 					return;
 				}
 			}

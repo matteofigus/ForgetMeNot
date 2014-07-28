@@ -2,6 +2,7 @@
 using System;
 using ReminderService.Messages;
 using ReminderService.Common;
+using ReminderService.Test.Common;
 using RestSharp;
 using Nancy;
 using Nancy.Testing;
@@ -11,7 +12,7 @@ namespace ReminderService.API.HTTP.Tests
 {
 	public class When_scheduling_a_reminder : ServiceSpec<ReminderApiModule>
 	{
-		[SetUp]
+		[TestFixtureSetUp]
 		public void when_scheduling_a_reminder()
 		{
 			FreezeTime ();
@@ -43,6 +44,13 @@ namespace ReminderService.API.HTTP.Tests
 			Assert.IsNotNull (DeliveryRequest);
 			Assert.AreEqual ("http://delivery", DeliveryRequest.Resource);
 			//hmmm, how to get the payload from the request that was made by the HTTPDelivery component?
+		}
+
+		[Test]
+		public void should_journal_messages()
+		{
+			Assert.IsTrue (JournaledMessages.ContainsOne<ReminderMessage.Schedule> ());
+			Assert.IsTrue (JournaledMessages.ContainsOne<ReminderMessage.Sent>());
 		}
 	}
 }

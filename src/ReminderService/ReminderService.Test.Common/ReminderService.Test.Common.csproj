@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="FakeRestClient.cs" />
     <Compile Include="TestTimer.cs" />
+    <Compile Include="CollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
