@@ -12,6 +12,7 @@ namespace ReminderService.API.HTTP
 			RuleFor (request => request.DeliveryUrl).NotEmpty ();
 			RuleFor (request => request.DeadLetterUrl).NotEmpty ();
 			RuleFor (request => request.Payload).NotEmpty ();
+			RuleFor (request => request.Payload).IsValidJson();
 			RuleFor (request => request.ContentType)
 				.NotEmpty ()
 				.Equal ("application/json")

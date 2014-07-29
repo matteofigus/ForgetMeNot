@@ -82,6 +82,8 @@
     <Compile Include="BootStrap\BootStrapper.cs" />
     <Compile Include="BootStrap\BusFactory.cs" />
     <Compile Include="BootStrap\IBusFactory.cs" />
+    <Compile Include="Validation\IsValidJsonValidator.cs" />
+    <Compile Include="Validation\Extensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

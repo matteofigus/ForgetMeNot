@@ -60,6 +60,7 @@
     <Compile Include="When_cancelling_a_reminder.cs" />
     <Compile Include="When_a_cancellation_request_is_not_valid.cs" />
     <Compile Include="When_a_schedule_request_is_not_valid.cs" />
+    <Compile Include="Validation\JsonValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -97,5 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BootStrap\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
 </Project>
