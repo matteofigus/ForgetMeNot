@@ -6,9 +6,9 @@ namespace ReminderService.Core
 {
 	public interface ICommandFactory
 	{
-		IDbCommand GetCancellations (DateTime since);
+		IDbCommand GetCancellationsCommand (DateTime since);
 
-		IDbCommand GetCurrentReminders ();
+		IDbCommand GetCurrentRemindersCommand ();
 
 		IDbCommand BuildWriteCommand<TMessage> (TMessage message) where TMessage : IMessage;
 	}

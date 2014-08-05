@@ -27,7 +27,7 @@ namespace ReminderService.Core.Persistence
 		public IObservable<T> Replay<T> (DateTime from)
 		{
 			return (IObservable<T>)_commandFactory
-				.GetCancellations (from)
+				.GetCancellationsCommand (from)
 				.ExecuteAsObservable (_cancellationMapper);
 		}
 

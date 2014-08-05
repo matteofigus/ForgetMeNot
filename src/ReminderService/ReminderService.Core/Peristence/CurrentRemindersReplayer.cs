@@ -25,7 +25,7 @@ namespace ReminderService.Core
 
 		public IObservable<T> Replay<T> (DateTime from)
 		{
-			return (IObservable<T>)_commandFactory.GetCurrentReminders ().ExecuteAsObservable (_reminderMapper);
+			return (IObservable<T>)_commandFactory.GetCurrentRemindersCommand ().ExecuteAsObservable (_reminderMapper);
 		}
 
 		public static Func<IDataReader, ReminderMessage.Schedule> ScheduleMap {

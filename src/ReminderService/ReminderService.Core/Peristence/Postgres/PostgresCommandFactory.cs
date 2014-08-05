@@ -9,8 +9,8 @@ namespace ReminderService.Core.Persistence.Postgres
 {
 	public class PostgresCommandFactory : ICommandFactory
 	{
-		const string GetCurrentRemindersText = "";
-		const string GetCancellationsText = "";
+		const string GetCurrentRemindersText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE";
+		const string GetCancellationsText = "SELECT reminder_id FROM public.reminders WHERE cancelled = FALSE AND due_time > ";
 		private readonly string _connectionString;
 		private readonly IDictionary<Type, Func<IMessage, NpgsqlCommand>> _commandSelector;
 
@@ -27,7 +27,7 @@ namespace ReminderService.Core.Persistence.Postgres
 				_commandSelector = commandSelector;
 		}
 
-		public IDbCommand GetCancellations (DateTime since)
+		public IDbCommand GetCancellationsCommand (DateTime since)
 		{
 			using (var connection = new NpgsqlConnection(_connectionString)) {
 				connection.Open ();
@@ -35,7 +35,7 @@ namespace ReminderService.Core.Persistence.Postgres
 			}
 		}
 
-		public IDbCommand GetCurrentReminders ()
+		public IDbCommand GetCurrentRemindersCommand ()
 		{
 			using (var connection = new NpgsqlConnection(_connectionString)) {
 				connection.Open ();
