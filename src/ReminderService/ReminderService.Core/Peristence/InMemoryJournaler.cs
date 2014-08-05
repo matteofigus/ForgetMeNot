@@ -6,7 +6,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core
 {
-	public class InMemoryJournaler : IJournaler
+	public class InMemoryJournaler : IJournalEvents
 	{
 		private readonly ConcurrentQueue<IMessage> _messages;
 

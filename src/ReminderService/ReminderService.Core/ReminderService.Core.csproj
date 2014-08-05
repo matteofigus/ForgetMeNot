@@ -56,6 +56,17 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,13 +74,22 @@
     <Compile Include="ScheduleReminder\Scheduler.cs" />
     <Compile Include="ScheduleReminder\ITimer.cs" />
     <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
-    <Compile Include="Peristence\IJournaler.cs" />
     <Compile Include="DeliverReminder\DeliveryRouter.cs" />
     <Compile Include="DeliverReminder\HTTPDelivery.cs" />
     <Compile Include="DeliverReminder\AmqpDelivery.cs" />
     <Compile Include="Peristence\InMemoryJournaler.cs" />
     <Compile Include="DeliverReminder\IDeliverReminders.cs" />
     <Compile Include="CancelReminder\CancellationFilter.cs" />
+    <Compile Include="Peristence\IReplayEvents.cs" />
+    <Compile Include="Peristence\RxExtensions.cs" />
+    <Compile Include="Peristence\CancellationReplayer.cs" />
+    <Compile Include="Peristence\ICommandFactory.cs" />
+    <Compile Include="Peristence\CurrentRemindersReplayer.cs" />
+    <Compile Include="Peristence\Postgres\PostgresCommandFactory.cs" />
+    <Compile Include="Peristence\IJournalEvents.cs" />
+    <Compile Include="Peristence\Postgres\PostgresJournaler.cs" />
+    <Compile Include="Peristence\Postgres\ExtensionMethods.cs" />
+    <Compile Include="Startup\SystemStartManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -77,6 +97,9 @@
     <Folder Include="CancelReminder\" />
     <Folder Include="Peristence\" />
     <Folder Include="DeliverReminder\" />
+    <Folder Include="Peristence\Postgres\" />
+    <Folder Include="Peristence\Postgres\Scripts\" />
+    <Folder Include="Startup\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

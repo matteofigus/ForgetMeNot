@@ -16,7 +16,7 @@ namespace ReminderService.API.HTTP.Tests
 		private Bus _bus;
 		private ITimer _timerInstance;
 		private IRestClient _restClient;
-		private IJournaler _journaler;
+		private IJournalEvents _journaler;
 		private bool _overrideDeliveryHandlers = false;
 		private List<Tuple<DeliveryTransport, IDeliverReminders>> _deliveryHandlers = new List<Tuple<DeliveryTransport, IDeliverReminders>> ();
 
@@ -42,7 +42,7 @@ namespace ReminderService.API.HTTP.Tests
 			return this;
 		}
 
-		public BusFactory WithJournaler(IJournaler journaler)
+		public BusFactory WithJournaler(IJournalEvents journaler)
 		{
 			Ensure.NotNull (journaler, "journaler");
 			_journaler = journaler;

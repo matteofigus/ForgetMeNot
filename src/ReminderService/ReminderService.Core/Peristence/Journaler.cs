@@ -20,10 +20,10 @@ namespace ReminderService.Core
 		// can delegate to an inner IBus instance for sending messages to subscribers?
 
 		private readonly IPublish _bus;
-		private readonly IJournaler _journaler;
+		private readonly IJournalEvents _journaler;
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Journaler));
 
-		public Journaler (IPublish bus, IJournaler journaler)
+		public Journaler (IPublish bus, IJournalEvents journaler)
 		{
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (journaler, "journaler");

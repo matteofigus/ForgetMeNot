@@ -60,6 +60,17 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Providers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,6 +78,9 @@
     <Folder Include="CancelReminder\" />
     <Folder Include="PublishReminders\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Persistence\" />
+    <Folder Include="Persistence\Postgres\" />
+    <Folder Include="Startup\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScheduleReminder\Scheduler_Spec.cs" />
@@ -84,6 +98,11 @@
     <Compile Include="Helpers\FakeConsumer.cs" />
     <Compile Include="Helpers\FakeDelivery.cs" />
     <Compile Include="Helpers\FakeBus.cs" />
+    <Compile Include="Persistence\ObservableTests.cs" />
+    <Compile Include="Persistence\Postgres\ExtenstionTests.cs" />
+    <Compile Include="Startup\FakeReplayer.cs" />
+    <Compile Include="Startup\OnSuccessfulStartUp.cs" />
+    <Compile Include="Startup\WhenAReplayFails.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

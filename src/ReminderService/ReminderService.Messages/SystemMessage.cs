@@ -10,6 +10,16 @@ namespace ReminderService.Messages
 			//empty!
 		}
 
+		public class BeginInitialization : IMessage
+		{
+			//empty
+		}
+
+		public class InitializationCompleted : IMessage
+		{
+			//empty
+		}
+
 		public class ShutDown : IMessage
 		{
 			//empty!

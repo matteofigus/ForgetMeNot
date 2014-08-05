@@ -1,0 +1,8 @@
+CREATE TABLE reminders (
+  reminder_id     char(36) CONSTRAINT primarykey PRIMARY KEY,
+  due_time        date NOT NULL,
+  message         json NOT NULL,
+  sent_time       date,
+  cancelled       boolean NOT NULL,
+  message_version integer NIT NULL
+)

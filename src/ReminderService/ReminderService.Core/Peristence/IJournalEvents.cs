@@ -3,7 +3,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core
 {
-	public interface IJournaler
+	public interface IJournalEvents
 	{
 		void Write(IMessage message);
 	}
