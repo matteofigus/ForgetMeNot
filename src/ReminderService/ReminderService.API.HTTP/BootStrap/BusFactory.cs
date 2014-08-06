@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using ReminderService.Core;
 using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.DeliverReminder;
@@ -8,11 +9,13 @@ using RestSharp;
 using ReminderService.Core.Startup;
 using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Postgres;
+using System.Collections.Generic;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
 	public class BusFactory : IBusFactory
 	{
+		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 		private Bus _bus;
 
 		public IBus Build()
@@ -61,8 +64,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public SystemStartManager GetStartupManager()
 		{
-			var connectionString = "connectionstring";
-			var commandFactory = new PostgresCommandFactory (connectionString);
+			var commandFactory = new PostgresCommandFactory ();
 			var replayers = new List<IReplayEvents> ();
 			replayers.Add (new CancellationReplayer (commandFactory));
 			replayers.Add (new CurrentRemindersReplayer(commandFactory));

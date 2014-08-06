@@ -29,6 +29,12 @@ namespace ReminderService.Messages
 				TimeoutAt = timeoutAt;
 				Payload = payload;
 			}
+
+			public Schedule (Guid reminderId, string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
+				: this(deliveryUrl, deadLetterUrl, contentType, timeoutAt, payload)
+			{
+				ReminderId = reminderId;
+			}
 		}
 
 		public class ScheduledResponse : IMessage

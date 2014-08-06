@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using Newtonsoft.Json;
+using ReminderService.Common;
 
 namespace ReminderService.Core
 {
@@ -19,6 +21,11 @@ namespace ReminderService.Core
 			}
 
 			return (T)raw;
+		}
+
+		public static string AsJson(this IMessage message)
+		{
+			return JsonConvert.SerializeObject (message);
 		}
 	}
 }

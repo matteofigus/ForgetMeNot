@@ -14,7 +14,7 @@ namespace ReminderService.API.HTTP
 	public class ReminderApiModule : NancyModule, IConsume<SystemMessage.InitializationCompleted>
 	{
 		private readonly IBus _bus;
-		private readonly bool _systemHasInitialized = false;
+		private bool _systemHasInitialized = false;
 
 		//todo: look at making the actions Async operations
 		public ReminderApiModule (IBus bus) 

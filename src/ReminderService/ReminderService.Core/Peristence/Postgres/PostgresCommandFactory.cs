@@ -11,16 +11,13 @@ namespace ReminderService.Core.Persistence.Postgres
 	{
 		const string GetCurrentRemindersText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE";
 		const string GetCancellationsText = "SELECT reminder_id FROM public.reminders WHERE cancelled = FALSE AND due_time > ";
-		private readonly string _connectionString;
+		const string WriteCancellationText = "";
+		const string WriteScheduleReminderText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, 1, '{3}')";
 		private readonly IDictionary<Type, Func<IMessage, NpgsqlCommand>> _commandSelector;
 
 		public PostgresCommandFactory (
-			string connectionString, 
 			IDictionary<Type, Func<IMessage, NpgsqlCommand>> commandSelector = null)
 		{
-			Ensure.NotNullOrEmpty (connectionString, "connectionString");
-			_connectionString = connectionString;
-
 			if (commandSelector == null)
 				_commandSelector = WriteCommandSelector;
 			else
@@ -29,51 +26,43 @@ namespace ReminderService.Core.Persistence.Postgres
 
 		public IDbCommand GetCancellationsCommand (DateTime since)
 		{
-			using (var connection = new NpgsqlConnection(_connectionString)) {
-				connection.Open ();
-				return new NpgsqlCommand (GetCancellationsText, connection);
-			}
+			return new NpgsqlCommand (GetCancellationsText);
 		}
 
 		public IDbCommand GetCurrentRemindersCommand ()
 		{
-			using (var connection = new NpgsqlConnection(_connectionString)) {
-				connection.Open ();
-				return new NpgsqlCommand (GetCurrentRemindersText, connection);
-			}
+			return new NpgsqlCommand (GetCurrentRemindersText);
 		}
 
 		public IDbCommand BuildWriteCommand<T> (T message) where T : IMessage
 		{
-			using (var connection = new NpgsqlConnection (_connectionString)) {
-				var command =  _commandSelector[typeof(T)](message);
-				command.Connection = connection;
-				connection.Open ();
-				return command;
-			}
+			var command =  _commandSelector[message.GetType()](message);
+			return command;
 		}
 
-		public static Dictionary<Type, Func<IMessage, NpgsqlCommand>> WriteCommandSelector {
+		private Dictionary<Type, Func<IMessage, NpgsqlCommand>> WriteCommandSelector {
 			get	{
 				var dic = new Dictionary<Type, Func<IMessage, NpgsqlCommand>> ();
-				dic.Add (typeof(ReminderMessage.Cancel), CancellationCommand );
-				dic.Add (typeof(ReminderMessage.Schedule), ScheduleCommand );
+				dic.Add (typeof(ReminderMessage.Cancel), WriteCancellationCommand );
+				dic.Add (typeof(ReminderMessage.Schedule), WriteScheduleCommand );
 				return dic;
 			}
 		}
 
-		public static Func<IMessage, NpgsqlCommand> CancellationCommand {
+		private Func<IMessage, NpgsqlCommand> WriteCancellationCommand {
 			get {
 				return (cancel) => {
-					return new NpgsqlCommand();
+						return new NpgsqlCommand(WriteCancellationText);
 				};
 			}
 		}
 
-		public static Func<IMessage, NpgsqlCommand> ScheduleCommand {
+		private Func<IMessage, NpgsqlCommand> WriteScheduleCommand {
 			get {
-				return (schedule) => {
-					return new NpgsqlCommand();
+				return (message) => {
+					var schedule = message as ReminderMessage.Schedule;
+						return new NpgsqlCommand(
+							string.Format(WriteScheduleReminderText, schedule.ReminderId, schedule.TimeoutAt, schedule.AsJson(), SystemTime.Now()));
 				};
 			}
 		}

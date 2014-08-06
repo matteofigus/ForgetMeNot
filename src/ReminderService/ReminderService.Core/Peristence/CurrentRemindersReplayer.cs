@@ -5,7 +5,7 @@ using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Npgsql;
 using System.Data;
 
-namespace ReminderService.Core
+namespace ReminderService.Core.Persistence
 {
 	public class CurrentRemindersReplayer : IReplayEvents
 	{
