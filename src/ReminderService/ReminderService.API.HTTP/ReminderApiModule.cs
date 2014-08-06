@@ -11,9 +11,10 @@ using ReminderService.Messages;
 
 namespace ReminderService.API.HTTP
 {
-	public class ReminderApiModule : NancyModule
+	public class ReminderApiModule : NancyModule, IConsume<SystemMessage.InitializationCompleted>
 	{
 		private readonly IBus _bus;
+		private readonly bool _systemHasInitialized = false;
 
 		//todo: look at making the actions Async operations
 		public ReminderApiModule (IBus bus) 
@@ -66,6 +67,11 @@ namespace ReminderService.API.HTTP
 
 				return HttpStatusCode.NoContent;
 			};
+		}
+
+		public void Handle (SystemMessage.InitializationCompleted msg)
+		{
+			_systemHasInitialized = true;
 		}
 	}
 }

@@ -4,6 +4,10 @@ using log4net;
 using ReminderService.Router;
 using ReminderService.API.HTTP.BootStrap;
 using ReminderService.Messages;
+using ReminderService.Core.Startup;
+using ReminderService.Core.Persistence;
+using System.Collections.Generic;
+using ReminderService.Core.Persistence.Postgres;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -16,7 +20,10 @@ namespace ReminderService.API.HTTP.BootStrap
 			base.ApplicationStartup (container, pipelines);
 
 			var bus = container.Resolve<IBus> ();
+
 			bus.Publish (new SystemMessage.Start());
+
+			//wait here for the SystemMessage.InititializationCompletedEvent ??
 		}
 
 		protected override void RequestStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
@@ -35,9 +42,8 @@ namespace ReminderService.API.HTTP.BootStrap
 		{
 			base.ConfigureApplicationContainer (container);
 
-			var instance = (Bus)container.Resolve<IBusFactory> ().Build ();
-			container
-				.Register<IBus, Bus> (instance);
+			var busInstance = (Bus)container.Resolve<IBusFactory> ().Build ();
+			container.Register<IBus, Bus> (busInstance);
 		}
 	}
 }

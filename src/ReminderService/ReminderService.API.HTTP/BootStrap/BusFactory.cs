@@ -5,6 +5,9 @@ using ReminderService.Core.DeliverReminder;
 using ReminderService.Router;
 using ReminderService.Messages;
 using RestSharp;
+using ReminderService.Core.Startup;
+using ReminderService.Core.Persistence;
+using ReminderService.Core.Persistence.Postgres;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -15,6 +18,9 @@ namespace ReminderService.API.HTTP.BootStrap
 		public IBus Build()
 		{
 			_bus = new Bus ();
+
+			var startupManager = GetStartupManager ();
+			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);
 
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
@@ -51,6 +57,16 @@ namespace ReminderService.API.HTTP.BootStrap
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			var cancellationFilter = new CancellationFilter (router);
 			return cancellationFilter;
+		}
+
+		public SystemStartManager GetStartupManager()
+		{
+			var connectionString = "connectionstring";
+			var commandFactory = new PostgresCommandFactory (connectionString);
+			var replayers = new List<IReplayEvents> ();
+			replayers.Add (new CancellationReplayer (commandFactory));
+			replayers.Add (new CurrentRemindersReplayer(commandFactory));
+			return new SystemStartManager (_bus, replayers);
 		}
 	}
 }
