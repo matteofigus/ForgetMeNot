@@ -84,14 +84,14 @@
     <Compile Include="CancelReminder\CancellationFilter.cs" />
     <Compile Include="Peristence\IReplayEvents.cs" />
     <Compile Include="Peristence\RxExtensions.cs" />
-    <Compile Include="Peristence\CancellationReplayer.cs" />
     <Compile Include="Peristence\ICommandFactory.cs" />
-    <Compile Include="Peristence\CurrentRemindersReplayer.cs" />
     <Compile Include="Peristence\Postgres\PostgresCommandFactory.cs" />
     <Compile Include="Peristence\IJournalEvents.cs" />
     <Compile Include="Peristence\Postgres\PostgresJournaler.cs" />
     <Compile Include="Peristence\Postgres\ExtensionMethods.cs" />
     <Compile Include="Startup\SystemStartManager.cs" />
+    <Compile Include="Peristence\Postgres\CancellationReplayer.cs" />
+    <Compile Include="Peristence\Postgres\CurrentRemindersReplayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

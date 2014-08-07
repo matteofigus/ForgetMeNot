@@ -107,6 +107,8 @@
     <Compile Include="Startup\OnSuccessfulStartUp.cs" />
     <Compile Include="Startup\WhenAReplayFails.cs" />
     <Compile Include="Persistence\Postgres\APostgresJournaler.cs" />
+    <Compile Include="Persistence\Postgres\PostgresTestBase.cs" />
+    <Compile Include="Persistence\A_CancellationReplayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
