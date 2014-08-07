@@ -11,27 +11,33 @@ namespace ReminderService.Core.Persistence.Npgsql
 {
 	public static class RxExtensions
 	{
-		public static IObservable<T> ExecuteAsObservable<T>(this IDbCommand command, Func<IDataReader, T> mapper)
+		public static IObservable<T> ExecuteAsObservable<T>(this IDbCommand command, IDbConnection connection, Func<IDataReader, T> mapper)
 		{
 			return Observable.Create<T> (observer => {
-				using(command){
-					try {
-						using (var reader = command.ExecuteReader()){
-							while(reader.Read())
-							{
-								var value = mapper(reader);
-								observer.OnNext(value);
+				using (connection) {
+					using(command) {
+						try {
+							command.Connection = connection;
+							connection.Open();
+							using (var reader = command.ExecuteReader()){
+								while(reader.Read())
+								{
+									var value = mapper(reader);
+									observer.OnNext(value);
+								}
 							}
 						}
-					}
-					catch (Exception ex) {
-						observer.OnError(ex);
+						catch (Exception ex) {
+							observer.OnError(ex);
+						}
 					}
 				}
 				observer.OnCompleted();
 				return Disposable.Empty;
 			});
 		}
+
+
 
 		public static Func<IDataReader, ReminderMessage.Cancel> CancelMapper()
 		{
@@ -40,6 +46,5 @@ namespace ReminderService.Core.Persistence.Npgsql
 			};
 		}
 	}
-
 }
 

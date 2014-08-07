@@ -15,10 +15,14 @@ namespace ReminderService.Core.Persistence.Postgres
 
 		public CancellationReplayer (
 			ICommandFactory commandFactory, 
+			string connectionString,
 			Func<IDataReader, ReminderMessage.Cancel> cancellationMapper = null)
 		{
 			Ensure.NotNull (commandFactory, "commandFactory");
+			Ensure.NotNullOrEmpty (connectionString, "connectionString");
+
 			_commandFactory = commandFactory;
+			_connectionString = connectionString;
 
 			if (cancellationMapper == null)
 				_cancellationMapper = CancellationMap;
@@ -28,18 +32,14 @@ namespace ReminderService.Core.Persistence.Postgres
 
 		public IObservable<T> Replay<T> (DateTime from)
 		{
-			using (var connection = new NpgsqlConnection (_connectionString)) {
-				using (var command = _commandFactory.GetCancellationsCommand (from)) {
-					command.Connection = connection;
-					connection.Open ();
-					return (IObservable<T>)command.ExecuteAsObservable (_cancellationMapper);
-				}
-			}
+			var connection = new NpgsqlConnection (_connectionString);
+			var command = _commandFactory.GetCancellationsCommand (from);
+			return (IObservable<T>)command.ExecuteAsObservable (connection, _cancellationMapper);
 		}
 
 		public static Func<IDataReader, ReminderMessage.Cancel> CancellationMap {
 			get { 
-				return (reader) => new ReminderMessage.Cancel (reader.Get<Guid>("reminderId"));
+				return (reader) => new ReminderMessage.Cancel (reader.GetGuid("reminder_id"));
 			}
 		}
 	}

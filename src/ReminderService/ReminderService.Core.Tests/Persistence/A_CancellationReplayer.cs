@@ -21,12 +21,16 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 		[TestFixtureSetUp]
 		public void Given_there_are_current_reminders_in_the_database()
 		{
+			CleanupDatabase ();
 			_now = SystemTime.Now ();
 			var journaler = new PostgresJournaler (new PostgresCommandFactory(), ConnectionString);
-			var reminders = BuildReminders (10);
-			var cancellations = BuildCancellations (5, (IEnumerable<ReminderMessage.Schedule>)reminders);
-			foreach (var item in reminders.Concat (cancellations).ToList()) {
-				journaler.Write (item);
+			var reminders = BuildReminders (10).ToList();
+			foreach (var reminder in reminders) {
+				journaler.Write (reminder);
+			}
+			var cancellations = BuildCancellations (5, reminders);
+			foreach (var cancel in cancellations) {
+				journaler.Write (cancel);
 			}
 
 			AssertNReminders (10);
@@ -35,15 +39,15 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 		[Test]
 		public void Should_replay_all_cancellations()
 		{
-			var replayer = new CancellationReplayer(new PostgresCommandFactory());
-			var observable = replayer.Replay<ReminderMessage.Cancel> (_now);
+			var replayer = new CancellationReplayer(new PostgresCommandFactory(), ConnectionString);
+			var observable = replayer.Replay<ReminderMessage.Cancel> (_now.AddMilliseconds(-10));
 			Observable
 				.Count (observable)
 				.Subscribe (x => 
 					Assert.AreEqual (5, x));
 		}
 
-		private IEnumerable<IMessage> BuildReminders(int count)
+		private IEnumerable<ReminderMessage.Schedule> BuildReminders(int count)
 		{
 			return Enumerable
 				.Range (0, count)

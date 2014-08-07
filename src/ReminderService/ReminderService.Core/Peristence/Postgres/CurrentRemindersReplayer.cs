@@ -4,11 +4,13 @@ using ReminderService.Messages;
 using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Npgsql;
 using System.Data;
+using Npgsql;
 
 namespace ReminderService.Core.Persistence.Postgres
 {
 	public class CurrentRemindersReplayer : IReplayEvents
 	{
+		private readonly string _connectionString;
 		private readonly ICommandFactory _commandFactory;
 		private readonly Func<IDataReader, ReminderMessage.Schedule> _reminderMapper;
 
@@ -25,7 +27,14 @@ namespace ReminderService.Core.Persistence.Postgres
 
 		public IObservable<T> Replay<T> (DateTime from)
 		{
-			return (IObservable<T>)_commandFactory.GetCurrentRemindersCommand ().ExecuteAsObservable (_reminderMapper);
+			using (var connection = new NpgsqlConnection(_connectionString)) {
+				using (var command = _commandFactory.GetCurrentRemindersCommand ()) {
+					//return (IObservable<T>)_commandFactory
+					//.GetCurrentRemindersCommand ()
+					command.Connection = connection;
+					return (IObservable<T>)command.ExecuteAsObservable (connection, _reminderMapper);
+				}
+			}
 		}
 
 		public static Func<IDataReader, ReminderMessage.Schedule> ScheduleMap {
