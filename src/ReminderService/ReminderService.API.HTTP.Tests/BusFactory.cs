@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using ReminderService.Router;
 using ReminderService.API.HTTP.BootStrap;
@@ -8,6 +9,9 @@ using ReminderService.Messages;
 using ReminderService.Common;
 using RestSharp;
 using ReminderService.Core.DeliverReminder;
+using ReminderService.Core.Startup;
+using ReminderService.Core.Persistence;
+using ReminderService.Core.Persistence.Postgres;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -17,6 +21,7 @@ namespace ReminderService.API.HTTP.Tests
 		private ITimer _timerInstance;
 		private IRestClient _restClient;
 		private IJournalEvents _journaler;
+		private string _connectionString;
 		private bool _overrideDeliveryHandlers = false;
 		private List<Tuple<DeliveryTransport, IDeliverReminders>> _deliveryHandlers = new List<Tuple<DeliveryTransport, IDeliverReminders>> ();
 
@@ -49,6 +54,13 @@ namespace ReminderService.API.HTTP.Tests
 			return this;
 		}
 
+		public BusFactory WithConnectionString(string connectionString)
+		{
+			Ensure.NotNullOrEmpty (connectionString, "connectionString");
+			_connectionString = connectionString;
+			return this;
+		}
+
 		public IBus Build()
 		{
 			_bus = new Bus ();
@@ -67,12 +79,25 @@ namespace ReminderService.API.HTTP.Tests
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Cancel>);
 
+			var startupManager = GetStartupManager ();
+			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);
+
 			return _bus;
 		}
 
 		private Journaler GetJournaler()
 		{
 			return new Journaler (_bus, _journaler);
+		}
+
+		private SystemStartManager GetStartupManager()
+		{
+			var replayers = new List<IReplayEvents> { 
+				new CancellationReplayer(new PostgresCommandFactory(), _connectionString),
+				new CurrentRemindersReplayer(new PostgresCommandFactory(), _connectionString),
+			};
+			var startManager = new SystemStartManager (_bus, replayers);
+			return startManager;
 		}
 
 		private Scheduler GetScheduler()

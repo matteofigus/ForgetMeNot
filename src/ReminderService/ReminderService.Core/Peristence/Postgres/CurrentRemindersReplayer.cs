@@ -5,6 +5,7 @@ using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Npgsql;
 using System.Data;
 using Npgsql;
+using Newtonsoft.Json;
 
 namespace ReminderService.Core.Persistence.Postgres
 {
@@ -16,37 +17,34 @@ namespace ReminderService.Core.Persistence.Postgres
 
 		public CurrentRemindersReplayer (
 			ICommandFactory commandFactory, 
+			string connectionString,
 			Func<IDataReader, ReminderMessage.Schedule> reminderMapper = null)
 		{
 			Ensure.NotNull (commandFactory, "commandFactory");
+			Ensure.NotNullOrEmpty (connectionString, "connectionString");
+
 			_commandFactory = commandFactory;
+			_connectionString = connectionString;
 
-
-			_reminderMapper = reminderMapper;
+			if (reminderMapper == null)
+				_reminderMapper = ScheduleMap;
+			else
+				_reminderMapper = reminderMapper;
 		}
 
 		public IObservable<T> Replay<T> (DateTime from)
 		{
-			using (var connection = new NpgsqlConnection(_connectionString)) {
-				using (var command = _commandFactory.GetCurrentRemindersCommand ()) {
-					//return (IObservable<T>)_commandFactory
-					//.GetCurrentRemindersCommand ()
-					command.Connection = connection;
-					return (IObservable<T>)command.ExecuteAsObservable (connection, _reminderMapper);
-				}
-			}
+			var connection = new NpgsqlConnection (_connectionString);
+			var command = _commandFactory.GetCurrentRemindersCommand ();
+			return (IObservable<T>)command.ExecuteAsObservable (connection, _reminderMapper);
 		}
 
 		public static Func<IDataReader, ReminderMessage.Schedule> ScheduleMap {
 			get { 
-				return (reader) =>
-					new ReminderMessage.Schedule (
-					reader.Get<string> ("deliveryUrl"),
-					reader.Get<string> ("deadletterUrl"),
-					reader.Get<string> ("contentType"),
-					reader.Get<DateTime> ("timeoutAt"),
-					reader.Get<byte[]> ("payload")
-				);
+				return (reader) => {
+					var raw = reader["message"].ToString();
+					return JsonConvert.DeserializeObject<ReminderMessage.Schedule>(raw);
+				};
 			}
 		}
 	}

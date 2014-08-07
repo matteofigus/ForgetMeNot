@@ -65,9 +65,10 @@ namespace ReminderService.API.HTTP.BootStrap
 		public SystemStartManager GetStartupManager()
 		{
 			var commandFactory = new PostgresCommandFactory ();
-			var replayers = new List<IReplayEvents> ();
-			replayers.Add (new CancellationReplayer (commandFactory, ConnectionString));
-			replayers.Add (new CurrentRemindersReplayer(commandFactory));
+			var replayers = new List<IReplayEvents> {
+				new CancellationReplayer (commandFactory, ConnectionString),
+				new CurrentRemindersReplayer(commandFactory, ConnectionString),
+			};
 			return new SystemStartManager (_bus, replayers);
 		}
 	}

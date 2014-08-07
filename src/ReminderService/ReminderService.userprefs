@@ -1,17 +1,39 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Startup/SystemStartManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Peristence/Postgres/CurrentRemindersReplayer.cs">
     <Files>
-      <File FileName="ReminderService.Core/Peristence/CancellationReplayer.cs" Line="13" Column="3" />
-      <File FileName="ReminderService.Core/Peristence/CurrentRemindersReplayer.cs" Line="26" Column="50" />
-      <File FileName="ReminderService.Core/Peristence/Postgres/PostgresCommandFactory.cs" Line="67" Column="25" />
-      <File FileName="ReminderService.Core/Peristence/Postgres/PostgresJournaler.cs" Line="13" Column="60" />
-      <File FileName="ReminderService.Core/Startup/SystemStartManager.cs" Line="48" Column="60" />
-      <File FileName="ReminderService.Router/Extensions.cs" Line="11" Column="6" />
+      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="17" Column="10" />
+      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="35" Column="5" />
+      <File FileName="ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" Line="82" Column="27" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/PostgresJournaler.cs" Line="29" Column="1" />
+      <File FileName="ReminderService.Core.Tests/Persistence/Postgres/PostgresTestBase.cs" Line="77" Column="4" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/CancellationReplayer.cs" Line="27" Column="1" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/PostgresCommandFactory.cs" Line="13" Column="127" />
+      <File FileName="ReminderService.Core/Peristence/RxExtensions.cs" Line="18" Column="22" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/ExtensionMethods.cs" Line="14" Column="1" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/CurrentRemindersReplayer.cs" Line="46" Column="8" />
+      <File FileName="ReminderService.Core.Tests/Persistence/Postgres/A_CancellationReplayer.cs" Line="41" Column="66" />
+      <File FileName="ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" Line="37" Column="32" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="ReminderService.Core.Tests" expanded="True">
+            <Node name="ReminderService" expanded="True">
+              <Node name="Core" expanded="True">
+                <Node name="Tests" expanded="True">
+                  <Node name="Persistence" expanded="True">
+                    <Node name="Postgres" expanded="True">
+                      <Node name="A_CancellationReplayer" expanded="True" />
+                      <Node name="A_CurrentReminderReplayer" expanded="True" selected="True" />
+                      <Node name="APostgresJournaler" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -57,7 +79,6 @@
       <Catchpoint exceptionName="Nancy.ViewEngines.Razor.ViewRenderException" includeSubclasses="True" />
       <Catchpoint exceptionName="Nancy.ViewEngines.ViewNotFoundException" includeSubclasses="True" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/WhenSchedulingAReminder.cs" line="42" column="6" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/BootStrap/BootStrapper.cs" line="19" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/DeliveryRouter.cs" line="41" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/HTTPDelivery.cs" line="54" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/SchedulingAReminder.cs" line="40" column="9" />
@@ -66,7 +87,14 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/DeliveryRouter.cs" line="44" column="9" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="49" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/ExtenstionTests.cs" line="58" column="5" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Postgres/ExtensionMethods.cs" line="12" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/FakeReplayer.cs" line="10" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="29" column="8" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="33" column="10" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="42" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="59" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="36" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Postgres/CancellationReplayer.cs" line="37" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/RxExtensions.cs" line="25" column="16" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -74,5 +102,8 @@
     <Watch file="ReminderService.Router/Bus.cs" line="14" offsetX="654" offsetY="162" expression="topics" liveUpdate="False" />
     <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="448" offsetY="2032" expression="i" liveUpdate="False" />
     <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="560" offsetY="2032" expression="j" liveUpdate="False" />
+    <Watch file="ReminderService.Core/Peristence/Postgres/PostgresCommandFactory.cs" line="42" offsetX="580" offsetY="615" expression="command.CommandText" liveUpdate="False" />
+    <Watch file="ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="27" offsetX="545" offsetY="125" expression="reminders" liveUpdate="False" />
+    <Watch file="ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="31" offsetX="1150" offsetY="127" expression="cancellations" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

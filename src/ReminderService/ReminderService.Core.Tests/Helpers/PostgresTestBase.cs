@@ -2,8 +2,12 @@
 using Npgsql;
 using NUnit.Framework;
 using System.Collections.Generic;
+using ReminderService.Common;
+using ReminderService.Messages;
+using System.Linq;
+using System.Text;
 
-namespace ReminderService.Core.Tests.Persistence.Postgres
+namespace ReminderService.Core.Tests.Helpers
 {
 	public abstract class PostgresTestBase
 	{

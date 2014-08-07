@@ -45,13 +45,6 @@ namespace ReminderService.API.HTTP.Tests
 			Assert.AreEqual ("http://delivery", DeliveryRequest.Resource);
 			//hmmm, how to get the payload from the request that was made by the HTTPDelivery component?
 		}
-
-		[Test]
-		public void should_journal_messages()
-		{
-			Assert.IsTrue (JournaledMessages.ContainsOne<ReminderMessage.Schedule> ());
-			Assert.IsTrue (JournaledMessages.ContainsOne<ReminderMessage.Sent>());
-		}
 	}
 }
 
