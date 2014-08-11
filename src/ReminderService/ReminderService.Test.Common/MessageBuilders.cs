@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using ReminderService.Common;
 using System.Text;
 
-namespace ReminderService.Core.Tests
+namespace ReminderService.Test.Common
 {
 	public class MessageBuilders
 	{
@@ -19,7 +19,20 @@ namespace ReminderService.Core.Tests
 					"deadletterUrl",
 					"application/json",
 					SystemTime.Now(),
-					Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}")
+					Encoding.UTF8.GetBytes("{\"property1\": \"value1\"}")
+				));
+		}
+
+		public static IEnumerable<ReminderMessage.Schedule> BuildRemindersWithoutIds(int count)
+		{
+			return Enumerable
+				.Range (0, count)
+				.Select (i => new ReminderMessage.Schedule (
+					"http://deliveryUrl/" + i,
+					"http://deadletterUrl",
+					"application/json",
+					SystemTime.Now().AddMilliseconds(100),
+					Encoding.UTF8.GetBytes("{\"property1\": \"value1\"}")
 				));
 		}
 

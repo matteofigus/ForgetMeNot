@@ -34,8 +34,7 @@ namespace ReminderService.API.HTTP
 				model.ReminderId = Guid.NewGuid();
 				var result = this.Validate(model);
 
-				if (!result.IsValid)
-				{
+				if (!result.IsValid) {
 					var errors = result.Errors.Values.SelectMany(ee => ee.Select(e => ErrorResponse.FromMessage(e.ErrorMessage)));
 					return Response.AsJson(errors, HttpStatusCode.BadRequest);
 				}

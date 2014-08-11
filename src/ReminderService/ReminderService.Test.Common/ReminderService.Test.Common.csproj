@@ -32,12 +32,21 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.1.3\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="FakeRestClient.cs" />
     <Compile Include="TestTimer.cs" />
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="PostgresTestBase.cs" />
+    <Compile Include="MessageBuilders.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -46,6 +55,14 @@
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
       <Project>{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}</Project>
       <Name>ReminderService.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Messages\ReminderService.Messages.csproj">
+      <Project>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</Project>
+      <Name>ReminderService.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
+      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
+      <Name>ReminderService.Common</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

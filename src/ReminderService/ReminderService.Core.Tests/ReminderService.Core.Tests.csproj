@@ -109,8 +109,6 @@
     <Compile Include="Persistence\Postgres\APostgresJournaler.cs" />
     <Compile Include="Persistence\Postgres\A_CancellationReplayer.cs" />
     <Compile Include="Persistence\Postgres\A_CurrentReminderReplayer.cs" />
-    <Compile Include="Helpers\MessageBuilders.cs" />
-    <Compile Include="Helpers\PostgresTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

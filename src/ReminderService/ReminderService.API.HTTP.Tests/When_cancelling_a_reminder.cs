@@ -1,41 +1,41 @@
-﻿using NUnit.Framework;
-using System;
-using ReminderService.Messages;
-using Nancy;
-using ReminderService.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using NUnit.Framework;
+using Nancy;
 using Nancy.Testing;
+using ReminderService.Common;
+using ReminderService.Messages;
+using ReminderService.Test.Common;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.Tests
 {
 	public class When_cancelling_a_reminder : ServiceSpec<ReminderApiModule>
 	{
-		private Guid _reminderId;
+		private Guid _canceledReminderId;
+		private List<Guid> _reminderIds = new List<Guid> ();
 
 		[TestFixtureSetUp]
-		public void Given_a_reminder_has_been_scheduled()
+		public void Given_some_reminders_have_been_scheduled()
 		{
 			FreezeTime ();
 
-			var scheduleRequest = new ReminderMessage.Schedule (
-				"http://delivery",
-				"http://deadletter",
-				"application/json",
-				Now.Add(2.Hours()),
-				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}")
-			);
+			var remindersToSchedule = MessageBuilders.BuildRemindersWithoutIds (10);
 
-			POST ("/reminders", scheduleRequest);
-
-			Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
-
-			_reminderId = Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse>().ReminderId;
+			foreach (var reminder in remindersToSchedule) {
+				POST ("/reminders", reminder);
+				Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
+				_reminderIds.Add (Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse> ().ReminderId);
+			}
 		}
 
 		[SetUp]
 		public void When_the_reminder_is_cancelled()
 		{
-			DELETE ("/reminders", _reminderId);
+			_canceledReminderId = _reminderIds.First ();
+			DELETE ("/reminders", _canceledReminderId);
 
 			Assert.AreEqual (HttpStatusCode.NoContent, Response.StatusCode);
 		}
@@ -45,7 +45,9 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			AdvanceTimeBy (2.Hours());
 			FireScheduler ();
-			Assert.IsNull (DeliveryRequest);
+			Assert.AreEqual (9, AllDeliveredHttpRequests.Count);
+			Assert.IsTrue(
+				AllDeliveredHttpRequests.DoesNotContain<IRestRequest> (r => r.Resource.EndsWith("0"))); //since we are cancelling the first reminder in the list, then the message with delivery url 'http://deliveryurl/0' should not exist in this list. Cant think of a better way to do this right now!
 		}
 	}
 }

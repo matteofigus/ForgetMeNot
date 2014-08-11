@@ -11,10 +11,15 @@ namespace ReminderService.Test.Common
 	{
 		private readonly List<IRestResponse> _responses;
 		private IRestRequest _lastRequest;
+		private List<IRestRequest> _requests = new List<IRestRequest>();
 		private int _requestCount = 0;
 
 		public IRestRequest LastRequest {
 			get { return _lastRequest; }
+		}
+
+		public List<IRestRequest> Requests {
+			get { return _requests; }
 		}
 
 		public FakeRestClient (IEnumerable<IRestResponse> responses)
@@ -26,6 +31,7 @@ namespace ReminderService.Test.Common
 		{
 			var handle = new RestRequestAsyncHandle ();
 			_lastRequest = request;
+			_requests.Add (request);
 			callback (GetNextResponse(), handle);
 			return handle;
 		}

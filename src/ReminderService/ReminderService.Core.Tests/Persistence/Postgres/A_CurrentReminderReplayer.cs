@@ -6,6 +6,7 @@ using System.Linq;
 using ReminderService.Messages;
 using System.Reactive.Linq;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests.Persistence.Postgres
 {

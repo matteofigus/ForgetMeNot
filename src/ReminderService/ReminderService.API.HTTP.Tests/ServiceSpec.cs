@@ -15,7 +15,7 @@ using ReminderService.Core.Persistence.Postgres;
 namespace ReminderService.API.HTTP.Tests
 {
 	[TestFixture ()]
-	public abstract class ServiceSpec<TModule> where TModule : NancyModule
+	public abstract class ServiceSpec<TModule> : PostgresTestBase where TModule : NancyModule
 	{
 		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 		private Browser _service;
@@ -29,6 +29,7 @@ namespace ReminderService.API.HTTP.Tests
 		[TestFixtureSetUp]
 		public void BeforeAll()
 		{
+			CleanupDatabase ();
 			_restClient = new FakeRestClient (new []{ _restResponse });
 			_journaler = new PostgresJournaler (new PostgresCommandFactory (), ConnectionString);
 			//_journaler = new InMemoryJournaler ();
@@ -49,8 +50,18 @@ namespace ReminderService.API.HTTP.Tests
 			});
 		}
 
+		[TestFixtureTearDown]
+		public void AfterAll()
+		{
+			CleanupDatabase ();
+		}
+
 		protected BrowserResponse Response {
 			get { return _response; }
+		}
+
+		protected string ResponseBody {
+			get { return _response.Body.AsString (); }
 		}
 
 		protected void POST(string url, IMessage message)
@@ -70,13 +81,13 @@ namespace ReminderService.API.HTTP.Tests
 			_restResponse = response;
 		}
 
-		protected IRestRequest DeliveryRequest{
-			get { return _restClient.LastRequest; }
+		protected List<IRestRequest> AllDeliveredHttpRequests {
+			get { return _restClient.Requests; }
 		}
 
-//		protected IList<IMessage> JournaledMessages{
-//			get { return _journaler.JournaledMessages; }
-//		}
+		protected IRestRequest LastDeliveredHttpRequest{
+			get { return _restClient.LastRequest; }
+		}
 
 		protected DateTime Now{
 			get { return SystemTime.Now (); }

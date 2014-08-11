@@ -9,6 +9,7 @@ using ReminderService.Core.Persistence;
 using System.Reactive;
 using System.Reactive.Linq;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests.Persistence.Postgres
 {
@@ -36,7 +37,7 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 		}
 
 		[Test]
-		public void Should_replay_all_cancellations()
+		public void Should_replay_cancellations()
 		{
 			var replayer = new CancellationReplayer(new PostgresCommandFactory(), ConnectionString);
 			var observable = replayer.Replay<ReminderMessage.Cancel> (_now);
@@ -44,6 +45,12 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				.Count (observable)
 				.Subscribe (x => 
 					Assert.AreEqual (5, x));
+		}
+
+		[TestFixtureTearDown]
+		public void Cleanup()
+		{
+			CleanupDatabase ();
 		}
 	}
 }

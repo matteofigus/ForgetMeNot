@@ -5,7 +5,7 @@ using ReminderService.Core.Persistence.Postgres;
 using ReminderService.Messages;
 using ReminderService.Common;
 using Npgsql;
-using ReminderService.Core.Tests.Helpers;
+using ReminderService.Test.Common;
 
 namespace ReminderService.Core.Tests.Persistence.Postgres
 {
