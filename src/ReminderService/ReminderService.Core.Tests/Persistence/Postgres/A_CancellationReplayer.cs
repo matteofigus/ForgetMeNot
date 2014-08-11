@@ -1,15 +1,16 @@
-﻿using NUnit.Framework;
-using System;
-using ReminderService.Core.Tests.Persistence.Postgres;
-using ReminderService.Core.Persistence.Postgres;
-using ReminderService.Messages;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-using ReminderService.Common;
-using ReminderService.Core.Persistence;
 using System.Reactive;
 using System.Reactive.Linq;
-using ReminderService.Core.Tests.Helpers;
+using NUnit.Framework;
+using ReminderService.Common;
+using ReminderService.Core.Persistence;
+using ReminderService.Core.Persistence.Postgres;
+using ReminderService.Messages;
 using ReminderService.Test.Common;
+using ReminderService.Core.Tests.Helpers;
+using ReminderService.Core.Tests.Persistence.Postgres;
 
 namespace ReminderService.Core.Tests.Persistence.Postgres
 {
@@ -24,7 +25,7 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			CleanupDatabase ();
 			_now = SystemTime.Now ();
 			var journaler = new PostgresJournaler (new PostgresCommandFactory(), ConnectionString);
-			var reminders = MessageBuilders.BuildReminders (10);
+			var reminders = MessageBuilders.BuildReminders (10).ToList();
 			foreach (var reminder in reminders) {
 				journaler.Write (reminder);
 			}
