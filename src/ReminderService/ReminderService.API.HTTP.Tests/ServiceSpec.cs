@@ -11,6 +11,7 @@ using ReminderService.Messages;
 using ReminderService.Common;
 using ReminderService.Core;
 using ReminderService.Core.Persistence.Postgres;
+using ReminderService.API.HTTP.BootStrap;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -19,6 +20,7 @@ namespace ReminderService.API.HTTP.Tests
 	{
 		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 		private Browser _service;
+		private IBusFactory _busFactory;
 		private FakeRestClient _restClient;
 		private IRestResponse _restResponse = new RestResponse{ StatusCode = System.Net.HttpStatusCode.Created, ResponseStatus = ResponseStatus.Completed };
 		private TestTimer _timer = new TestTimer();
@@ -34,26 +36,31 @@ namespace ReminderService.API.HTTP.Tests
 			_journaler = new PostgresJournaler (new PostgresCommandFactory (), ConnectionString);
 			//_journaler = new InMemoryJournaler ();
 
-			var busFactory = new BusFactory ()
+			_busFactory = new BusFactory ()
 				.WithConnectionString(ConnectionString)
 				.WithRestClient (_restClient)
 				.WithJournaler (_journaler)
 				.WithTimer (_timer);
 
-			_service = new Browser (with => {
-				with.Module<TModule> ();
-				with.Dependency<IBus> (busFactory.Build ());
-				with.ApplicationStartup ((ioc, pipes) => {
-					ioc.Resolve<IBus> ().Publish (new SystemMessage.Start ());
-				});
-				with.EnableAutoRegistration ();
-			});
+			_service = new Browser (ServiceConfigurator);
+
 		}
 
 		[TestFixtureTearDown]
 		public void AfterAll()
 		{
 			CleanupDatabase ();
+		}
+
+		protected Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> ServiceConfigurator {
+			get { return with => {
+					with.Module<TModule> ();
+					with.Dependency<IBus> (_busFactory.Build ());
+					with.ApplicationStartup ((ioc, pipes) => {
+						ioc.Resolve<IBus> ().Publish (new SystemMessage.Start ());
+					});
+					with.EnableAutoRegistration ();
+				};}
 		}
 
 		protected BrowserResponse Response {
@@ -87,6 +94,11 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected IRestRequest LastDeliveredHttpRequest{
 			get { return _restClient.LastRequest; }
+		}
+
+		protected void RestartService()
+		{
+			_service = new Browser (ServiceConfigurator);
 		}
 
 		protected DateTime Now{

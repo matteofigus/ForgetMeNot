@@ -61,6 +61,7 @@
     <Compile Include="When_a_cancellation_request_is_not_valid.cs" />
     <Compile Include="When_a_schedule_request_is_not_valid.cs" />
     <Compile Include="Validation\JsonValidator.cs" />
+    <Compile Include="When_the_service_restarts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
