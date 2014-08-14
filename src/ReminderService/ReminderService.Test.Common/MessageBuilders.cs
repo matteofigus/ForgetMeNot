@@ -35,7 +35,7 @@ namespace ReminderService.Test.Common
 					"http://deadletterUrl",
 					"application/json",
 					SystemTime.Now().AddMilliseconds(100),
-					new FakePayload(Guid.Empty).AsJsonEncoded()
+					new FakePayload(Guid.NewGuid()).AsJsonEncoded()
 				))
 				.ToList();
 		}

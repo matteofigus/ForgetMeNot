@@ -49,7 +49,7 @@ namespace ReminderService.Test.Common
 		}
 
 		[Test]
-		[ExpectedException(typeof(Newtonsoft.Json.JsonSerializationException))]
+		[ExpectedException(typeof(InvalidCastException))]
 		public void GetFakePayload_BodyIsNotFakeRequest()
 		{
 			IRestRequest request = new RestRequest();

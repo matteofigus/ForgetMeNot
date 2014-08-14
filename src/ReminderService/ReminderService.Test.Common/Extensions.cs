@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
-using RestSharp;
 using System.Web.Script.Serialization;
+using ReminderService.Messages;
+using RestSharp;
 
 namespace ReminderService.Test.Common
 {
@@ -36,6 +37,14 @@ namespace ReminderService.Test.Common
 			var json = serializer.Deserialize<FakePayload>(bodyString);
 
 			return json;
+		}
+
+		public static FakePayload GetFakePayload(this ReminderMessage.Schedule reminder)
+		{
+			var serializer = new JavaScriptSerializer ();
+			var payloadString = Encoding.UTF8.GetString (reminder.Payload);
+			var fakePayload = serializer.Deserialize<FakePayload>(payloadString);
+			return fakePayload;
 		}
 	}
 }
