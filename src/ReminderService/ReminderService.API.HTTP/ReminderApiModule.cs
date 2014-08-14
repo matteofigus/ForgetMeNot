@@ -38,7 +38,7 @@ namespace ReminderService.API.HTTP
 					var errors = result.Errors.Values.SelectMany(ee => ee.Select(e => ErrorResponse.FromMessage(e.ErrorMessage)));
 					return Response.AsJson(errors, HttpStatusCode.BadRequest);
 				}
-					
+
 				//errors are handled by a request level error handler, no need to try-catch here...
 				_bus.Publish(model);
 
