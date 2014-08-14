@@ -46,9 +46,10 @@ namespace ReminderService.Core.DeliverReminder
 			Action<ReminderMessage.Due> onFailed)
 		{
 			var req = new RestRequest (url, Method.POST)
-				{RequestFormat = DataFormat.Json}
-				.AddBody (Encoding.UTF8.GetString (dueReminder.Payload))
-				.AddHeader ("content", dueReminder.ContentType);
+				{ RequestFormat = DataFormat.Json }
+				// since our payload is already valid JSON, we do not want to use the AddBody(...) method as this will JSONify our Json string and we get malformed Json as a result.
+				// just add a body parameter directly to avoid this serializations step.
+				.AddParameter ("application/json", Encoding.UTF8.GetString (dueReminder.Payload), ParameterType.RequestBody);
 
 			_restClient.PostAsync (req, (res, handle) => {
 				if (res.ResponseStatus != ResponseStatus.Completed)
