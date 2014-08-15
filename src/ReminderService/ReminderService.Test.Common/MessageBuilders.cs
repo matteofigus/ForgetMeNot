@@ -22,7 +22,7 @@ namespace ReminderService.Test.Common
 							"http://deadletterUrl",
 							"application/json",
 							SystemTime.UtcNow ().AddMilliseconds(10),
-							new FakePayload(reminderId).AsJsonEncoded());
+							new TestPayload(reminderId).AsJsonEncoded());
 			});
 		}
 
@@ -36,7 +36,7 @@ namespace ReminderService.Test.Common
 						"http://deadletterUrl",
 						"application/json",
 						SystemTime.UtcNow ().AddMilliseconds (100),
-						new FakePayload (Guid.NewGuid ()).AsJsonEncoded ()
+						new TestPayload (Guid.NewGuid ()).AsJsonEncoded ()
 			));
 			//.ToList();
 		}

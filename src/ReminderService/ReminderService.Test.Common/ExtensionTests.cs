@@ -11,7 +11,7 @@ namespace ReminderService.Test.Common
 		public void TestGetFakePayload ()
 		{
 			var guid = Guid.NewGuid();
-			var fakePayload = new FakePayload(guid);
+			var fakePayload = new TestPayload(guid);
 			IRestRequest request = new RestRequest();
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(fakePayload);
@@ -19,14 +19,14 @@ namespace ReminderService.Test.Common
 			var received = request.GetFakePayload();
 
 			Assert.IsNotNull(received);
-			Assert.AreEqual(guid, received.ReminderId);
+			Assert.AreEqual(guid, received.CorrelationId);
 		}
 
 		[Test]
 		public void GetFakePayload_EmptyGuid()
 		{
 			var guid = Guid.Empty;
-			var fakePayload = new FakePayload(guid);
+			var fakePayload = new TestPayload(guid);
 			IRestRequest request = new RestRequest();
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(fakePayload);
@@ -34,7 +34,7 @@ namespace ReminderService.Test.Common
 			var received = request.GetFakePayload();
 
 			Assert.IsNotNull(received);
-			Assert.AreEqual(guid, received.ReminderId);
+			Assert.AreEqual(guid, received.CorrelationId);
 		}
 
 		[Test]

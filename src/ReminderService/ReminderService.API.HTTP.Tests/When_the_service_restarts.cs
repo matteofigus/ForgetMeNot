@@ -52,7 +52,7 @@ namespace ReminderService.API.HTTP.Tests
 
 			_sentReminderIds
 				.Should()
-				.IntersectWith(_scheduledReminders.Select(r => r.Item1.GetFakePayload().ReminderId), "No reminders were received.");
+				.IntersectWith(_scheduledReminders.Select(r => r.Item1.GetFakePayload().CorrelationId), "No reminders were received.");
 		}
 
 		private void Given_some_reminders_have_been_scheduled()
@@ -84,7 +84,7 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			_sentReminderIds.AddRange(
 				AllDeliveredHttpRequests.Select (request => 
-					request.GetFakePayload().ReminderId));
+					request.GetFakePayload().CorrelationId));
 		}
 
 		private void When_service_restarts()

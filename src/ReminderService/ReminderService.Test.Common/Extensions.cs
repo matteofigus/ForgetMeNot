@@ -10,7 +10,7 @@ namespace ReminderService.Test.Common
 {
 	public static class Extensions
 	{
-		public static byte[] AsJsonEncoded(this FakePayload payload)
+		public static byte[] AsJsonEncoded(this TestPayload payload)
 		{
 			var serializer = new JavaScriptSerializer ();
 			return Encoding.UTF8.GetBytes (
@@ -22,7 +22,7 @@ namespace ReminderService.Test.Common
 			return Encoding.UTF8.GetString (byteArray);
 		}
 
-		public static FakePayload GetFakePayload(this IRestRequest request)
+		public static TestPayload GetFakePayload(this IRestRequest request)
 		{
 			if(!request.Parameters.Exists(p => p.Type == ParameterType.RequestBody))
 				return null;
@@ -34,16 +34,16 @@ namespace ReminderService.Test.Common
 				.FirstOrDefault ()
 				.Value
 				.ToString ();
-			var json = serializer.Deserialize<FakePayload>(bodyString);
+			var json = serializer.Deserialize<TestPayload>(bodyString);
 
 			return json;
 		}
 
-		public static FakePayload GetFakePayload(this ReminderMessage.Schedule reminder)
+		public static TestPayload GetFakePayload(this ReminderMessage.Schedule reminder)
 		{
 			var serializer = new JavaScriptSerializer ();
 			var payloadString = Encoding.UTF8.GetString (reminder.Payload);
-			var fakePayload = serializer.Deserialize<FakePayload>(payloadString);
+			var fakePayload = serializer.Deserialize<TestPayload>(payloadString);
 			return fakePayload;
 		}
 	}

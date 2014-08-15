@@ -48,9 +48,9 @@
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="PostgresTestBase.cs" />
     <Compile Include="MessageBuilders.cs" />
-    <Compile Include="FakePayload.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ExtensionTests.cs" />
+    <Compile Include="TestPayload.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

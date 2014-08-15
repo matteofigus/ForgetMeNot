@@ -10,6 +10,7 @@ using ReminderService.Router;
 using ReminderService.Core.Tests.Helpers;
 using RestSharp;
 using ReminderService.Test.Common;
+using TestPayload = ReminderService.Core.Tests.Helpers.TestPayload;
 
 namespace ReminderService.Core.Tests.PublishReminders
 {
