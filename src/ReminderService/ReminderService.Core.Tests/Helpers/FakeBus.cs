@@ -23,11 +23,6 @@ namespace ReminderService.Core.Tests
 			throw new NotImplementedException ();
 		}
 
-		public void UnSubscribe<T> (IConsume<T> handler) where T : IMessage
-		{
-			throw new NotImplementedException ();
-		}
-
 		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
 		{
 			throw new System.NotImplementedException ();

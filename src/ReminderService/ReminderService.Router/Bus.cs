@@ -47,11 +47,6 @@ namespace ReminderService.Router
 				});
         }
 
-        public void UnSubscribe<T>(IConsume<T> handler) where T : IMessage
-        {
-            throw new System.NotImplementedException();
-        }
-
 		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
 		{
 			throw new System.NotImplementedException ();
