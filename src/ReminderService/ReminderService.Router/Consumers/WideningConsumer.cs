@@ -1,4 +1,5 @@
-﻿using ReminderService.Common;
+﻿using ReminderService.Router.MessageInterfaces;
+
 
 namespace ReminderService.Router.Consumers
 {

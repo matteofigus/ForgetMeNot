@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ReminderService.Router.MessageInterfaces;
 using ReminderService.Common;
-using ReminderService.Router;
 
 namespace ReminderService.Messages
 {

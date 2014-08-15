@@ -43,7 +43,6 @@
     <Compile Include="SystemTime.cs" />
     <Compile Include="Ensure.cs" />
     <Compile Include="ReminderUndeliverableException.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="TimeExtensions.cs" />
     <Compile Include="Maybe.cs" />
   </ItemGroup>

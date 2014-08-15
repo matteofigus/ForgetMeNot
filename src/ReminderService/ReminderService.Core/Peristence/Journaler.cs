@@ -3,6 +3,7 @@ using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
 using log4net;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core
 {

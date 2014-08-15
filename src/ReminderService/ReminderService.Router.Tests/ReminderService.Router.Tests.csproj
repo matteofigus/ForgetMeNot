@@ -62,6 +62,10 @@
       <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
       <Name>ReminderService.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Router.MessageInterfaces\ReminderService.Router.MessageInterfaces.csproj">
+      <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
+      <Name>ReminderService.Router.MessageInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

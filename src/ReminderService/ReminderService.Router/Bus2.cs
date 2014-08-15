@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using ReminderService.Common;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Topics;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Router
 {

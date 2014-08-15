@@ -3,6 +3,7 @@ using ReminderService.Messages;
 using ReminderService.Common;
 using log4net;
 using Npgsql;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Persistence.Postgres
 {

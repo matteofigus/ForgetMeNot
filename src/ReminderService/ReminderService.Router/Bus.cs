@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using ReminderService.Common;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Topics;
 using log4net;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Router
 {

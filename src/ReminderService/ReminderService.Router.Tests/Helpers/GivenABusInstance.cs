@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using ReminderService.Common;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Router.Tests.Helpers
 {

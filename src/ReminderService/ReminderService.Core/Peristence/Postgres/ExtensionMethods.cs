@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Web.Script.Serialization;
+using ReminderService.Router.MessageInterfaces;
 using ReminderService.Common;
 
 namespace ReminderService.Core

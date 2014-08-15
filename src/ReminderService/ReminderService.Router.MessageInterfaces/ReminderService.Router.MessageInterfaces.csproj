@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F9F098A-A02A-40C3-9C99-15B50069B81C}</ProjectGuid>
+    <ProjectGuid>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ReminderService.Messages</RootNamespace>
-    <AssemblyName>ReminderService.Messages</AssemblyName>
+    <RootNamespace>ReminderService.Router.MessageInterfaces</RootNamespace>
+    <AssemblyName>ReminderService.Router.MessageInterfaces</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,25 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemMessage.cs" />
-    <Compile Include="ReminderMessage.cs" />
-    <Compile Include="ReminderExtensions.cs" />
-    <Compile Include="JournaledEnvelope.cs" />
-    <Compile Include="DeliveryEnvelope.cs" />
+    <Compile Include="IRequest.cs" />
+    <Compile Include="IMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
-      <Project>{B94EDE09-A3D0-4079-A938-2DD0FFFF546C}</Project>
-      <Name>ReminderService.Router</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
-      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
-      <Name>ReminderService.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReminderService.Router.MessageInterfaces\ReminderService.Router.MessageInterfaces.csproj">
-      <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
-      <Name>ReminderService.Router.MessageInterfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

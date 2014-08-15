@@ -10,6 +10,7 @@ using log4net;
 using System.Threading.Tasks;
 using System.Threading;
 using ReminderService.Core.Persistence;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Startup
 {

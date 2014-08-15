@@ -23,12 +23,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Core.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Test.Common", "ReminderService.Test.Common\ReminderService.Test.Common.csproj", "{6096A7F3-7A97-48AF-B816-77BAEAF143E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Router.MessageInterfaces", "ReminderService.Router.MessageInterfaces\ReminderService.Router.MessageInterfaces.csproj", "{510F1AD2-59F7-4C54-B330-DFE328BE555C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
