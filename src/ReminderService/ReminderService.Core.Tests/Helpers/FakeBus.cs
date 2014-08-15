@@ -28,6 +28,11 @@ namespace ReminderService.Core.Tests
 			throw new NotImplementedException ();
 		}
 
+		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
+		{
+			throw new System.NotImplementedException ();
+		}
+
 		public void Send (IMessage message)
 		{
 			if (_publishDelegate != null)

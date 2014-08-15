@@ -56,6 +56,11 @@ namespace ReminderService.Router
             throw new System.NotImplementedException();
         }
 
+		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
+		{
+			throw new System.NotImplementedException ();
+		}
+
         public void ClearSubscribers()
         {
             _subscribers.Clear();
