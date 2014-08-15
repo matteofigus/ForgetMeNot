@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 using ReminderService.Common;
 
 namespace ReminderService.Core
@@ -46,7 +46,8 @@ namespace ReminderService.Core
 
 		public static string AsJson(this IMessage message)
 		{
-			return JsonConvert.SerializeObject (message);
+			var serializer = new JavaScriptSerializer ();
+			return serializer.Serialize (message);
 		}
 	}
 }

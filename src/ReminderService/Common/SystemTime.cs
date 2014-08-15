@@ -23,6 +23,11 @@ namespace ReminderService.Common
             return _setTime;
         }
 
+		public static DateTime UtcNow()
+		{
+			return Now ().ToUniversalTime ();
+		}
+
 		public static DateTime FreezeTime()
 		{
 			Set (Now ());

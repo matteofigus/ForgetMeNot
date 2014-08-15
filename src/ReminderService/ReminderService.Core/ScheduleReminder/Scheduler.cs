@@ -50,7 +50,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			//get all the items from the pq that are due
 			lock (_locker) {
-				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.Now()) {
+				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.UtcNow()) {
 					//IMessage dueReminder = _pq.RemoveMin ();
 					_bus.Publish (_pq.RemoveMin().AsDue()); //TODO: do we want to have an Action<T> that we invoke here?
 				}

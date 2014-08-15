@@ -12,7 +12,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 		[TestFixtureSetUp]
 		public void given_there_are_some_reminders_due_at_the_same_time()
 		{
-			SetNow (SystemTime.Now ());
+			SetNow (SystemTime.UtcNow ());
 			GivenA (new SystemMessage.Start ());
 
 			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (

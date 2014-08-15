@@ -37,7 +37,7 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 		public void Should_replay_all_current_reminders()
 		{
 			var replayer = new CurrentRemindersReplayer(new PostgresCommandFactory(), ConnectionString);
-			var observable = replayer.Replay<ReminderMessage.Schedule> (_now);
+			var observable = replayer.Replay<JournaledEnvelope<ReminderMessage.Schedule>> (_now);
 			Observable
 				.Count (observable)
 				.Subscribe (x => 

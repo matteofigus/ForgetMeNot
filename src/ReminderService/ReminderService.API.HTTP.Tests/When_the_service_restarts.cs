@@ -6,7 +6,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Nancy;
 using Nancy.Testing;
-//using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Test.Common;
 using Newtonsoft.Json;
@@ -18,7 +17,6 @@ namespace ReminderService.API.HTTP.Tests
 	{
 		private List<Tuple<ReminderMessage.Schedule, Guid>> _scheduledReminders = new List<Tuple<ReminderMessage.Schedule, Guid>> ();
 		private List<Guid> _canceledReminderIds = new List<Guid> ();
-		//private List<Guid> _reminderIds = new List<Guid> ();
 		private List<Guid> _sentReminderIds = new List<Guid>();
 
 		[TestFixtureSetUp]
@@ -28,7 +26,7 @@ namespace ReminderService.API.HTTP.Tests
 
 			Given_some_reminders_have_been_scheduled ();
 			Given_some_reminders_have_been_cancelled ();
-
+			//add a set of reminders far in the future and assert they do not get sent, advance time, assert they are sent
 			When_service_restarts ();
 
 			AdvanceTimeBy (1.Hours());
@@ -41,7 +39,6 @@ namespace ReminderService.API.HTTP.Tests
 		public void Then_cancellations_should_not_be_sent()
 		{
 			_canceledReminderIds.Should ().HaveCount (3);
-			//assert that the delivery requests that were intecepted do not contain any reminders that were cancelled
 			_canceledReminderIds
 				.Should ()
 				.NotIntersectWith (_sentReminderIds, "The test rig received ReminderId's for cancelled Reminders");
@@ -50,6 +47,7 @@ namespace ReminderService.API.HTTP.Tests
 		[Test]
 		public void Then_current_reminders_should_be_sent()
 		{
+			//failing because records coming out of PostGres are in UTC
 			_sentReminderIds.Should ().HaveCount (7);
 
 			_sentReminderIds
@@ -66,7 +64,6 @@ namespace ReminderService.API.HTTP.Tests
 
 				var reminderId = Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse> ().ReminderId;
 				_scheduledReminders.Add(new Tuple<ReminderMessage.Schedule, Guid>(reminder, reminderId));
-				//_reminderIds.Add (reminderId);
 			}
 		}
 

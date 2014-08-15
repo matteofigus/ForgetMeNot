@@ -5,7 +5,7 @@ using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Npgsql;
 using System.Data;
 using Npgsql;
-using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace ReminderService.Core.Persistence.Postgres
 {
@@ -42,9 +42,10 @@ namespace ReminderService.Core.Persistence.Postgres
 		public static Func<IDataReader, JournaledEnvelope<ReminderMessage.Schedule>> ScheduleMap {
 			get { 
 				return (reader) => {
+					var serializer = new JavaScriptSerializer();
 					var raw = reader["message"].ToString();
 					return new JournaledEnvelope<ReminderMessage.Schedule>(
-						JsonConvert.DeserializeObject<ReminderMessage.Schedule>(raw));
+						serializer.Deserialize<ReminderMessage.Schedule>(raw));
 				};
 			}
 		}

@@ -21,7 +21,7 @@ namespace ReminderService.Test.Common
 							"http://deliveryUrl/" + i,
 							"http://deadletterUrl",
 							"application/json",
-							SystemTime.Now ().AddMilliseconds(10),
+							SystemTime.UtcNow ().AddMilliseconds(10),
 							new FakePayload(reminderId).AsJsonEncoded());
 			});
 		}
@@ -30,14 +30,15 @@ namespace ReminderService.Test.Common
 		{
 			return Enumerable
 				.Range (0, count)
-				.Select (i => new ReminderMessage.Schedule (
-					"http://deliveryUrl/" + i,
-					"http://deadletterUrl",
-					"application/json",
-					SystemTime.Now().AddMilliseconds(100),
-					new FakePayload(Guid.NewGuid()).AsJsonEncoded()
-				))
-				.ToList();
+				.Select (i => 
+					new ReminderMessage.Schedule (
+						"http://deliveryUrl/" + i,
+						"http://deadletterUrl",
+						"application/json",
+						SystemTime.UtcNow ().AddMilliseconds (100),
+						new FakePayload (Guid.NewGuid ()).AsJsonEncoded ()
+			));
+			//.ToList();
 		}
 
 		public static IEnumerable<ReminderMessage.Cancel> BuildCancellationsAsSubsetOfReminders(int count, IEnumerable<ReminderMessage.Schedule> source)
