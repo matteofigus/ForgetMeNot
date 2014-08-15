@@ -175,3 +175,6 @@ FakesAssemblies/
 
 # vim files
 *.swp
+
+# xamarin files
+*.usertasks
