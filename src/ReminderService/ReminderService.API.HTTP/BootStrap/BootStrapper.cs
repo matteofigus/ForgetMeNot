@@ -21,7 +21,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			var bus = container.Resolve<IBus> ();
 
-			bus.Publish (new SystemMessage.Start());
+			bus.Send (new SystemMessage.Start());
 
 			//wait here for the SystemMessage.InititializationCompletedEvent ??
 		}

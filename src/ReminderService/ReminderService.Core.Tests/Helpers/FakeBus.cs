@@ -28,7 +28,7 @@ namespace ReminderService.Core.Tests
 			throw new NotImplementedException ();
 		}
 
-		public void Publish (IMessage message)
+		public void Send (IMessage message)
 		{
 			if (_publishDelegate != null)
 				_publishDelegate (message);

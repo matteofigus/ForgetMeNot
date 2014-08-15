@@ -24,7 +24,7 @@ namespace ReminderService.Router.Tests
 		[SetUp]
 		public void When_a_message_is_published()
 		{
-			Bus.Publish (_thePublishedMessage);
+			Bus.Send (_thePublishedMessage);
 		}
 
 		[Test ()]

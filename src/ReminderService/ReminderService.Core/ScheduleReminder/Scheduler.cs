@@ -13,12 +13,12 @@ namespace ReminderService.Core.ScheduleReminder
 								IDisposable
 	{
 		private readonly object _locker = new object ();
-		private readonly IPublish _bus;
+		private readonly ISendMessages _bus;
 		private readonly ITimer _timer;
 		private readonly MinPriorityQueue<ReminderMessage.Schedule> _pq;
 		private int _running = 0;
 
-		public Scheduler (IPublish bus, ITimer timer)
+		public Scheduler (ISendMessages bus, ITimer timer)
 		{
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (timer, "timer");
@@ -51,7 +51,7 @@ namespace ReminderService.Core.ScheduleReminder
 			//get all the items from the pq that are due
 			lock (_locker) {
 				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.UtcNow()) {
-					_bus.Publish (_pq.RemoveMin().AsDue());
+					_bus.Send (_pq.RemoveMin().AsDue());
 				}
 			}
 		}

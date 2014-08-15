@@ -40,7 +40,7 @@ namespace ReminderService.API.HTTP
 				}
 
 				//errors are handled by a request level error handler, no need to try-catch here...
-				_bus.Publish(model);
+				_bus.Send(model);
 
 				var scheduleRes = new ReminderMessage.ScheduledResponse{ReminderId = model.ReminderId};
 				var res = Response.AsJson(
@@ -62,7 +62,7 @@ namespace ReminderService.API.HTTP
 
 				//do we need to make sure that the reminderId exists and fail if it doesn't?
 				//or can we just ignore the fact that the reminder does not exist?
-				_bus.Publish(new ReminderMessage.Cancel(reminderId));
+				_bus.Send(new ReminderMessage.Cancel(reminderId));
 
 				return HttpStatusCode.NoContent;
 			};

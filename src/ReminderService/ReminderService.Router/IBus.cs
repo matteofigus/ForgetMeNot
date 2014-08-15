@@ -1,6 +1,6 @@
 ﻿namespace ReminderService.Router
 {
-    public interface IBus : IPublish, ISubscribe
+    public interface IBus : ISendMessages, ISubscribe
     {
     }
 }

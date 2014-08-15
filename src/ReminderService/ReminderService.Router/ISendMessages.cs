@@ -2,8 +2,8 @@
 
 namespace ReminderService.Router
 {
-    public interface IPublish
+    public interface ISendMessages
     {
-        void Publish(IMessage message);
+        void Send(IMessage message);
     }
 }

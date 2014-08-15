@@ -57,7 +57,7 @@ namespace ReminderService.API.HTTP.Tests
 					with.Module<TModule> ();
 					with.Dependency<IBus> (_busFactory.Build ());
 					with.ApplicationStartup ((ioc, pipes) => {
-						ioc.Resolve<IBus> ().Publish (new SystemMessage.Start ());
+						ioc.Resolve<IBus> ().Send (new SystemMessage.Start ());
 					});
 					with.EnableAutoRegistration ();
 				};}

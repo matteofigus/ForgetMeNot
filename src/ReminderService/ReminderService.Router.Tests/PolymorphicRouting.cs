@@ -24,7 +24,7 @@ namespace ReminderService.Router.Tests
 			WithConsumer(_testMessageConsumer);
 			WithConsumer(_derivedMessageConsumer); //this comsumer should not receive the message; ADerivedTestMessage is too specialized
 
-			Bus.Publish(new TestMessages.TestMessage());
+			Bus.Send(new TestMessages.TestMessage());
         }
 
         [Test]

@@ -20,16 +20,16 @@ namespace ReminderService.Router
 //			_messageTypeTopics = topicFactory;
 //		}
 
-        public void Publish(IMessage message)
+        public void Send(IMessage message)
         {
             var topics = _messageTypeTopics.GetTopicsFor(message.GetType());
             foreach (var topic in topics)
             {
-                PublishToTopic(topic, message);
+                SendToTopic(topic, message);
             }
         }
 
-        private void PublishToTopic(string topic, IMessage message)
+        private void SendToTopic(string topic, IMessage message)
         {
             Multiplexer<IMessage> multiplexer;
             if (_subscribers.TryGetValue(topic, out multiplexer))

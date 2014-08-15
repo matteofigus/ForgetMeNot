@@ -19,11 +19,11 @@ namespace ReminderService.Core
 		// can this class implement ISubscribe<T> as a way to wire-up / route messages between components?
 		// can delegate to an inner IBus instance for sending messages to subscribers?
 
-		private readonly IPublish _bus;
+		private readonly ISendMessages _bus;
 		private readonly IJournalEvents _journaler;
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Journaler));
 
-		public Journaler (IPublish bus, IJournalEvents journaler)
+		public Journaler (ISendMessages bus, IJournalEvents journaler)
 		{
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (journaler, "journaler");
@@ -63,7 +63,7 @@ namespace ReminderService.Core
 		private void SendOnBus(IMessage msg)
 		{
 			try {
-				_bus.Publish (msg);
+				_bus.Send (msg);
 			}
 			catch (Exception ex) {
 				Logger.Error ("Exception while attempting to send on the bus.", ex);

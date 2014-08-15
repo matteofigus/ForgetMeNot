@@ -38,9 +38,9 @@ namespace ReminderService.Core.Startup
 				.Merge (_replayers.Select (r => r.Replay<IMessage> (SystemTime.Now ())))
 				.Subscribe (
 				Observer.Create<IMessage> (
-					(message) => _bus.Publish (message), 								// OnNext
+					(message) => _bus.Send (message), 								// OnNext
 					(error) => Logger.Error (error),									//OnError
-					() => _bus.Publish (new SystemMessage.InitializationCompleted ())	//OnCompleted
+					() => _bus.Send (new SystemMessage.InitializationCompleted ())	//OnCompleted
 				));
 		}
 	}

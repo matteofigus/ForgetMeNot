@@ -29,7 +29,7 @@ namespace ReminderService.Router.Tests
 		[SetUp]
 		public void When_messages_are_published()
 		{
-			_messagesToPublish.ForEach (msg => Bus.Publish (msg));
+			_messagesToPublish.ForEach (msg => Bus.Send (msg));
 		}
 
 		[Test]
