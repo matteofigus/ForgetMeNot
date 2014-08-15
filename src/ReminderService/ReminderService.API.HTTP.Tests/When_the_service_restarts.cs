@@ -26,7 +26,7 @@ namespace ReminderService.API.HTTP.Tests
 
 			Given_some_reminders_have_been_scheduled ();
 			Given_some_reminders_have_been_cancelled ();
-			//add a set of reminders far in the future and assert they do not get sent, advance time, assert they are sent
+
 			When_service_restarts ();
 
 			AdvanceTimeBy (1.Hours());
