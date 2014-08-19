@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using ReminderService.Core;
+﻿using ReminderService.Core;
 using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Router;

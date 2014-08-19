@@ -4,10 +4,10 @@ using System.Data;
 
 namespace ReminderService.Core.Tests.Persistence
 {
-	[TestFixture ()]
+	[TestFixture]
 	public class ExtenstionTests
 	{
-		[Test ()]
+		[Test]
 		public void CanHandleGuid ()
 		{
 			var reminderId = Guid.NewGuid ();
@@ -15,7 +15,7 @@ namespace ReminderService.Core.Tests.Persistence
 			Assert.AreEqual(reminderId, reader.Get<Guid>("reminderId"));
 		}
 
-		[Test ()]
+		[Test]
 		public void CanHandleString ()
 		{
 			var v = "astring value";

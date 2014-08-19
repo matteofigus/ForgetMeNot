@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reactive.Linq;
-using System.Reactive;
 
 namespace ReminderService.Router
 {

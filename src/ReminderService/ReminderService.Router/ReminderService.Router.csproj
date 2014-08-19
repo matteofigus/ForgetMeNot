@@ -32,20 +32,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>Z:\Documents\Programming\GitHub\ForgetMeNot\src\ReminderService\libs\System.Reactive\V2.0\Net4.5\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>Z:\Documents\Programming\GitHub\ForgetMeNot\src\ReminderService\libs\System.Reactive\V2.0\Net4.5\System.Reactive.Linq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBus.cs" />
     <Compile Include="IConsume.cs" />
+    <Compile Include="ISendQueries.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bus.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="ISendMessages.cs" />
     <Compile Include="IHandleQueries.cs" />
     <Compile Include="ISubscribeToQueries.cs" />
+    <Compile Include="Consumers\QueryDispatcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -70,10 +73,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Consumers\" />
-    <Folder Include="Topics\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">
       <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>

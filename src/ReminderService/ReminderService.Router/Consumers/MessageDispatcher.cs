@@ -26,7 +26,10 @@ namespace ReminderService.Router
 			{
 				_consumer.Handle(msg);
 			}
-			//do we need to log as an 'else' here? otherwise, have we swallowed a case that can cause bugs?
+			else
+			{
+			    throw new InvalidOperationException("");
+			}
 		}
 	}
 }

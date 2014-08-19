@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Data;
-using Npgsql;
-using System.Data.SqlClient;
-using System.Data.Common;
 using System.Reactive.Linq;
 using ReminderService.Messages;
 using System.Reactive.Disposables;

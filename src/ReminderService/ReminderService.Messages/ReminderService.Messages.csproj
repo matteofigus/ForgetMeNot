@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ReminderService.Messages</RootNamespace>
     <AssemblyName>ReminderService.Messages</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -17,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -25,11 +28,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetReminder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="ReminderMessage.cs" />
@@ -39,10 +44,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
-      <Project>{B94EDE09-A3D0-4079-A938-2DD0FFFF546C}</Project>
-      <Name>ReminderService.Router</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\ReminderService.Common.csproj">
       <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
       <Name>ReminderService.Common</Name>

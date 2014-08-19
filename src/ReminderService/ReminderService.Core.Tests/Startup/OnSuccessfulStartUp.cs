@@ -5,16 +5,14 @@ using ReminderService.Core.Tests.Helpers;
 using ReminderService.Messages;
 using ReminderService.Router;
 using ReminderService.Core.Persistence;
+using ReminderService.Router.MessageInterfaces;
 using ReminderService.Test.Common;
 using System.Collections.Generic;
-using ReminderService.Common;
 using System.Reactive.Linq;
-using System.Reactive;
-using System.Linq;
 
 namespace ReminderService.Core.Tests.Startup
 {
-	[TestFixture ()]
+	[TestFixture]
 	public class OnSuccessfulStartUp : RoutableTestBase, IConsume<SystemMessage.InitializationCompleted>, IConsume<ReminderMessage.Cancel>, IConsume<ReminderMessage.Schedule>
 	{
 		[TestFixtureSetUp]
@@ -23,7 +21,7 @@ namespace ReminderService.Core.Tests.Startup
 			_startupManager.Handle (new SystemMessage.Start ());
 		}
 
-		[Test ()]
+		[Test]
 		public void Then_should_send_InitializationCompleted_event ()
 		{
 			Assert.IsTrue (Received.ContainsOne<SystemMessage.InitializationCompleted> ());

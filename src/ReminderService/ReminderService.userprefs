@@ -1,66 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Router/ISendMessages.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Peristence/RxExtensions.cs">
     <Files>
-      <File FileName="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" Line="4" Column="4" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="32" Column="32" />
-      <File FileName="ReminderService.Test.Common/Extensions.cs" Line="3" Column="3" />
-      <File FileName="ReminderService.Core/Peristence/Postgres/CurrentRemindersReplayer.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core/Peristence/RxExtensions.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core/Peristence/Postgres/ExtensionMethods.cs" Line="4" Column="4" />
-      <File FileName="ReminderService.Core/DeliverReminder/DeliveryRouter.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Test.Common/MessageBuilders.cs" Line="7" Column="7" />
-      <File FileName="Common/SystemTime.cs" Line="37" Column="37" />
-      <File FileName="ReminderService.Core.Tests/ScheduleReminder/Publishing_messages_as_they_become_due.cs" Line="22" Column="22" />
-      <File FileName="ReminderService.Core.Tests/ScheduleReminder/Publish_all_reminders_that_are_due_at_the_same_time.cs" Line="28" Column="28" />
-      <File FileName="ReminderService.Core.Tests/ScheduleReminder/Publish_reminders_even_in_the_past.cs" Line="21" Column="21" />
-      <File FileName="ReminderService.Test.Common/TestPayload.cs" Line="26" Column="26" />
-      <File FileName="ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" Line="17" Column="17" />
-      <File FileName="ReminderService.Core/Peristence/Journaler.cs" Line="2" Column="2" />
-      <File FileName="ReminderService.Core/DeliverReminder/HTTPDelivery.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Router/ISendMessages.cs" Line="2" Column="2" />
-      <File FileName="ReminderService.Router/Bus.cs" Line="33" Column="33" />
-      <File FileName="ReminderService.Router/Bus2.cs" Line="33" Column="33" />
-      <File FileName="ReminderService.Core.Tests/Helpers/FakeBus.cs" Line="19" Column="19" />
-      <File FileName="ReminderService.Router/IConsume.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Router/IHandleQueries.cs" Line="41" Column="41" />
-      <File FileName="ReminderService.Router/IBus.cs" Line="5" Column="5" />
+      <File FileName="ReminderService.Router.Tests/WhenSendingAQuery.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router.Tests/WhenPublishingManyMessagesToManySubscribers.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router.Tests/Helpers/GivenABusInstance.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router/Bus.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router.MessageInterfaces/IRequest.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router/IHandleQueries.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router/Bus2.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router/Consumers/QueryDispatcher.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Router/Consumers/MessageDispatcher.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/ServiceSpec.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/Peristence/RxExtensions.cs" Line="34" Column="34" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
-            <Node name="ReminderService" expanded="True">
-              <Node name="API" expanded="True">
-                <Node name="HTTP" expanded="True">
-                  <Node name="Tests" expanded="True">
-                    <Node name="When_the_service_restarts" expanded="True">
-                      <Node name="Then_current_reminders_should_be_sent" selected="True" />
-                    </Node>
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-          <Node name="ReminderService.Core.Tests" expanded="True">
-            <Node name="ReminderService" expanded="True">
-              <Node name="Core" expanded="True">
-                <Node name="Tests" expanded="True">
-                  <Node name="Persistence" expanded="True">
-                    <Node name="Postgres" expanded="True">
-                      <Node name="A_CurrentReminderReplayer" expanded="True" />
-                    </Node>
-                  </Node>
-                  <Node name="ScheduleReminder" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -84,7 +37,7 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/Helpers/GivenABusInstance.cs" line="17" column="12" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/PolymorphicRouting.cs" line="22" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/PolymorphicRouting.cs" line="51" column="7" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/Helpers/GivenABusInstance.cs" line="37" column="5" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router.Tests/Helpers/GivenABusInstance.cs" line="41" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/NancyTestProject/SampleModule.cs" line="35" column="10" />
       <Catchpoint exceptionName="Nancy.ModelBinding.ModelBindingException" includeSubclasses="True" />
       <Catchpoint exceptionName="Nancy.ModelBinding.PropertyBindingException" includeSubclasses="True" />

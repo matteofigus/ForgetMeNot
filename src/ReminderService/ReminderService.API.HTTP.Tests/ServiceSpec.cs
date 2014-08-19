@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Nancy.Testing;
 using Nancy;
+using ReminderService.Router.MessageInterfaces;
 using RestSharp;
 using ReminderService.Test.Common;
 using ReminderService.Core.ScheduleReminder;

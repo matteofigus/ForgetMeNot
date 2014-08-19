@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReminderService.Router.Tests</RootNamespace>
     <AssemblyName>ReminderService.Router.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,11 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\libs\NUnit\2.6.3\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +40,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\libs\NUnit\2.6.3\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +55,8 @@
     <Compile Include="TestMessages.cs" />
     <Compile Include="WhenPublishingManyMessagesToOneSubscriber.cs" />
     <Compile Include="WhenPublishingOneMessageToManySubscribers.cs" />
+    <Compile Include="WhenSendingAQuery.cs" />
+    <Compile Include="Helpers\FakeQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
@@ -66,6 +71,10 @@
       <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
       <Name>ReminderService.Router.MessageInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Test.Common\ReminderService.Test.Common.csproj">
+      <Project>{6096A7F3-7A97-48AF-B816-77BAEAF143E1}</Project>
+      <Name>ReminderService.Test.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -75,8 +84,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Consumers\" />
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System;
-using ReminderService.Common;
 using ReminderService.Core.Persistence;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Tests
 {

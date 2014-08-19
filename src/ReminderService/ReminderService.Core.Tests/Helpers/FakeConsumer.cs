@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using ReminderService.Common;
+﻿using System.Collections.Generic;
 using ReminderService.Router;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Tests.Helpers
 {

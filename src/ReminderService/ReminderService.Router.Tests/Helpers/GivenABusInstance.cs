@@ -27,6 +27,10 @@ namespace ReminderService.Router.Tests.Helpers
 			get { return _handleMessageDelegate; }
 		}
 
+		public List<IMessage> RoutedMessages {
+			get { return _routedMessages; }
+		}
+
 		public void WithMessageHandler (Action<IMessage> handler)
 		{
 			_handleMessageDelegate = handler;
@@ -35,6 +39,11 @@ namespace ReminderService.Router.Tests.Helpers
 		public void WithConsumer<T>(IConsume<T> consumer) where T : class, IMessage
 		{
 			Bus.Subscribe (consumer);
+		}
+
+		public void WithQueryHandler<TRequest, TResponse>(IHandleQueries<TRequest, TResponse> queryHandler)  where TRequest : IRequest<TResponse> 
+		{
+			Bus.Subscribe (queryHandler);
 		}
 	}
 }

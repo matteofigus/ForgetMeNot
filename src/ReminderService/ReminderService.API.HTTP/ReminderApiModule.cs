@@ -8,6 +8,7 @@ using Nancy.Responses;
 using Nancy.Validation;
 using ReminderService.Router;
 using ReminderService.Messages;
+using ReminderService.Router.Consumers;
 
 namespace ReminderService.API.HTTP
 {
@@ -25,6 +26,9 @@ namespace ReminderService.API.HTTP
 			Get ["/{reminderId}"] = parameters => {
 				//handle getting a reminder with this ID...
 				//parameters.reminderId....
+			    //var request = new GetReminder(parameters.reminderId);
+                //var reminder = bus.Send<ReminderMessage.Schedule>(request);
+			    //return Response.AsJson(reminder);
 				return this.Response.AsText("your reminder...");
 			};
 

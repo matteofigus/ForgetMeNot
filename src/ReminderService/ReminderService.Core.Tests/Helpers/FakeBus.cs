@@ -1,6 +1,6 @@
 ﻿using System;
 using ReminderService.Router;
-using ReminderService.Common;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Tests
 {
@@ -33,6 +33,11 @@ namespace ReminderService.Core.Tests
 			if (_publishDelegate != null)
 				_publishDelegate (message);
 		}
+
+	    public TResponse Send<TResponse>(IRequest<TResponse> query)
+	    {
+	        throw new NotImplementedException();
+	    }
 	}
 }
 

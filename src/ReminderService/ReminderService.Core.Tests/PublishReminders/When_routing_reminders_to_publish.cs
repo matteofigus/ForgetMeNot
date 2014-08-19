@@ -5,6 +5,7 @@ using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Tests.Helpers;
+using ReminderService.Router.MessageInterfaces;
 using ReminderService.Test.Common;
 using RestSharp;
 

@@ -9,6 +9,7 @@ using ReminderService.Messages;
 using ReminderService.Core.Startup;
 using ReminderService.Common;
 using ReminderService.Core.Persistence;
+using ReminderService.Router.MessageInterfaces;
 using ReminderService.Test.Common;
 using System.Collections.Generic;
 
