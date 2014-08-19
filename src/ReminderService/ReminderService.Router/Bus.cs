@@ -40,7 +40,12 @@ namespace ReminderService.Router
 
 		public TResponse Send<TResponse>(IRequest<TResponse> query)
 		{
-			return (TResponse) _queryHandlers[query.GetType().FullName].Dispatch(query);
+			IDispatchQueries handler;
+			if(_queryHandlers.TryGetValue(query.GetType().FullName, out handler)) {
+				return (TResponse) handler.Dispatch(query);
+			}
+
+			return default(TResponse);
 		}
 
 		public void Subscribe<T>(IConsume<T> consumer) where T : class, IMessage

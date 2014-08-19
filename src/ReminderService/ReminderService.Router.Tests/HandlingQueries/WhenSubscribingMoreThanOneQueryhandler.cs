@@ -13,7 +13,7 @@ namespace ReminderService.Router.Tests.HandlingQueries
     {
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Initialize_bus()
+        public void Should_throw()
         {
             WithQueryHandler(new FakeQueryHandler<TestRequest, TestResponse>(r => new TestResponse()));
             WithQueryHandler(new FakeQueryHandler<TestRequest, TestResponse>(r => new TestResponse()));
