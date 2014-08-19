@@ -5,7 +5,6 @@ using ReminderService.Common;
 using ReminderService.Core;
 using ReminderService.Router;
 using ReminderService.Messages;
-using OpenTable.Services.Components.Logging;
 using ReminderService.Core.Tests.Helpers;
 using ReminderService.Test.Common;
 
@@ -76,12 +75,10 @@ namespace ReminderService.Core.Tests.CancelReminder
 		}
 
 		private readonly FakeConsumer<ReminderMessage.Due> _fakeConsumer;
-		private readonly FakeLogger _logger;
 		private readonly CancellationFilter _cancellationManager;
 
 		public A_CancelledRemindersManager ()
 		{
-			_logger = new FakeLogger ();
 			_fakeConsumer = new FakeConsumer<ReminderMessage.Due> ();
 			_cancellationManager = new CancellationFilter (_fakeConsumer);
 		}

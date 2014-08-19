@@ -13,17 +13,23 @@ using System.Reactive.Linq;
 namespace ReminderService.Core.Tests.Startup
 {
 	[TestFixture]
-	public class OnSuccessfulStartUp : RoutableTestBase, IConsume<SystemMessage.InitializationCompleted>, IConsume<ReminderMessage.Cancel>, IConsume<ReminderMessage.Schedule>
+	public class OnSuccessfulStartUp : 
+		RoutableTestBase, 
+		IConsume<SystemMessage.InitializationCompleted>, 
+		IConsume<ReminderMessage.Cancel>, 
+		IConsume<ReminderMessage.Schedule>
 	{
 		[TestFixtureSetUp]
 		public void When_the_system_starts()
 		{
-			_startupManager.Handle (new SystemMessage.Start ());
+			//_startupManager.Handle (new SystemMessage.Start ());
 		}
 
 		[Test]
 		public void Then_should_send_InitializationCompleted_event ()
 		{
+			_startupManager.Handle (new SystemMessage.Start ());
+
 			Assert.IsTrue (Received.ContainsOne<SystemMessage.InitializationCompleted> ());
 			Assert.AreEqual (5, _cancellationCount);
 			Assert.AreEqual (5, _scheduleCount);

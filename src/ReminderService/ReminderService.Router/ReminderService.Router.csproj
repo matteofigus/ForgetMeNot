@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReminderService.Router</RootNamespace>
     <AssemblyName>ReminderService.Router</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,12 +53,12 @@
     <Compile Include="ISendQueries.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Bus.cs" />
+    <Compile Include="Bus_Multiplexer.cs" />
     <Compile Include="Consumers\Multiplexer.cs" />
     <Compile Include="Consumers\WideningConsumer.cs" />
     <Compile Include="Consumers\NarrowingConsumer.cs" />
     <Compile Include="Consumers\MessageDispatcher.cs" />
-    <Compile Include="Bus2.cs" />
+    <Compile Include="Bus.cs" />
     <Compile Include="Topics\ITopicFactory.cs" />
     <Compile Include="Topics\MessageTypeTopics.cs" />
     <Compile Include="Topics\ITopic.cs" />

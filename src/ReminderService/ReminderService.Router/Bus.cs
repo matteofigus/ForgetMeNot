@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using ReminderService.Router.Consumers;
 using ReminderService.Router.Topics;
-using log4net;
 using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Router
 {
-    public class Bus : IBus
+	//playing arround with implementations
+	//this bus uses a List of a non-generic wrapper type that delegates messages to their
+	//wrapped IConsumer<T> instance - avoids the generics in Bus class
+	public class Bus : IBus
     {
-		private static readonly ILog Logger = LogManager.GetLogger(typeof(Bus));
         private readonly ITopicFactory<Type> _messageTypeTopics = new MessageTypeTopics();
-        private readonly ConcurrentDictionary<string, Multiplexer<IMessage>> _subscribers
-            = new ConcurrentDictionary<string, Multiplexer<IMessage>>();
-		private readonly ConcurrentDictionary<string, IDispatchMessages> _queryHandlers
-			= new ConcurrentDictionary<string, IDispatchMessages> ();
-
-//		public Bus (ITopicFactory<Type> topicFactory)
-//		{
-//			Ensure.NotNull (topicFactory, "topicFactory");
-//			_messageTypeTopics = topicFactory;
-//		}
+		private readonly ConcurrentDictionary<string, List<IDispatchMessages>> _subscribers = 
+			new ConcurrentDictionary<string, List<IDispatchMessages>>();
+		private readonly ConcurrentDictionary<string, IDispatchQueries> _queryHandlers =
+			new ConcurrentDictionary<string, IDispatchQueries> ();
 
         public void Send(IMessage message)
         {
@@ -31,46 +28,49 @@ namespace ReminderService.Router
             }
         }
 
-        public TResponse Send<TResponse>(IRequest<TResponse> query)
-        {
-            throw new NotImplementedException();
-        }
+	    public TResponse Send<TResponse>(IRequest<TResponse> query)
+	    {
+	        return (TResponse) _queryHandlers[query.GetType().FullName].Dispatch(query);
+	    }
 
-        private void SendToTopic(string topic, IMessage message)
+	    private void SendToTopic(string topic, IMessage message)
         {
-            Multiplexer<IMessage> multiplexer;
-            if (_subscribers.TryGetValue(topic, out multiplexer))
-                multiplexer.Handle(message);
+			List<IDispatchMessages> handlers;
+			if (_subscribers.TryGetValue (topic, out handlers)) {
+				foreach (var handler in handlers) {
+					handler.Dispatch (message);
+				}
+			}
         }
 
 		public void Subscribe<T>(IConsume<T> consumer) where T : class, IMessage
         {
-			var wideningConsumer = new WideningConsumer<T, IMessage>(consumer);
+			IDispatchMessages handler = new MessageDispatcher<T> (consumer);
 			_subscribers.AddOrUpdate (
 				typeof(T).FullName,
-				s => 
-					new Multiplexer<IMessage> (wideningConsumer),
-				(_, multiplexer) => {
-					multiplexer.Attach (wideningConsumer);
-					return multiplexer;
+				s => {
+					var list = new List<IDispatchMessages> ();
+					list.Add(handler);
+					return list;
+				},
+				(_, list) => {
+					list.Add (handler);
+					return list;
 				});
         }
 
 		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
 		{
-			throw new NotImplementedException ();
+            if (_queryHandlers.ContainsKey(typeof(TRequest).FullName))
+                throw new InvalidOperationException(
+                    string.Format("Cannot subscribe because a query handler is already registered for request of type [{0}]", typeof(TRequest).FullName));
 
-//			if (_queryHandlers.ContainsKey(typeof(TRequest).FullName))
-//				throw new InvalidOperationException(string.Format("There is already a query handler registered to handle messages of type [{0}]", typeof(TRequest).FullName));
-//
-//			_queryHandlers.AddOrUpdate (
-//				typeof(TRequest).FullName,
-//				r => 
-//				new MessageDispatcher<TRequest>(queryhandler),
-//				(r, multiplexer) => {
-//					multiplexer.Attach (queryhandler);
-//					return multiplexer;
-//				});
+			_queryHandlers.AddOrUpdate (
+				typeof(TRequest).FullName,
+				new QueryDispatcher<TRequest, TResponse>(queryhandler),
+				(_, dispatcher) => 
+					new QueryDispatcher<TRequest, TResponse>(queryhandler)
+			);
 		}
 
         public void ClearSubscribers()

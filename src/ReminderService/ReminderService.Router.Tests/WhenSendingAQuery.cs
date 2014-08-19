@@ -18,13 +18,13 @@ namespace ReminderService.Router.Tests
 		}
 
 		[Test]
-		public void When_a_Query_is_sent ()
+		public void Should_receive_the_expected_response ()
 		{
 			var request = new TestRequest {CorrelationTag = "this is a query"};
 			var response = Bus.Send (request);
 
             Assert.IsNotNull(response);
-            Assert.AreEqual("this is a query", response);
+            Assert.AreEqual("this is a query", response.CorrelationTag);
 		}
 	}
 

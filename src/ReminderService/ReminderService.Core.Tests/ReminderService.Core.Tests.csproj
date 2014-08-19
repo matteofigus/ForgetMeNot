@@ -48,9 +48,6 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
-    <Reference Include="OpenTable.Services.Components.Logging">
-      <HintPath>..\packages\OpenTable.Services.Components.Logging.3.1.9\lib\net40\OpenTable.Services.Components.Logging.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -87,7 +84,6 @@
     <Compile Include="ScheduleReminder\Publish_all_reminders_that_are_due_at_the_same_time.cs" />
     <Compile Include="CancelReminder\A_CancelledRemindersManager.cs" />
     <Compile Include="PublishReminders\When_routing_reminders_to_publish.cs" />
-    <Compile Include="Helpers\FakeLogger.cs" />
     <Compile Include="PublishReminders\An_HttpPublisher.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\TestPayload.cs" />
