@@ -48,16 +48,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Consumers\WideningConsumerTests.cs" />
     <Compile Include="PolymorphicRouting.cs" />
-    <Compile Include="WhenNoSubscribers.cs" />
-    <Compile Include="WhenPublishingManyMessagesToManySubscribers.cs" />
     <Compile Include="Helpers\FakeConsumer.cs" />
     <Compile Include="Helpers\GivenABusInstance.cs" />
     <Compile Include="TestMessages.cs" />
-    <Compile Include="WhenPublishingManyMessagesToOneSubscriber.cs" />
-    <Compile Include="WhenPublishingOneMessageToManySubscribers.cs" />
-    <Compile Include="WhenSendingAQuery.cs" />
     <Compile Include="Helpers\FakeQueryHandler.cs" />
-    <Compile Include="When_subscribing_more_than_one_queryhandler.cs" />
+    <Compile Include="HandlingQueries\WhenSendingAQuery.cs" />
+    <Compile Include="HandlingQueries\WhenSubscribingMoreThanOneQueryhandler.cs" />
+    <Compile Include="HandlingMessages\WhenNoSubscribers.cs" />
+    <Compile Include="HandlingMessages\WhenPublishingManyMessagesToManySubscribers.cs" />
+    <Compile Include="HandlingMessages\WhenPublishingManyMessagesToOneSubscriber.cs" />
+    <Compile Include="HandlingMessages\WhenPublishingOneMessageToManySubscribers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">
@@ -86,4 +86,8 @@
   </Target>
   -->
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="HandlingQueries\" />
+    <Folder Include="HandlingMessages\" />
+  </ItemGroup>
 </Project>

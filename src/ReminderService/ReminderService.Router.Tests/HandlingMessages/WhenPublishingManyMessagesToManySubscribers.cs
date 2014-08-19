@@ -5,19 +5,23 @@ using System.Collections.Generic;
 using ReminderService.Router.Tests.Helpers;
 using ReminderService.Router.MessageInterfaces;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.HandlingMessages
 {
 	[TestFixture ()]
-	public class WhenPublishingManyMessagesToOneSubscriber : Given_a_bus_instance
+	public class WhenPublishingManyMessagesToManySubscribers : Given_a_bus_instance
 	{
 		private readonly List<IMessage> _messagesToPublish = new List<IMessage>();
 
 		[TestFixtureSetUp]
-		public void Given_a_bus_with_a_single_subscriber()
-		{
-			WithConsumer (new FakeConsumer<TestMessages.TestMessage>(RecordRoutedMessages));
+		public void Given_a_bus()
+		{	
+
+			WithConsumer (new FakeConsumer<TestMessages.ADerivedTestMessage> (RecordRoutedMessages));
+			WithConsumer (new FakeConsumer<TestMessages.NotDerivedTestMessage>(RecordRoutedMessages));
+			WithConsumer (new FakeConsumer<TestMessages.SiblingOfADerivedTestMessage> (RecordRoutedMessages));
 
 			_messagesToPublish.Add (new TestMessages.ADerivedTestMessage());
+			_messagesToPublish.Add (new TestMessages.NotDerivedTestMessage());
 			_messagesToPublish.Add (new TestMessages.SiblingOfADerivedTestMessage());
 			_messagesToPublish.Add (new TestMessages.ADerivedTestMessage());
 		}
@@ -28,8 +32,8 @@ namespace ReminderService.Router.Tests
 			_messagesToPublish.ForEach (msg => Bus.Send (msg));
 		}
 
-		[Test ()]
-		public void Then_the_subscriber_receives_all_messages ()
+		[Test]
+		public void Then_all_messages_are_received()
 		{
 			CollectionAssert.AreEquivalent (_messagesToPublish, _routedMessages);
 		}

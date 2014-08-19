@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using ReminderService.Router.Tests.Helpers;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.HandlingQueries
 {
     [TestFixture]
-    public class When_subscribing_more_than_one_queryhandler : Given_a_bus_instance
+    public class WhenSubscribingMoreThanOneQueryhandler : Given_a_bus_instance
     {
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]

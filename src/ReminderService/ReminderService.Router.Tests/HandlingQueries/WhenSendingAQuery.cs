@@ -4,7 +4,7 @@ using ReminderService.Router.Tests.Helpers;
 using ReminderService.Test.Common;
 using ReminderService.Router.MessageInterfaces;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.HandlingQueries
 {
 	[TestFixture]
 	public class WhenSendingAQuery : Given_a_bus_instance

@@ -3,7 +3,7 @@ using System;
 using ReminderService.Router.Tests.Helpers;
 using ReminderService.Router.MessageInterfaces;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.HandlingMessages
 {
 	[TestFixture ()]
 	public class WhenPublishingOneMessageToManySubscribers : Given_a_bus_instance

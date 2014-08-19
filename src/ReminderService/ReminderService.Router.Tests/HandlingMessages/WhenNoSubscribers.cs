@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using ReminderService.Router.Tests.Helpers;
 
-namespace ReminderService.Router.Tests
+namespace ReminderService.Router.Tests.HandlingMessages
 {
 	[TestFixture ()]
 	public class WhenNoSubscibers : Given_a_bus_instance

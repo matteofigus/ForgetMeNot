@@ -28,11 +28,6 @@ namespace ReminderService.Router
             }
         }
 
-	    public TResponse Send<TResponse>(IRequest<TResponse> query)
-	    {
-	        return (TResponse) _queryHandlers[query.GetType().FullName].Dispatch(query);
-	    }
-
 	    private void SendToTopic(string topic, IMessage message)
         {
 			List<IDispatchMessages> handlers;
@@ -42,6 +37,11 @@ namespace ReminderService.Router
 				}
 			}
         }
+
+		public TResponse Send<TResponse>(IRequest<TResponse> query)
+		{
+			return (TResponse) _queryHandlers[query.GetType().FullName].Dispatch(query);
+		}
 
 		public void Subscribe<T>(IConsume<T> consumer) where T : class, IMessage
         {
