@@ -91,10 +91,12 @@
     <Compile Include="Startup\SystemStartManager.cs" />
     <Compile Include="Peristence\Postgres\CancellationReplayer.cs" />
     <Compile Include="Peristence\Postgres\CurrentRemindersReplayer.cs" />
+    <Compile Include="ReadModels\CurrentStateOfReminders.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Peristence\Postgres\Scripts\" />
+    <Folder Include="ReadModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

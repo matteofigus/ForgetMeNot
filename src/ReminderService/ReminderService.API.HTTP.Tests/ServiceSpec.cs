@@ -72,6 +72,13 @@ namespace ReminderService.API.HTTP.Tests
 			get { return _response.Body.AsString (); }
 		}
 
+		protected void GET(string url, Guid reminderId)
+		{
+			_response = _service.Get (url, with => {
+				with.Query("reminderId", reminderId.ToString());
+			});
+		}
+
 		protected void POST(string url, IMessage message)
 		{
 			_response = _service.Post(url, with => {

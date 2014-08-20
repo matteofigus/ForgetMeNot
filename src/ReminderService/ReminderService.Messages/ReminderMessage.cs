@@ -8,6 +8,11 @@ namespace ReminderService.Messages
 {
 	public static class ReminderMessage
 	{
+		public abstract class ReminderMessageBase
+		{
+			public Guid ReminderId { get; set; }
+		}
+
 		public class Schedule : IMessage
 		{
 			public Guid ReminderId { get; set; }

@@ -1,23 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Messages/RequestResponse.cs">
     <Files>
-      <File FileName="ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" Line="9" Column="9" />
-      <File FileName="ReminderService.Core/Startup/SystemStartManager.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core.Tests/Helpers/RoutableTestBase.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" Line="1" Column="1" />
-      <File FileName="../../../../../../../../Library/Frameworks/Mono.framework/Versions/3.6.0/lib/mono/4.5/Microsoft.Common.targets" Line="12" Column="12" />
-      <File FileName="ReminderService.Core.Tests/CancelReminder/A_CancelledRemindersManager.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" Line="6" Column="6" />
+      <File FileName="ReminderService.API.HTTP.Tests/When_scheduling_a_reminder.cs" Line="90" Column="90" />
+      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="5" Column="5" />
+      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="4" Column="4" />
+      <File FileName="ReminderService.Messages/Responses.cs" Line="13" Column="13" />
+      <File FileName="ReminderService.Messages/RequestResponse.cs" Line="29" Column="29" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="ReminderService.Core.Tests" expanded="True">
+          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
             <Node name="ReminderService" expanded="True">
-              <Node name="Core" expanded="True">
-                <Node name="Tests" expanded="True">
-                  <Node name="Startup" expanded="True" selected="True">
-                    <Node name="OnSuccessfulStartUp" expanded="True" />
+              <Node name="API" expanded="True">
+                <Node name="HTTP" expanded="True">
+                  <Node name="Tests" expanded="True">
+                    <Node name="When_getting_a_reminder" expanded="True">
+                      <Node name="Then_the_response_is_a_200" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -57,7 +59,7 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/SchedulingAReminder.cs" line="40" column="9" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/ExtenstionTests.cs" line="58" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/FakeReplayer.cs" line="10" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="33" column="8" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="35" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="42" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="60" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="37" column="1" />
@@ -88,15 +90,15 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/ExtensionTests.cs" line="13" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="21" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="25" column="12" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="75" column="13" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="77" column="13" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router/Bus.cs" line="24" column="17" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="42" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="24" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="31" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="PriorityQueue/ExtensionMethods.cs" line="25" offsetX="317" offsetY="158" expression="pq" liveUpdate="False" />
-    <Watch file="ReminderService.Router/Bus.cs" line="14" offsetX="654" offsetY="162" expression="topics" liveUpdate="False" />
     <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="448" offsetY="2032" expression="i" liveUpdate="False" />
     <Watch file="PriorityQueue/MinPriorityQueue.cs" line="142" offsetX="560" offsetY="2032" expression="j" liveUpdate="False" />
     <Watch file="ReminderService.Core/Peristence/Postgres/PostgresCommandFactory.cs" line="42" offsetX="580" offsetY="615" expression="command.CommandText" liveUpdate="False" />
