@@ -2,12 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Messages/RequestResponse.cs">
     <Files>
-      <File FileName="ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" Line="6" Column="6" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_scheduling_a_reminder.cs" Line="90" Column="90" />
-      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="5" Column="5" />
-      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="4" Column="4" />
-      <File FileName="ReminderService.Messages/Responses.cs" Line="13" Column="13" />
-      <File FileName="ReminderService.Messages/RequestResponse.cs" Line="29" Column="29" />
+      <File FileName="ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/When_scheduling_a_reminder.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="31" Column="31" />
+      <File FileName="ReminderService.Messages/Responses.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Messages/RequestResponse.cs" Line="44" Column="44" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">

@@ -99,6 +99,7 @@
     <Compile Include="Persistence\Postgres\APostgresJournaler.cs" />
     <Compile Include="Persistence\Postgres\A_CancellationReplayer.cs" />
     <Compile Include="Persistence\Postgres\A_CurrentReminderReplayer.cs" />
+    <Compile Include="ReadModels\A_CurrentStateOfReminders_Model.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -133,4 +134,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ReadModels\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
