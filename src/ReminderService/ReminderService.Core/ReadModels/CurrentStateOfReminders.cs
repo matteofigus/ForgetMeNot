@@ -11,11 +11,11 @@ namespace ReminderService.Core.ReadModels
 		IConsume<JournaledEnvelope<ReminderMessage.Schedule>>,
 		IConsume<JournaledEnvelope<ReminderMessage.Cancel>>,
 		IConsume<ReminderMessage.Sent>,
-		IHandleQueries<Queries.GetReminder, Maybe<Responses.CurrentReminderState>>
+		IHandleQueries<RequestResponse.GetReminderState, Maybe<RequestResponse.CurrentReminderState>>
 	{
 		private readonly object lockObject = new object();
-		private readonly Dictionary<Guid, Responses.CurrentReminderState> _states = 
-			new Dictionary<Guid, Responses.CurrentReminderState>();
+		private readonly Dictionary<Guid, RequestResponse.CurrentReminderState> _states = 
+			new Dictionary<Guid, RequestResponse.CurrentReminderState>();
 
 		public CurrentStateOfReminders ()
 		{
@@ -25,9 +25,9 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (!_states.ContainsKey (envelope.Message.ReminderId)) {
-					_states.Add (envelope.Message.ReminderId, new Responses.CurrentReminderState {
-						OriginalReminder = envelope.Message,
-						Status = Responses.ReminderStatusEnum.Scheduled
+					_states.Add (envelope.Message.ReminderId, new RequestResponse.CurrentReminderState {
+						Reminder = envelope.Message,
+						Status = RequestResponse.ReminderStatusEnum.Scheduled
 					});
 				}
 			}
@@ -37,7 +37,7 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (envelope.Message.ReminderId))
-					_states [envelope.Message.ReminderId].Status = Responses.ReminderStatusEnum.Canceled;
+					_states [envelope.Message.ReminderId].Status = RequestResponse.ReminderStatusEnum.Canceled;
 			}
 		}
 
@@ -45,17 +45,17 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (sent.ReminderId))
-					_states [sent.ReminderId].Status = Responses.ReminderStatusEnum.Delivered;
+					_states [sent.ReminderId].Status = RequestResponse.ReminderStatusEnum.Delivered;
 			}
 		}
 
-		public Maybe<Responses.CurrentReminderState> Handle (Queries.GetReminder request)
+		public Maybe<RequestResponse.CurrentReminderState> Handle (RequestResponse.GetReminderState request)
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (request.ReminderId))
-					return new Maybe<Responses.CurrentReminderState> (_states [request.ReminderId]);
+					return new Maybe<RequestResponse.CurrentReminderState> (_states [request.ReminderId]);
 				else
-					return Maybe<Responses.CurrentReminderState>.Empty;
+					return Maybe<RequestResponse.CurrentReminderState>.Empty;
 			}
 		}
 	}

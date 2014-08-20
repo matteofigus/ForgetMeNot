@@ -40,7 +40,6 @@
     <Compile Include="ReminderExtensions.cs" />
     <Compile Include="JournaledEnvelope.cs" />
     <Compile Include="DeliveryEnvelope.cs" />
-    <Compile Include="Responses.cs" />
     <Compile Include="RequestResponse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
