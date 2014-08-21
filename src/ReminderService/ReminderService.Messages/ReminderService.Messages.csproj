@@ -39,8 +39,8 @@
     <Compile Include="ReminderMessage.cs" />
     <Compile Include="ReminderExtensions.cs" />
     <Compile Include="JournaledEnvelope.cs" />
-    <Compile Include="DeliveryEnvelope.cs" />
     <Compile Include="RequestResponse.cs" />
+    <Compile Include="Envelopes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
