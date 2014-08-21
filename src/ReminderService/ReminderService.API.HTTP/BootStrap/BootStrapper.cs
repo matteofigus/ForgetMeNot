@@ -8,6 +8,7 @@ using ReminderService.Core.Startup;
 using ReminderService.Core.Persistence;
 using System.Collections.Generic;
 using ReminderService.Core.Persistence.Postgres;
+using Newtonsoft.Json;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -44,6 +45,8 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			var busInstance = (Bus)container.Resolve<IBusFactory> ().Build ();
 			container.Register<IBus, Bus> (busInstance);
+
+			container.Register(typeof(JsonSerializer), typeof(CustomJsonSerializer));
 		}
 	}
 }

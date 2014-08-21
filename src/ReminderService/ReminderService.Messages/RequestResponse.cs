@@ -27,8 +27,19 @@ namespace ReminderService.Messages
 
 		public class CurrentReminderState : IMessage
 		{
-			public ReminderMessage.Schedule Reminder { get; set; }
 			public ReminderStatusEnum Status { get; set; }
+			public ReminderMessage.Schedule Reminder { get; set; }
+
+			public CurrentReminderState ()
+			{
+				//empty
+			}
+
+			public CurrentReminderState (ReminderMessage.Schedule reminder, ReminderStatusEnum status)
+			{
+				Reminder = reminder;
+				Status = status;
+			}
 		}
 	}
 }

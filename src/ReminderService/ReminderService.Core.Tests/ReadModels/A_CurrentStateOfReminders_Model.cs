@@ -82,6 +82,18 @@ namespace ReminderService.Core.Tests.ReadModels
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
 			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Delivered, response.Value.Status);
 		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void Should_return_an_empty_Maybe_if_the_reminder_does_not_exist()
+		{
+			var reminderId = Guid.NewGuid();
+			var query = new RequestResponse.GetReminderState (reminderId);
+			var response = _reminderStates.Handle (query);
+
+			Assert.IsFalse (response.HasValue);
+			Assert.IsNull(response.Value);
+		}
 	}
 }
 

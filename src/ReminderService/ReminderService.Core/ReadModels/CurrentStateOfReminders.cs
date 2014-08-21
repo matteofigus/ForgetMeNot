@@ -25,10 +25,12 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (!_states.ContainsKey (envelope.Message.ReminderId)) {
-					_states.Add (envelope.Message.ReminderId, new RequestResponse.CurrentReminderState {
-						Reminder = envelope.Message,
-						Status = RequestResponse.ReminderStatusEnum.Scheduled
-					});
+					_states.Add (envelope.Message.ReminderId, 
+						new RequestResponse.CurrentReminderState (
+							envelope.Message,
+							RequestResponse.ReminderStatusEnum.Scheduled
+						)
+					);
 				}
 			}
 		}
