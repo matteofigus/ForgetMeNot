@@ -24,8 +24,9 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var payload = new TestPayload()
 				{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
-				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url","content", SystemTime.Now (), payload.AsUtf8Encoding());
+				new ReminderMessage.Schedule (
+					Guid.NewGuid (), "http://delivery/url","content", SystemTime.Now (), payload.AsUtf8Encoding())
+					.AsDue();
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
 			var publisher = new HTTPDelivery (fakeClient, "deadletterurl");
@@ -46,8 +47,9 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var payload = new TestPayload()
 			{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
-				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
+				new ReminderMessage.Schedule (
+					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding())
+					.AsDue();
 			var firstResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var secondResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {firstResponse, secondResponse});
@@ -68,8 +70,9 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var payload = new TestPayload()
 			{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
-				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
+				new ReminderMessage.Schedule (
+					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding())
+					.AsDue();
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
 			var publisher = new HTTPDelivery (fakeClient, "http://deadletter/url");

@@ -25,7 +25,7 @@ namespace ReminderService.Core.DeliverReminder
 
 		public void Send(ReminderMessage.Due dueReminder)
 		{
-			Deliver(dueReminder, dueReminder.DeliveryUrl,
+			Deliver(dueReminder, dueReminder.Reminder.DeliveryUrl,
 				(success) => {},
 				(failed) => {
 					//failed, try sending to dead message url
@@ -52,7 +52,7 @@ namespace ReminderService.Core.DeliverReminder
 				{ RequestFormat = DataFormat.Json }
 				// since our payload is already valid JSON, we do not want to use the AddBody(...) method as this will JSONify our Json string and we get malformed Json as a result.
 				// just add a body parameter directly to avoid this serializations step.
-				.AddParameter ("application/json", Encoding.UTF8.GetString (dueReminder.Payload), ParameterType.RequestBody);
+				.AddParameter ("application/json", Encoding.UTF8.GetString (dueReminder.Reminder.Payload), ParameterType.RequestBody);
 
 			_restClient.PostAsync (req, (res, handle) => {
 				if (res.ResponseStatus != ResponseStatus.Completed)

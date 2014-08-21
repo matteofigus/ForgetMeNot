@@ -49,18 +49,12 @@ namespace ReminderService.Messages
 		public class Due : IMessage
 		{
 			public Guid ReminderId { get; set; }
-			public string DeliveryUrl { get; private set; }
-			public string ContentType { get; private set; }
-			public DateTime TimeoutAt { get; private set; }
-			public byte[] Payload { get; private set; }
+			public ReminderMessage.Schedule Reminder { get; set; }
 
-			public Due (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Due (ReminderMessage.Schedule due)
 			{
-				ReminderId = reminderId;
-				DeliveryUrl = deliveryUrl;
-				ContentType = contentType;
-				TimeoutAt = timeoutAt;
-				Payload = payload;
+				Reminder = due;
+				ReminderId = due.ReminderId;
 			}
 		}
 

@@ -23,12 +23,12 @@ namespace ReminderService.Core.Tests.CancelReminder
 		public void should_keep_track_of_cancelled_reminders ()
 		{
 			var reminderId = Guid.NewGuid ();
-			var due = new ReminderMessage.Due (reminderId,
+			var due = new ReminderMessage.Schedule (reminderId,
 				"delivery",
 				"application/json",
 				DateTime.Now,
 				new byte[0]
-			);
+			).AsDue();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
 			_cancellationManager.Handle (due);
@@ -44,7 +44,9 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var cancelledReminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (cancelledReminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(
+				new ReminderMessage.Schedule(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0])
+				.AsDue());
 
 			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}
@@ -55,7 +57,9 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(
+				new ReminderMessage.Schedule(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0])
+				.AsDue());
 
 			_fakeConsumer.Received.DoesNotContainAnyThing ();
 		}
@@ -66,9 +70,9 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Schedule(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]).AsDue());
 			//will handle this message the second time because it has been removed from the CancellationManagers internal list
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Schedule(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]).AsDue());
 
 			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}

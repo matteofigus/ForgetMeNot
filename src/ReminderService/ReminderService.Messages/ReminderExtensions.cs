@@ -9,12 +9,7 @@ namespace ReminderService.Messages
 	{
 		public static ReminderMessage.Due AsDue(this ReminderMessage.Schedule source)
 		{
-			return new ReminderMessage.Due (
-				source.ReminderId,
-				source.DeliveryUrl,
-				source.ContentType,
-				source.TimeoutAt,
-				source.Payload);
+			return new ReminderMessage.Due (source);
 		}
 
 		public static ReminderMessage.Sent AsSent(this ReminderMessage.Due source)

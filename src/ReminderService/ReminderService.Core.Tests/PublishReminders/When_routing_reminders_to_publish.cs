@@ -19,7 +19,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 		{
 			var published = new List<IMessage>();
 			var fakeBus = new FakeBus (msg => published.Add(msg));
-			var dueReminder = new ReminderMessage.Due (Guid.NewGuid (), "http://delivery/url", "", DateTime.Now, new byte[0]);
+			var dueReminder = new ReminderMessage.Schedule (Guid.NewGuid (), "http://delivery/url", "", DateTime.Now, new byte[0]).AsDue();
 			var router = new DeliveryRouter (fakeBus);
 			router.AddHandler (DeliveryTransport.HTTP, new FakeDelivery((due) => {
 				Assert.AreSame(dueReminder, due);
@@ -41,7 +41,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient, "deadletterurl"));
 			router.AddHandler (DeliveryTransport.None, null);
 
-			router.Handle (new ReminderMessage.Due(Guid.NewGuid(), "rabbit://queue/name", "", DateTime.Now, new byte[0]));
+			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), "rabbit://queue/name", "", DateTime.Now, new byte[0]).AsDue());
 		}
 	}
 }

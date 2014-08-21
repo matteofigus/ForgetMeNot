@@ -22,7 +22,7 @@ namespace ReminderService.Core.DeliverReminder
 		private readonly Func<ReminderMessage.Due, DeliveryTransport, bool> _handlerSelector = 
 			(due, transport) => 
 				transport == DeliveryTransport.HTTP &&
-					due.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
+					due.Reminder.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
 
 		public DeliveryRouter (ISendMessages bus)
 		{
@@ -49,7 +49,7 @@ namespace ReminderService.Core.DeliverReminder
 			//if we get here then the transport scheme for the reminder is not supported.
 			var exception = new NotSupportedException (string.Format("Delivery transport not supported for reminder [{0}]", msg.ReminderId));
 			Logger.Error (
-				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", msg.DeliveryUrl), exception);
+				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", msg.Reminder.DeliveryUrl), exception);
 			throw exception;
 		}
 	}

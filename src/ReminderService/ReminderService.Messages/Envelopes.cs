@@ -38,7 +38,7 @@ namespace ReminderService.Messages
 
 			public Journaled (T journaledMessage)
 			{
-				Ensure.NotNull (journaledMessage, "innerMessage");
+				Ensure.NotNull (journaledMessage, "journaledMessage");
 
 				_inner = journaledMessage;
 			}
