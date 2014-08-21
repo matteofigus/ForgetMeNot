@@ -38,7 +38,6 @@
     <Compile Include="SystemMessage.cs" />
     <Compile Include="ReminderMessage.cs" />
     <Compile Include="ReminderExtensions.cs" />
-    <Compile Include="JournaledEnvelope.cs" />
     <Compile Include="RequestResponse.cs" />
     <Compile Include="Envelopes.cs" />
   </ItemGroup>

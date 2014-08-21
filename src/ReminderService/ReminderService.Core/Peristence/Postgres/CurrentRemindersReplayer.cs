@@ -13,12 +13,12 @@ namespace ReminderService.Core.Persistence.Postgres
 	{
 		private readonly string _connectionString;
 		private readonly ICommandFactory _commandFactory;
-		private readonly Func<IDataReader, JournaledEnvelope<ReminderMessage.Schedule>> _reminderMapper;
+		private readonly Func<IDataReader, Envelopes.Journaled<ReminderMessage.Schedule>> _reminderMapper;
 
 		public CurrentRemindersReplayer (
 			ICommandFactory commandFactory, 
 			string connectionString,
-			Func<IDataReader, JournaledEnvelope<ReminderMessage.Schedule>> reminderMapper = null)
+			Func<IDataReader, Envelopes.Journaled<ReminderMessage.Schedule>> reminderMapper = null)
 		{
 			Ensure.NotNull (commandFactory, "commandFactory");
 			Ensure.NotNullOrEmpty (connectionString, "connectionString");
@@ -39,12 +39,12 @@ namespace ReminderService.Core.Persistence.Postgres
 			return (IObservable<T>)command.ExecuteAsObservable (connection, _reminderMapper);
 		}
 
-		public static Func<IDataReader, JournaledEnvelope<ReminderMessage.Schedule>> ScheduleMap {
+		public static Func<IDataReader, Envelopes.Journaled<ReminderMessage.Schedule>> ScheduleMap {
 			get { 
 				return (reader) => {
 					var serializer = new JavaScriptSerializer();
 					var raw = reader["message"].ToString();
-					return new JournaledEnvelope<ReminderMessage.Schedule>(
+					return new Envelopes.Journaled<ReminderMessage.Schedule>(
 						serializer.Deserialize<ReminderMessage.Schedule>(raw));
 				};
 			}

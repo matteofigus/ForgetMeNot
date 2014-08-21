@@ -7,7 +7,7 @@ using ReminderService.Common;
 
 namespace ReminderService.Core.ScheduleReminder
 {
-	public class Scheduler : IConsume<JournaledEnvelope<ReminderMessage.Schedule>>, 
+	public class Scheduler : IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>, 
 								IConsume<SystemMessage.Start>, 
 								IConsume<SystemMessage.ShutDown>,
 								IDisposable
@@ -38,7 +38,7 @@ namespace ReminderService.Core.ScheduleReminder
 			Stop ();
 		}
 
-		public void Handle (JournaledEnvelope<ReminderMessage.Schedule> journaled)
+		public void Handle (Envelopes.Journaled<ReminderMessage.Schedule> journaled)
 		{
 			lock (_locker) {
 				_pq.Insert (journaled.Message);

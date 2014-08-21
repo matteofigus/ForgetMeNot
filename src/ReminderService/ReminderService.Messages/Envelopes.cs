@@ -6,29 +6,29 @@ namespace ReminderService.Messages
 {
 	public static class Envelopes
 	{
-		public class Http<T> : IMessage where T : class, IMessage
+		public class HttpDelivery<T> : IMessage where T : class, IMessage
 		{
 			public T Reminder { get; private set; }
 
-			public Http (T toBeSent)
+			public HttpDelivery (T toBeSent)
 			{
 				Ensure.NotNull(toBeSent, "toBeSent");
 				Reminder = toBeSent;
 			}
 		}
 
-		public class Amqp<T> : IMessage where T : class, IMessage
+		public class AmqpDelivery<T> : IMessage where T : class, IMessage
 		{
 			public T Reminder { get; private set; }
 
-			public Amqp (T toBeSent)
+			public AmqpDelivery (T toBeSent)
 			{
 				Ensure.NotNull(toBeSent, "toBeSent");
 				Reminder = toBeSent;
 			}
 		}
 
-		public class JournaledEnvelope<T> : IMessage where T : class, IMessage
+		public class Journaled<T> : IMessage where T : class, IMessage
 		{
 			private readonly T _inner;
 
@@ -36,7 +36,7 @@ namespace ReminderService.Messages
 				get {return _inner;}
 			}
 
-			public JournaledEnvelope (T journaledMessage)
+			public Journaled (T journaledMessage)
 			{
 				Ensure.NotNull (journaledMessage, "innerMessage");
 

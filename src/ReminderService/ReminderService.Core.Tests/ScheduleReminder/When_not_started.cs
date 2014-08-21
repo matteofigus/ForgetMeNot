@@ -18,7 +18,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 				"content/type",
 				Now,
 				new byte[0]);
-			var journaledReminder = new JournaledEnvelope<ReminderMessage.Schedule> (reminder);
+			var journaledReminder = new Envelopes.Journaled<ReminderMessage.Schedule> (reminder);
 
 			GivenA (journaledReminder);
 		}

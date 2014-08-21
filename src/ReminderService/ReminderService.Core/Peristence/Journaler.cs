@@ -36,13 +36,13 @@ namespace ReminderService.Core
 		public void Handle (ReminderMessage.Schedule msg)
 		{
 			WriteToJournal (msg);
-			SendOnBus (new JournaledEnvelope<ReminderMessage.Schedule> (msg) as IMessage);
+			SendOnBus (new Envelopes.Journaled<ReminderMessage.Schedule> (msg) as IMessage);
 		}
 
 		public void Handle(ReminderMessage.Cancel msg)
 		{
 			WriteToJournal (msg);
-			SendOnBus (new JournaledEnvelope<ReminderMessage.Cancel> (msg) as IMessage);
+			SendOnBus (new Envelopes.Journaled<ReminderMessage.Cancel> (msg) as IMessage);
 		}
 
 		public void Handle(ReminderMessage.Sent msg)

@@ -21,7 +21,7 @@ namespace ReminderService.Core.Tests.ReadModels
 			_reminders = new List<ReminderMessage.Schedule> (MessageBuilders.BuildReminders (5));
 			foreach (var reminder in _reminders) {
 				_reminderStates.Handle (
-					new JournaledEnvelope<ReminderMessage.Schedule>(reminder)
+					new Envelopes.Journaled<ReminderMessage.Schedule>(reminder)
 				);
 			}
 		}
@@ -42,7 +42,7 @@ namespace ReminderService.Core.Tests.ReadModels
 		public void Should_keep_track_of_cancellations ()
 		{
 			var reminderId = _reminders[1].ReminderId;
-			_reminderStates.Handle (new JournaledEnvelope<ReminderMessage.Cancel> (
+			_reminderStates.Handle (new Envelopes.Journaled<ReminderMessage.Cancel> (
 				new ReminderMessage.Cancel (reminderId))
 			);
 

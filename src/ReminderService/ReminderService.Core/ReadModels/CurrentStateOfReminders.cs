@@ -8,8 +8,8 @@ using ReminderService.Common;
 namespace ReminderService.Core.ReadModels
 {
 	public class CurrentStateOfReminders : 
-		IConsume<JournaledEnvelope<ReminderMessage.Schedule>>,
-		IConsume<JournaledEnvelope<ReminderMessage.Cancel>>,
+		IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>,
+		IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>,
 		IConsume<ReminderMessage.Sent>,
 		IHandleQueries<RequestResponse.GetReminderState, Maybe<RequestResponse.CurrentReminderState>>
 	{
@@ -21,7 +21,7 @@ namespace ReminderService.Core.ReadModels
 		{
 		}
 
-		public void Handle (JournaledEnvelope<ReminderMessage.Schedule> envelope)
+		public void Handle (Envelopes.Journaled<ReminderMessage.Schedule> envelope)
 		{
 			lock (lockObject) {
 				if (!_states.ContainsKey (envelope.Message.ReminderId)) {
@@ -35,7 +35,7 @@ namespace ReminderService.Core.ReadModels
 			}
 		}
 
-		public void Handle (JournaledEnvelope<ReminderMessage.Cancel> envelope)
+		public void Handle (Envelopes.Journaled<ReminderMessage.Cancel> envelope)
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (envelope.Message.ReminderId))

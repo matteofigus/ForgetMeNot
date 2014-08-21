@@ -15,35 +15,35 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 			SetNow (SystemTime.UtcNow ());
 			GivenA (new SystemMessage.Start ());
 
-			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
+			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/1",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
+			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/2",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
+			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/3",
 					"content/type",
 					Now.AddMilliseconds (25),
 					new byte[0])));
 
-			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
+			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/4",
 					"content/type",
 					Now,
 					new byte[0])));
 
-			GivenA (new JournaledEnvelope<ReminderMessage.Schedule> (
+			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					"http://deliveryUrl/3",
 					"content/type",

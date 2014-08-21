@@ -30,7 +30,7 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Sent>);
 
 			var scheduler = GetScheduler ();
-			_bus.Subscribe (scheduler as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
+			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 

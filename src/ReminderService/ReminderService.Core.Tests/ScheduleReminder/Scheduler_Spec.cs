@@ -28,7 +28,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 			_scheduler.Handle (startMessage);
 		}
 
-		public void GivenA(JournaledEnvelope<ReminderMessage.Schedule> journaledReminder)
+		public void GivenA(Envelopes.Journaled<ReminderMessage.Schedule> journaledReminder)
 		{
 			_scheduler.Handle (journaledReminder);
 		}

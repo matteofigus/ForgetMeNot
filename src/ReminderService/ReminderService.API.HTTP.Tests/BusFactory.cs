@@ -72,7 +72,7 @@ namespace ReminderService.API.HTTP.Tests
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Sent>);
 
 			var scheduler = GetScheduler ();
-			_bus.Subscribe (scheduler as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
+			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 
@@ -85,8 +85,8 @@ namespace ReminderService.API.HTTP.Tests
 
 			var currentReminderState = GetCurrentStateOfReminders ();
 			_bus.Subscribe (currentReminderState);
-			_bus.Subscribe (currentReminderState as IConsume<JournaledEnvelope<ReminderMessage.Schedule>>);
-			_bus.Subscribe (currentReminderState as IConsume<JournaledEnvelope<ReminderMessage.Cancel>>);
+			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
+			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>);
 			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Sent>);
 
 			return _bus;
