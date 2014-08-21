@@ -17,6 +17,7 @@ namespace ReminderService.API.HTTP.Tests
 {
 	public class BusFactory : IBusFactory
 	{
+		const string DeadLetterUrl = "http://deadletter/url";
 		private Bus _bus;
 		private ITimer _timerInstance;
 		private IRestClient _restClient;
@@ -114,7 +115,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		private CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (_restClient);
+			var httpDelivery = new HTTPDelivery (_restClient, DeadLetterUrl);
 			var router = new DeliveryRouter (_bus);
 
 			if (_overrideDeliveryHandlers)

@@ -25,10 +25,10 @@ namespace ReminderService.Core.Tests.PublishReminders
 				{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
 				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url", "deadletterurl","content", SystemTime.Now (), payload.AsUtf8Encoding());
+					Guid.NewGuid (), "http://delivery/url","content", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (fakeClient);
+			var publisher = new HTTPDelivery (fakeClient, "deadletterurl");
 
 			//act
 			publisher.Send (due);
@@ -42,21 +42,22 @@ namespace ReminderService.Core.Tests.PublishReminders
 		public void should_send_reminders_to_the_DeadLetterUrl_if_the_DeliveryUrl_fails()
 		{
 			//arrange
+			const string deadLetterUrl = "http://deadletter/url";
 			var payload = new TestPayload()
 			{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
 				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url", "http://deadletter/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
+					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
 			var firstResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var secondResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
 			var fakeClient = new FakeRestClient (new [] {firstResponse, secondResponse});
-			var publisher = new HTTPDelivery (fakeClient);
+			var publisher = new HTTPDelivery (fakeClient, deadLetterUrl);
 
 			//act
 			publisher.Send (due);
 
 			//assert
-			Assert.AreEqual ("http://deadletter/url", fakeClient.LastRequest.Resource);
+			Assert.AreEqual (deadLetterUrl, fakeClient.LastRequest.Resource);
 		}
 
 		[Test]
@@ -68,10 +69,10 @@ namespace ReminderService.Core.Tests.PublishReminders
 			{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = 
 				new ReminderMessage.Due (
-					Guid.NewGuid (), "http://delivery/url", "http://deadletter/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
+					Guid.NewGuid (), "http://delivery/url","application/json", SystemTime.Now (), payload.AsUtf8Encoding());
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (fakeClient);
+			var publisher = new HTTPDelivery (fakeClient, "http://deadletter/url");
 
 			//act
 			publisher.Send (due);

@@ -12,12 +12,15 @@ namespace ReminderService.Core.DeliverReminder
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(HTTPDelivery));
 		private readonly IRestClient _restClient;
+		private readonly string _deadLetterUrl;
 
-		public HTTPDelivery (IRestClient restClient)
+		public HTTPDelivery (IRestClient restClient, string deadLetterUrl)
 		{
 			Ensure.NotNull (restClient, "restClient");
+			Ensure.NotNullOrEmpty (deadLetterUrl, "deadLetterUrl");
 
 			_restClient = restClient;
+			_deadLetterUrl = deadLetterUrl;
 		}
 
 		public void Send(ReminderMessage.Due dueReminder)
@@ -26,7 +29,7 @@ namespace ReminderService.Core.DeliverReminder
 				(success) => {},
 				(failed) => {
 					//failed, try sending to dead message url
-					Deliver(dueReminder, dueReminder.DeadLetterUrl,
+					Deliver(dueReminder, _deadLetterUrl,
 						(success_dead) => {
 							//we probably want to wrap the failed reminder in an envelope and include
 							//any status codes, error information from the original send

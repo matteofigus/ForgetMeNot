@@ -19,7 +19,6 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			var scheduleRequest = new ReminderMessage.Schedule (
 				"http://delivery",
-				"http://deadletter",
 				"application/json",
 				Now.Add(2.Hours()),
 				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}")

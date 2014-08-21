@@ -12,7 +12,6 @@ namespace ReminderService.Messages
 			return new ReminderMessage.Due (
 				source.ReminderId,
 				source.DeliveryUrl,
-				source.DeadLetterUrl,
 				source.ContentType,
 				source.TimeoutAt,
 				source.Payload);

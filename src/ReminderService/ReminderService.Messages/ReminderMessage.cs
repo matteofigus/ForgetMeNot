@@ -17,7 +17,6 @@ namespace ReminderService.Messages
 		{
 			public Guid ReminderId { get; set; }
 			public string DeliveryUrl { get; set; }
-			public string DeadLetterUrl { get; set; } //messages will be sent here if delivery to the DeliveryUrl fails.
 			public string ContentType { get; set; }
 			public DateTime TimeoutAt { get; set; }
 			public byte[] Payload { get; set; }
@@ -27,17 +26,16 @@ namespace ReminderService.Messages
 				//default constructor
 			}
 
-			public Schedule (string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Schedule (string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				DeliveryUrl = deliveryUrl;
-				DeadLetterUrl = deadLetterUrl;
 				ContentType = contentType;
 				TimeoutAt = timeoutAt;
 				Payload = payload;
 			}
 
-			public Schedule (Guid reminderId, string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
-				: this(deliveryUrl, deadLetterUrl, contentType, timeoutAt, payload)
+			public Schedule (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
+				: this(deliveryUrl, contentType, timeoutAt, payload)
 			{
 				ReminderId = reminderId;
 			}
@@ -52,16 +50,14 @@ namespace ReminderService.Messages
 		{
 			public Guid ReminderId { get; set; }
 			public string DeliveryUrl { get; private set; }
-			public string DeadLetterUrl { get; private set; } //messages will be sent here if delivery to the DeliveryUrl fails.
 			public string ContentType { get; private set; }
 			public DateTime TimeoutAt { get; private set; }
 			public byte[] Payload { get; private set; }
 
-			public Due (Guid reminderId, string deliveryUrl, string deadLetterUrl, string contentType, DateTime timeoutAt, byte[] payload)
+			public Due (Guid reminderId, string deliveryUrl, string contentType, DateTime timeoutAt, byte[] payload)
 			{
 				ReminderId = reminderId;
 				DeliveryUrl = deliveryUrl;
-				DeadLetterUrl = deadLetterUrl;
 				ContentType = contentType;
 				TimeoutAt = timeoutAt;
 				Payload = payload;

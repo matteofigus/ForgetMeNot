@@ -25,7 +25,6 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var reminderId = Guid.NewGuid ();
 			var due = new ReminderMessage.Due (reminderId,
 				"delivery",
-				"deadletter",
 				"application/json",
 				DateTime.Now,
 				new byte[0]
@@ -45,7 +44,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var cancelledReminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (cancelledReminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
 
 			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}
@@ -56,7 +55,7 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
 
 			_fakeConsumer.Received.DoesNotContainAnyThing ();
 		}
@@ -67,9 +66,9 @@ namespace ReminderService.Core.Tests.CancelReminder
 			var reminderId = Guid.NewGuid ();
 
 			_cancellationManager.Handle (new ReminderMessage.Cancel (reminderId));
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
 			//will handle this message the second time because it has been removed from the CancellationManagers internal list
-			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl", "deadletterurl","content", SystemTime.Now(), new byte[0]));
+			_cancellationManager.Handle(new ReminderMessage.Due(reminderId, "deliveryUrl","content", SystemTime.Now(), new byte[0]));
 
 			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
 		}

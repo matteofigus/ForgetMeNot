@@ -3,11 +3,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Messages/RequestResponse.cs">
     <Files>
       <File FileName="ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_scheduling_a_reminder.cs" Line="1" Column="1" />
       <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="31" Column="31" />
-      <File FileName="ReminderService.Messages/Responses.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Messages/RequestResponse.cs" Line="44" Column="44" />
+      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="32" Column="32" />
+      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/ServiceSpec.cs" Line="22" Column="22" />
+      <File FileName="ReminderService.Router/Bus.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/BusFactory.cs" Line="76" Column="76" />
+      <File FileName="ReminderService.Messages/RequestResponse.cs" Line="4" Column="4" />
+      <File FileName="ReminderService.API.HTTP/CustomSerializers/CustomJsonSerializer.cs" Line="34" Column="34" />
+      <File FileName="ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" Line="9" Column="9" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
@@ -18,7 +22,7 @@
                 <Node name="HTTP" expanded="True">
                   <Node name="Tests" expanded="True">
                     <Node name="When_getting_a_reminder" expanded="True">
-                      <Node name="Then_the_response_is_a_200" selected="True" />
+                      <Node name="Then_the_response_contains_the_expected_reminder" selected="True" />
                     </Node>
                   </Node>
                 </Node>
@@ -65,7 +69,7 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="37" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CancellationReplayer.cs" line="43" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="39" column="11" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/BootStrap/BootStrapper.cs" line="33" column="9" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/BootStrap/BootStrapper.cs" line="34" column="9" />
       <Catchpoint exceptionName="Nancy.Bootstrapper.BootstrapperException" includeSubclasses="True" />
       <Catchpoint exceptionName="Nancy.Bootstrapper.MultipleRootPathProvidersLocatedException" includeSubclasses="True" />
       <Catchpoint exceptionName="Nancy.ErrorHandling.RouteExecutionEarlyExitException" includeSubclasses="True" />
@@ -86,15 +90,21 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="25" column="18" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="51" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="30" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="55" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/ExtensionTests.cs" line="13" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="21" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="25" column="12" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="77" column="13" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Router/Bus.cs" line="24" column="17" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="42" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="24" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="31" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="29" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="38" column="5" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="33" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="77" column="9" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="83" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="89" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="16" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="57" column="35" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

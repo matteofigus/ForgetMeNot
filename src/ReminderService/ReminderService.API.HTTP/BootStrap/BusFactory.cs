@@ -14,6 +14,7 @@ namespace ReminderService.API.HTTP.BootStrap
 	public class BusFactory : IBusFactory
 	{
 		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
+		const string DeadLetterUrl = "http://deadletter/url";
 		private Bus _bus;
 
 		public IBus Build()
@@ -53,7 +54,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (new RestClient());
+			var httpDelivery = new HTTPDelivery (new RestClient(), DeadLetterUrl);
 			var router = new DeliveryRouter (_bus);
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			var cancellationFilter = new CancellationFilter (router);

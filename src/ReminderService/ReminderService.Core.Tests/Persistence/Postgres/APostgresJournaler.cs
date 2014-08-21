@@ -29,7 +29,6 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
 				"deliveryUrl",
-				"deadletterUrl",
 				"application/json",
 				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));
@@ -46,7 +45,6 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
 				"deliveryUrl",
-				"deadletterUrl",
 				"application/json",
 				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));
@@ -69,7 +67,6 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
 				"deliveryUrl",
-				"deadletterUrl",
 				"application/json",
 				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));

@@ -15,7 +15,6 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 			SetNow(SystemTime.Now());
 			var reminder = new ReminderMessage.Schedule (
 				"http://deliveryUrl",
-				"deadletterurl",
 				"content/type",
 				Now,
 				new byte[0]);
