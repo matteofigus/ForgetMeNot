@@ -8,17 +8,19 @@ namespace ReminderService.Messages
 {
 	public static class ReminderMessage
 	{
-		public abstract class ReminderMessageBase
+		public interface IReminder : IMessage
 		{
-			public Guid ReminderId { get; set; }
+			Guid ReminderId { get; set; }
 		}
 
-		public class Schedule : IMessage
+		public class Schedule : IReminder
 		{
 			public Guid ReminderId { get; set; }
+			public DateTime TimeoutAt { get; set; }
+			public DateTime GiveupAfter { get; set; }
+			public DateTime? RescheduleFor { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
-			public DateTime TimeoutAt { get; set; }
 			public byte[] Payload { get; set; }
 
 			public Schedule ()
@@ -46,7 +48,7 @@ namespace ReminderService.Messages
 			public Guid ReminderId {get; set;}
 		}
 
-		public class Due : IMessage
+		public class Due : IReminder
 		{
 			public Guid ReminderId { get; set; }
 			public ReminderMessage.Schedule Reminder { get; set; }
@@ -58,7 +60,7 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class Cancel : IMessage
+		public class Cancel : IReminder
 		{
 			public Guid ReminderId { get; set; }
 
@@ -68,9 +70,9 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class Sent : IMessage
+		public class Sent : IReminder
 		{
-			public Guid ReminderId { get; private set; }
+			public Guid ReminderId { get; set; }
 			public DateTime SentStamp { get; private set; }
 
 			public Sent (Guid reminderId, DateTime sentStamp)
@@ -80,6 +82,22 @@ namespace ReminderService.Messages
 				ReminderId = reminderId;
 				SentStamp = sentStamp;
 			}
+		}
+
+		public class SentToDeadLetter : Sent
+		{
+			public SentToDeadLetter (Guid reminderId, DateTime sentStamp) 
+				: base (reminderId, sentStamp)
+			{
+				//empty	
+			}
+		}
+
+		public class Undelivered : IReminder
+		{
+			public Guid ReminderId { get; set; }
+			public ReminderMessage.Schedule Reminder { get; set; }
+			public string Reason { get; set; }
 		}
 
 		public class EqualityComparer<T> : IEqualityComparer<T> where T : IMessage
