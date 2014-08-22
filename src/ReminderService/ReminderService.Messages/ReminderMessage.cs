@@ -27,7 +27,7 @@ namespace ReminderService.Messages
 			DateTime? RescheduleFor { get; set; }
 		}
 
-		public class Schedule : IReminder
+		public class Schedule : ISchedulable, IDeliverable, IReminder
 		{
 			public Guid ReminderId { get; set; }
 			public DateTime DueAt { get; set; }
