@@ -43,11 +43,6 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class ScheduledResponse : IMessage
-		{
-			public Guid ReminderId {get; set;}
-		}
-
 		public class Due : IReminder
 		{
 			public Guid ReminderId { get; set; }

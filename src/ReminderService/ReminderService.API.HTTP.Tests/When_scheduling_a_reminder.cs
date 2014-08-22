@@ -31,7 +31,7 @@ namespace ReminderService.API.HTTP.Tests
 		public void should_return_a_reminder_id()
 		{
 			Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
-			var responseBody = Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse>();
+			var responseBody = Response.Body.DeserializeJson<ScheduledResponse>();
 			Assert.AreNotEqual (Guid.Empty, responseBody.ReminderId);
 		}
 

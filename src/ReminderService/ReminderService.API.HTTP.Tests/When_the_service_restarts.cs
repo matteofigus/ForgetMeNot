@@ -62,7 +62,7 @@ namespace ReminderService.API.HTTP.Tests
 				POST ("/reminders", reminder);
 				Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
 
-				var reminderId = Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse> ().ReminderId;
+				var reminderId = Response.Body.DeserializeJson<ScheduledResponse> ().ReminderId;
 				_scheduledReminders.Add(new Tuple<ReminderMessage.Schedule, Guid>(reminder, reminderId));
 			}
 		}

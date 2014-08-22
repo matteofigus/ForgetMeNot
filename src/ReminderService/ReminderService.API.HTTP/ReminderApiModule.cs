@@ -56,7 +56,7 @@ namespace ReminderService.API.HTTP
 				//errors are handled by a request level error handler, no need to try-catch here...
 				_bus.Send(model);
 
-				var scheduleRes = new ReminderMessage.ScheduledResponse{ReminderId = model.ReminderId};
+				var scheduleRes = new ScheduledResponse{ReminderId = model.ReminderId};
 				var res = Response.AsJson(
 					scheduleRes,
 					HttpStatusCode.Created);

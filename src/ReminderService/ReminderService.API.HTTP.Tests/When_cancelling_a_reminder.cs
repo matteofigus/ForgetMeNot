@@ -27,7 +27,7 @@ namespace ReminderService.API.HTTP.Tests
 			foreach (var reminder in remindersToSchedule) {
 				POST ("/reminders", reminder);
 				Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
-				_reminderIds.Add (Response.Body.DeserializeJson<ReminderMessage.ScheduledResponse> ().ReminderId);
+				_reminderIds.Add (Response.Body.DeserializeJson<ScheduledResponse> ().ReminderId);
 			}
 		}
 
