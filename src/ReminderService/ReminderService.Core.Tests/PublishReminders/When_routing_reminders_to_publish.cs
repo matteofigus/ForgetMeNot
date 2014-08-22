@@ -28,7 +28,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 
 			router.Handle (dueReminder);
 
-			Assert.IsTrue(published.ContainsOne<ReminderMessage.Sent>());
+			Assert.IsTrue(published.ContainsOne<ReminderMessage.Delivered>());
 		}
 
 		[Test]

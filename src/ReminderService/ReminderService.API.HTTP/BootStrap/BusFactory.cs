@@ -27,7 +27,7 @@ namespace ReminderService.API.HTTP.BootStrap
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Cancel>);
-			_bus.Subscribe (journaler as IConsume<ReminderMessage.Sent>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Delivered>);
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);

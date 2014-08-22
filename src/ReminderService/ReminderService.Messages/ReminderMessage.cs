@@ -81,12 +81,12 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class Sent : IReminder
+		public class Delivered : IReminder
 		{
 			public Guid ReminderId { get; set; }
 			public DateTime SentStamp { get; private set; }
 
-			public Sent (Guid reminderId, DateTime sentStamp)
+			public Delivered (Guid reminderId, DateTime sentStamp)
 			{
 				Ensure.NotEmptyGuid(reminderId, "reminderId");
 
@@ -95,7 +95,7 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class SentToDeadLetter : Sent
+		public class SentToDeadLetter : Delivered
 		{
 			public SentToDeadLetter (Guid reminderId, DateTime sentStamp) 
 				: base (reminderId, sentStamp)

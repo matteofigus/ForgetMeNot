@@ -41,7 +41,7 @@ namespace ReminderService.Core.DeliverReminder
 			foreach (var handler in _handlers) {
 				if (_handlerSelector(msg, handler.Key)) {
 					handler.Value.Send (msg);
-					_bus.Send (new ReminderMessage.Sent(msg.ReminderId, SystemTime.Now()));
+					_bus.Send (new ReminderMessage.Delivered(msg.ReminderId, SystemTime.Now()));
 					return;
 				}
 			}

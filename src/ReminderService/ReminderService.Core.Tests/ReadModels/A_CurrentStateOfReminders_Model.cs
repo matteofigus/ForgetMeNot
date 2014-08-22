@@ -58,7 +58,7 @@ namespace ReminderService.Core.Tests.ReadModels
 		public void Should_keep_track_of_delivered_reminders ()
 		{
 			var reminderId = _reminders[4].ReminderId;
-			_reminderStates.Handle (new ReminderMessage.Sent(reminderId, SystemTime.UtcNow()));
+			_reminderStates.Handle (new ReminderMessage.Delivered(reminderId, SystemTime.UtcNow()));
 
 			var query = new RequestResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
@@ -73,7 +73,7 @@ namespace ReminderService.Core.Tests.ReadModels
 		public void Should_keep_track_of_undeliverable_reminders ()
 		{
 			var reminderId = _reminders[4].ReminderId;
-			_reminderStates.Handle (new ReminderMessage.Sent(reminderId, SystemTime.UtcNow()));
+			_reminderStates.Handle (new ReminderMessage.Delivered(reminderId, SystemTime.UtcNow()));
 
 			var query = new RequestResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);

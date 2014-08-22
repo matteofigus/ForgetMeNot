@@ -10,7 +10,7 @@ namespace ReminderService.Core.ReadModels
 	public class CurrentStateOfReminders : 
 		IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>,
 		IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>,
-		IConsume<ReminderMessage.Sent>,
+		IConsume<ReminderMessage.Delivered>,
 		IHandleQueries<RequestResponse.GetReminderState, Maybe<RequestResponse.CurrentReminderState>>
 	{
 		private readonly object lockObject = new object();
@@ -43,7 +43,7 @@ namespace ReminderService.Core.ReadModels
 			}
 		}
 
-		public void Handle (ReminderMessage.Sent sent)
+		public void Handle (ReminderMessage.Delivered sent)
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (sent.ReminderId))

@@ -12,14 +12,14 @@ namespace ReminderService.Messages
 			return new ReminderMessage.Due (source);
 		}
 
-		public static ReminderMessage.Sent AsSent(this ReminderMessage.Due source)
+		public static ReminderMessage.Delivered AsSent(this ReminderMessage.Due source)
 		{
 			return AsSent (source, SystemTime.Now());
 		}
 
-		public static ReminderMessage.Sent AsSent(this ReminderMessage.Due source, DateTime sentStamp)
+		public static ReminderMessage.Delivered AsSent(this ReminderMessage.Due source, DateTime sentStamp)
 		{
-			return new ReminderMessage.Sent (source.ReminderId, sentStamp);
+			return new ReminderMessage.Delivered (source.ReminderId, sentStamp);
 		}
 	}
 }

@@ -75,7 +75,7 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 
 			AssertReminderExists (reminderId);
 
-			var sent = new ReminderMessage.Sent (reminderId, SystemTime.Now ());
+			var sent = new ReminderMessage.Delivered (reminderId, SystemTime.Now ());
 
 			_journaler.Write (sent);
 

@@ -14,7 +14,7 @@ namespace ReminderService.Core
 	public class Journaler : 
 		IConsume<ReminderMessage.Schedule>,
 		IConsume<ReminderMessage.Cancel>,
-		IConsume<ReminderMessage.Sent>
+		IConsume<ReminderMessage.Delivered>
 	{
 		//todo: write a QueuedConsumer<T> and use it here
 		// can this class implement ISubscribe<T> as a way to wire-up / route messages between components?
@@ -45,7 +45,7 @@ namespace ReminderService.Core
 			SendOnBus (new Envelopes.Journaled<ReminderMessage.Cancel> (msg) as IMessage);
 		}
 
-		public void Handle(ReminderMessage.Sent msg)
+		public void Handle(ReminderMessage.Delivered msg)
 		{
 			WriteToJournal (msg);
 		}

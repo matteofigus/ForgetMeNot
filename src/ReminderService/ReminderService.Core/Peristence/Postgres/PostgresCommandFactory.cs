@@ -49,7 +49,7 @@ namespace ReminderService.Core.Persistence.Postgres
 				var dic = new Dictionary<Type, Func<IMessage, NpgsqlCommand>> ();
 				dic.Add (typeof(ReminderMessage.Cancel), 	WriteCancellationCommand );
 				dic.Add (typeof(ReminderMessage.Schedule), 	WriteScheduleCommand );
-				dic.Add (typeof(ReminderMessage.Sent), 		WriteSentCommand );
+				dic.Add (typeof(ReminderMessage.Delivered), 		WriteSentCommand );
 				return dic;
 			}
 		}
@@ -76,7 +76,7 @@ namespace ReminderService.Core.Persistence.Postgres
 		private Func<IMessage, NpgsqlCommand> WriteSentCommand {
 			get { 
 				return (message) => {
-					var sent = message as ReminderMessage.Sent;
+					var sent = message as ReminderMessage.Delivered;
 					return new NpgsqlCommand(
 						string.Format(WriteSentReminder_CommandText, sent.SentStamp, sent.ReminderId)
 					);
