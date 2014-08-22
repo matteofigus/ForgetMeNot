@@ -28,9 +28,9 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var reminderId = Guid.NewGuid ();
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
+				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
-				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));
 
 			_journaler.Write (schedule);
@@ -44,9 +44,9 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var reminderId = Guid.NewGuid ();
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
+				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
-				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));
 
 			_journaler.Write (schedule);
@@ -66,9 +66,9 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			var reminderId = Guid.NewGuid ();
 			var schedule = new ReminderMessage.Schedule (
 				reminderId,
+				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
-				SystemTime.Now(),
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"));
 
 			_journaler.Write (schedule);

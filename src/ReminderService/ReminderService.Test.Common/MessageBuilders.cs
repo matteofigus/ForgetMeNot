@@ -18,9 +18,9 @@ namespace ReminderService.Test.Common
 				return 
 						new ReminderMessage.Schedule (
 							reminderId,
+							SystemTime.UtcNow ().AddMilliseconds(10),
 							"http://deliveryUrl/" + i,
 							"application/json",
-							SystemTime.UtcNow ().AddMilliseconds(10),
 							new TestPayload(reminderId).AsJsonEncoded());
 			});
 		}
@@ -31,9 +31,9 @@ namespace ReminderService.Test.Common
 				.Range (0, count)
 				.Select (i => 
 					new ReminderMessage.Schedule (
+						SystemTime.UtcNow ().AddMilliseconds (100),
 						"http://deliveryUrl/" + i,
 						"application/json",
-						SystemTime.UtcNow ().AddMilliseconds (100),
 						new TestPayload (Guid.NewGuid ()).AsJsonEncoded ()
 			));
 			//.ToList();

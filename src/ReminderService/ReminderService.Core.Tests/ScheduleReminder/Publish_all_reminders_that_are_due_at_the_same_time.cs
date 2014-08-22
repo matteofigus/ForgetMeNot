@@ -17,37 +17,37 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
+					Now,
 					"http://deliveryUrl/1",
 					"content/type",
-					Now,
 					new byte[0])));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
+					Now,
 					"http://deliveryUrl/2",
 					"content/type",
-					Now,
 					new byte[0])));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
+					Now.AddMilliseconds (25),
 					"http://deliveryUrl/3",
 					"content/type",
-					Now.AddMilliseconds (25),
 					new byte[0])));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
+					Now,
 					"http://deliveryUrl/4",
 					"content/type",
-					Now,
 					new byte[0])));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
+					Now.AddMilliseconds (25),
 					"http://deliveryUrl/3",
 					"content/type",
-					Now.AddMilliseconds (25),
 					new byte[0])));
 		}
 

@@ -18,9 +18,9 @@ namespace ReminderService.API.HTTP.Tests
 		public void Given_a_reminder_exists_in_the_service()
 		{
 			var scheduleRequest = new ReminderMessage.Schedule (
+				Now.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Now.Add(2.Hours()),
 				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}")
 			);
 

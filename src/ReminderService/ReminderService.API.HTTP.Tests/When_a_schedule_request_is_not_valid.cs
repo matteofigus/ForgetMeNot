@@ -28,9 +28,9 @@ namespace ReminderService.API.HTTP.Tests
 
 			// When
 			var requestBody = new ReminderMessage.Schedule (
+				DateTime.Now.AddDays (1),
 				"",
 				"application/json",
-				DateTime.Now.AddDays (1),
 				new byte[1] {01}
 			);
 			var result = browser.Post("/reminders", with => {

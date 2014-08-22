@@ -23,7 +23,7 @@ namespace ReminderService.Messages
 		public interface ISchedulable : IReminder
 		{
 			DateTime DueAt { get; set; }
-			DateTime GiveupAfter { get; set; }
+			DateTime? GiveupAfter { get; set; }
 			DateTime? RescheduleFor { get; set; }
 		}
 
@@ -31,7 +31,7 @@ namespace ReminderService.Messages
 		{
 			public Guid ReminderId { get; set; }
 			public DateTime DueAt { get; set; }
-			public DateTime GiveupAfter { get; set; }
+			public DateTime? GiveupAfter { get; set; }
 			public DateTime? RescheduleFor { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
@@ -42,16 +42,18 @@ namespace ReminderService.Messages
 				//default constructor
 			}
 
-			public Schedule (string deliveryUrl, string contentType, DateTime dueAt, byte[] payload)
+			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
 			{
+				DueAt = dueAt;
+				GiveupAfter = giveupAfter;
+				RescheduleFor = rescheduleFor;
 				DeliveryUrl = deliveryUrl;
 				ContentType = contentType;
-				DueAt = dueAt;
 				Payload = payload;
 			}
 
-			public Schedule (Guid reminderId, string deliveryUrl, string contentType, DateTime dueAt, byte[] payload)
-				: this(deliveryUrl, contentType, dueAt, payload)
+			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
+				: this(dueAt, deliveryUrl, contentType, payload, giveupAfter, rescheduleFor)
 			{
 				ReminderId = reminderId;
 			}

@@ -18,9 +18,9 @@ namespace ReminderService.API.HTTP.Tests
 			FreezeTime ();
 
 			var scheduleRequest = new ReminderMessage.Schedule (
+				Now.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Now.Add(2.Hours()),
 				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}")
 			);
 

@@ -14,9 +14,9 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 		{
 			SetNow(SystemTime.Now());
 			var reminder = new ReminderMessage.Schedule (
+				Now,
 				"http://deliveryUrl",
 				"content/type",
-				Now,
 				new byte[0]);
 			var journaledReminder = new Envelopes.Journaled<ReminderMessage.Schedule> (reminder);
 
