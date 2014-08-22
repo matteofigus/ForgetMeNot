@@ -68,7 +68,7 @@ namespace ReminderService.Core.Persistence.Postgres
 				return (message) => {
 					var schedule = message as ReminderMessage.Schedule;
 					return new NpgsqlCommand(
-						string.Format(WriteScheduleReminder_CommandText, schedule.ReminderId, schedule.TimeoutAt, schedule.AsJson(), SystemTime.Now()));
+						string.Format(WriteScheduleReminder_CommandText, schedule.ReminderId, schedule.DueAt, schedule.AsJson(), SystemTime.Now()));
 				};
 			}
 		}

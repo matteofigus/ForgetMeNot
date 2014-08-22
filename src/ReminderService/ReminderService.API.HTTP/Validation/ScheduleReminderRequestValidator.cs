@@ -16,7 +16,7 @@ namespace ReminderService.API.HTTP
 				.NotEmpty ()
 				.Equal ("application/json")
 				.WithMessage ("We only support json at the moment.");
-			RuleFor (request => request.TimeoutAt)
+			RuleFor (request => request.DueAt)
 				.GreaterThan (SystemTime.Now ())
 				.WithMessage("The TimeoutAt value cannot be in the past.");
 		}

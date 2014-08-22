@@ -25,7 +25,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ReminderMessage.Schedule> ((a, b) => a.TimeoutAt > b.TimeoutAt);
+			_pq = new MinPriorityQueue<ReminderMessage.Schedule> ((a, b) => a.DueAt > b.DueAt);
 		}
 			
 		public void Handle (SystemMessage.Start startMessage)
@@ -50,7 +50,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			//get all the items from the pq that are due
 			lock (_locker) {
-				while (!_pq.IsEmpty && _pq.Min ().TimeoutAt <= SystemTime.UtcNow()) {
+				while (!_pq.IsEmpty && _pq.Min ().DueAt <= SystemTime.UtcNow()) {
 					_bus.Send (_pq.RemoveMin().AsDue());
 				}
 			}
@@ -60,7 +60,7 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			if (_running > 0 && !_pq.IsEmpty)
 			{
-				var nextTimeoutAt = _pq.Min ().TimeoutAt;
+				var nextTimeoutAt = _pq.Min ().DueAt;
 				var timeToNext = Convert.ToInt32 (nextTimeoutAt.Subtract (SystemTime.UtcNow ()).TotalMilliseconds); //Int32.MaxValue in milliseconds is about 68 years! Hopefully nobody is going to schedule something that far in the future
 				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);
