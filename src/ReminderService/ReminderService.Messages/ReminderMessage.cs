@@ -13,7 +13,21 @@ namespace ReminderService.Messages
 			Guid ReminderId { get; set; }
 		}
 
-		public class Schedule : IReminder
+		public interface IDeliverable : IReminder
+		{
+			string DeliveryUrl { get; set; }
+			string ContentType { get; set; }
+			byte[] Payload { get; set; }
+		}
+
+		public interface ISchedulable : IReminder
+		{
+			DateTime TimeoutAt { get; set; }
+			DateTime GiveupAfter { get; set; }
+			DateTime? RescheduleFor { get; set; }
+		}
+
+		public class Schedule : ISchedulable, IDeliverable
 		{
 			public Guid ReminderId { get; set; }
 			public DateTime TimeoutAt { get; set; }
