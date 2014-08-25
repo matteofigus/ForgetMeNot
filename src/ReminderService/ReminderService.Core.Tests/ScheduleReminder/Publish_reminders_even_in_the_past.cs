@@ -21,21 +21,21 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (-100),
 					"http://deliveryUrl",
 					"content/type",
-					new byte[0])));
+					new byte[0], 0)));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					Now.AddMilliseconds (-160),
 					"http://deliveryUrl",
 					"content/type",
-					new byte[0])));
+					new byte[0], 0)));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
 				new ReminderMessage.Schedule (
 					Now.AddMilliseconds (50),
 					"http://deliveryUrl",
 					"content/type",
-					new byte[0])));
+					new byte[0], 0)));
 		}
 
 		[Test]

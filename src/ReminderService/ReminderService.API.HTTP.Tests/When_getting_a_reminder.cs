@@ -21,7 +21,8 @@ namespace ReminderService.API.HTTP.Tests
 				Now.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}")
+				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
+				0
 			);
 
 			POST ("/reminders", scheduleRequest);

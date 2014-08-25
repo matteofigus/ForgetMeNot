@@ -31,7 +31,8 @@ namespace ReminderService.API.HTTP.Tests
 				DateTime.Now.AddDays (1),
 				"",
 				"application/json",
-				new byte[1] {01}
+				new byte[1] {01},
+				0
 			);
 			var result = browser.Post("/reminders", with => {
 				with.JsonBody(requestBody);

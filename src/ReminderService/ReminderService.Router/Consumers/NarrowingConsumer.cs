@@ -9,6 +9,11 @@ namespace ReminderService.Router
 	{
 		private readonly IConsume<TOutput> _innerConsumer;
 
+		public NarrowingConsumer (IConsume<TOutput> innerConsumer)
+		{
+			_innerConsumer = innerConsumer;
+		}
+
 		public void Handle(TInput message)
 		{
 			//this will throw if you cannot cast TWide to TNarrow

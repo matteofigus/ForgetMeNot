@@ -100,7 +100,7 @@
     <Compile Include="Persistence\Postgres\A_CancellationReplayer.cs" />
     <Compile Include="Persistence\Postgres\A_CurrentReminderReplayer.cs" />
     <Compile Include="ReadModels\A_CurrentStateOfReminders_Model.cs" />
-    <Compile Include="DeliverReminder\When_a_reminder_cannot_be_delivered.cs" />
+    <Compile Include="DeliverReminder\An_UndeliveredProcessManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

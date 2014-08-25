@@ -62,11 +62,11 @@
     <Compile Include="Topics\ITopicFactory.cs" />
     <Compile Include="Topics\MessageTypeTopics.cs" />
     <Compile Include="Topics\ITopic.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="ISendMessages.cs" />
     <Compile Include="IHandleQueries.cs" />
     <Compile Include="ISubscribeToQueries.cs" />
     <Compile Include="Consumers\QueryDispatcher.cs" />
+    <Compile Include="Consumers\ConsumerExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,7 +9,7 @@ namespace ReminderService.Test.Common
 {
 	public class MessageBuilders
 	{
-		public static IEnumerable<ReminderMessage.Schedule> BuildReminders(int count)
+		public static IEnumerable<ReminderMessage.Schedule> BuildReminders(int count, int firstWaitDurationMs = 100, DateTime? giveupAfter = null)
 		{
 			return Enumerable
 				.Range (0, count)
@@ -21,11 +21,14 @@ namespace ReminderService.Test.Common
 							SystemTime.UtcNow ().AddMilliseconds(10),
 							"http://deliveryUrl/" + i,
 							"application/json",
-							new TestPayload(reminderId).AsJsonEncoded());
+							new TestPayload(reminderId).AsJsonEncoded(),
+							firstWaitDurationMs,
+							giveupAfter
+						);
 			});
 		}
 
-		public static IEnumerable<ReminderMessage.Schedule> BuildRemindersWithoutIds(int count)
+		public static IEnumerable<ReminderMessage.Schedule> BuildRemindersWithoutIds(int count, int firstWaitDurationMs = 100, DateTime? giveupAfter = null)
 		{
 			return Enumerable
 				.Range (0, count)
@@ -34,7 +37,9 @@ namespace ReminderService.Test.Common
 						SystemTime.UtcNow ().AddMilliseconds (100),
 						"http://deliveryUrl/" + i,
 						"application/json",
-						new TestPayload (Guid.NewGuid ()).AsJsonEncoded ()
+						new TestPayload (Guid.NewGuid ()).AsJsonEncoded (),
+						firstWaitDurationMs,
+						giveupAfter
 			));
 			//.ToList();
 		}

@@ -32,6 +32,7 @@ namespace ReminderService.Messages
 			public Guid ReminderId { get; set; }
 			public DateTime DueAt { get; set; }
 			public DateTime? GiveupAfter { get; set; }
+			public int FirstWaitDurationMs { get; set; }
 			public DateTime? RescheduleFor { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
@@ -42,9 +43,10 @@ namespace ReminderService.Messages
 				//default constructor
 			}
 
-			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
+			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int firstWaitDurationMs, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
 			{
 				DueAt = dueAt;
+				FirstWaitDurationMs = firstWaitDurationMs;
 				GiveupAfter = giveupAfter;
 				RescheduleFor = rescheduleFor;
 				DeliveryUrl = deliveryUrl;
@@ -52,8 +54,8 @@ namespace ReminderService.Messages
 				Payload = payload;
 			}
 
-			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
-				: this(dueAt, deliveryUrl, contentType, payload, giveupAfter, rescheduleFor)
+			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int firstWaitDurationMs, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
+				: this(dueAt, deliveryUrl, contentType, payload, firstWaitDurationMs, giveupAfter, rescheduleFor)
 			{
 				ReminderId = reminderId;
 			}
@@ -95,6 +97,20 @@ namespace ReminderService.Messages
 			}
 		}
 
+		public class Undeliverable : IReminder
+		{
+			public Guid ReminderId { get; set; }
+			public ReminderMessage.Schedule Reminder { get; set; }
+			public string Reason { get; set; }
+
+			public Undeliverable (ReminderMessage.Schedule reminder, string reason)
+			{
+				Reminder = reminder;
+				Reason = reason;
+				ReminderId = reminder.ReminderId;
+			}
+		}
+
 		public class SentToDeadLetter : Delivered
 		{
 			public SentToDeadLetter (Guid reminderId, DateTime sentStamp) 
@@ -109,6 +125,12 @@ namespace ReminderService.Messages
 			public Guid ReminderId { get; set; }
 			public ReminderMessage.Schedule Reminder { get; set; }
 			public string Reason { get; set; }
+
+			public Undelivered (ReminderMessage.Schedule reminder, string reason)
+			{
+				Reminder = reminder;
+				Reason = reason;
+			}
 		}
 
 		public class EqualityComparer<T> : IEqualityComparer<T> where T : IMessage

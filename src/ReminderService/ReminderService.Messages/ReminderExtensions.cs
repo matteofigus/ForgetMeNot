@@ -21,6 +21,11 @@ namespace ReminderService.Messages
 		{
 			return new ReminderMessage.Delivered (source.ReminderId, sentStamp);
 		}
+
+		public static bool DoNotAttemptRedelivery(this ReminderMessage.Undelivered undelivered)
+		{
+			return !undelivered.Reminder.GiveupAfter.HasValue;
+		}
 	}
 }
 
