@@ -37,8 +37,7 @@ namespace ReminderService.Core.Tests.DeliverReminder
 		[Test]
 		public void Should_receive_an_Undeliverable_message()
 		{
-			Assert.AreEqual (1, Received.Count);
-			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (Received.First());
+			Received.ContainsOne<ReminderMessage.Undeliverable>();
 			var received = (ReminderMessage.Undeliverable)Received.First ();
 			Assert.AreEqual (received.ReminderId, _originalReminder.ReminderId);
 		}
@@ -46,8 +45,7 @@ namespace ReminderService.Core.Tests.DeliverReminder
 		[Test]
 		public void Should_not_attempt_to_change_the_DueAt_time()
 		{
-			Assert.AreEqual (1, Received.Count);
-			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (Received.First());
+			Received.ContainsOne<ReminderMessage.Undeliverable>();
 			var received = (ReminderMessage.Undeliverable)Received.First ();
 			Assert.AreEqual (received.Reminder.DueAt, _originalReminder.DueAt);
 		}
