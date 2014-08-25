@@ -1,17 +1,16 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Linq;
-using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Tests.Helpers;
 using ReminderService.Router;
 using ReminderService.Messages;
+using ReminderService.Core.DeliverReminder;
 using ReminderService.Test.Common;
-using ReminderService.Common;
+using System.Linq;
 
 namespace ReminderService.Core.Tests.DeliverReminder
 {
 	[TestFixture]
-	public class An_UndeliveredProcessManager : 
+	public class When_redelivery_should_not_be_attempted : 
 		RoutableTestBase, 
 		IConsume<ReminderMessage.Schedule>,
 		IConsume<ReminderMessage.Undeliverable>
@@ -30,27 +29,27 @@ namespace ReminderService.Core.Tests.DeliverReminder
 
 		public void When_receive_an_undelivered_reminder()
 		{
-			_originalReminder = MessageBuilders.BuildReminders (1, 150, SystemTime.UtcNow().AddMilliseconds(1000)).First ();
+			_originalReminder = MessageBuilders.BuildReminders (1).First ();
 			var undelivered = new ReminderMessage.Undelivered (_originalReminder, "failed reason");
 			_processManager.Handle (undelivered);
 		}
 
 		[Test]
-		public void Should_emit_a_rescheduled_reminder_for_the_same_reminder()
+		public void Should_receive_an_Undeliverable_message()
 		{
 			Assert.AreEqual (1, Received.Count);
-			Assert.IsInstanceOf<ReminderMessage.Schedule> (Received.First());
-			var received = (ReminderMessage.Schedule)Received.First ();
+			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (Received.First());
+			var received = (ReminderMessage.Undeliverable)Received.First ();
 			Assert.AreEqual (received.ReminderId, _originalReminder.ReminderId);
 		}
 
 		[Test]
-		public void Should_increase_the_Reschedule_time()
+		public void Should_not_attempt_to_change_the_DueAt_time()
 		{
 			Assert.AreEqual (1, Received.Count);
-			Assert.IsInstanceOf<ReminderMessage.Schedule> (Received.First());
-			var received = (ReminderMessage.Schedule)Received.First ();
-			Assert.AreEqual (_originalReminder.DueAt.AddMilliseconds(_originalReminder.FirstWaitDurationMs), received.RescheduleFor);
+			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (Received.First());
+			var received = (ReminderMessage.Undeliverable)Received.First ();
+			Assert.AreEqual (received.Reminder.DueAt, _originalReminder.DueAt);
 		}
 
 		public void Handle (ReminderMessage.Schedule msg)

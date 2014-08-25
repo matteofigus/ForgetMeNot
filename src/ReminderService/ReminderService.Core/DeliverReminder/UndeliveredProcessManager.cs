@@ -10,7 +10,7 @@ namespace ReminderService.Core.DeliverReminder
 	{
 		private readonly object _lockObject = new object ();
 		private readonly IBus _bus;
-		private readonly Dictionary<Guid, ReminderMessage.Undelivered> _deliveryStates = new Dictionary<Guid, ReminderMessage.Undelivered>();
+		private readonly Dictionary<Guid, int> _retryAttempts = new Dictionary<Guid, int> ();
 
 		public UndeliveredProcessManager (IBus bus)
 		{
@@ -26,44 +26,34 @@ namespace ReminderService.Core.DeliverReminder
 				return;
 			}
 
-			//if the reminder does not exist in the collection:
-			//figure out the first retry time
-			//insert in to the collection
-			//send on the bus
-
-			//if the reminder does exist in the collection:
-			//are we at the GiveupAfter time -> send to deadletter queue
-			//figure out the next retry time
-			//send on the bus
-
 			lock (_lockObject) {
-				if (!_deliveryStates.ContainsKey (undelivered.ReminderId)) {
-					_deliveryStates.Add (undelivered.ReminderId, undelivered);
-				}
+				if (!_retryAttempts.ContainsKey (undelivered.ReminderId))
+					_retryAttempts.Add (undelivered.ReminderId, 1);
+				else
+					_retryAttempts [undelivered.ReminderId]++;
 
-				var rescheduled = CalculateNextDueTime (undelivered.Reminder);
+				var rescheduled = CalculateNextDueTime (undelivered.Reminder, _retryAttempts[undelivered.ReminderId]);
 				if (GiveupRedelivering (rescheduled)) 
 					_bus.Send (new ReminderMessage.Undeliverable (undelivered.Reminder, undelivered.Reason));
 				 else 
 					_bus.Send (rescheduled);
 			}
 		}
-
-		private ReminderMessage.Schedule CalculateNextDueTime(ReminderMessage.Schedule undelivered)
+			
+		private ReminderMessage.Schedule CalculateNextDueTime(ReminderMessage.Schedule undelivered, int retryCount)
 		{
-			if (!undelivered.RescheduleFor.HasValue)
-				undelivered.RescheduleFor = undelivered.DueAt.AddMilliseconds (undelivered.FirstWaitDurationMs);
-			else {
-				var nextSchedule = new DateTime (((undelivered.RescheduleFor.Value.Ticks - undelivered.DueAt.Ticks) * 2) + undelivered.RescheduleFor.Value.Ticks);
-				undelivered.RescheduleFor = nextSchedule;
-			}
-
+			undelivered.RescheduleFor = undelivered.DueAt.AddTicks (DecelerationFactor (undelivered) * retryCount * retryCount * retryCount);
 			return undelivered;
+		}
+
+		private long DecelerationFactor(ReminderMessage.Schedule reminder)
+		{
+			return (long)( (reminder.GiveupAfter.Value.Ticks - reminder.DueAt.Ticks) / (reminder.MaxAttempts * reminder.MaxAttempts * reminder.MaxAttempts) );
 		}
 
 		private bool GiveupRedelivering(ReminderMessage.Schedule undelivered)
 		{
-			return undelivered.RescheduleFor.Value > undelivered.GiveupAfter.Value;
+			return undelivered.MaxAttempts == _retryAttempts[undelivered.ReminderId];
 		}
 	}
 }

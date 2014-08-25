@@ -32,7 +32,7 @@ namespace ReminderService.Messages
 			public Guid ReminderId { get; set; }
 			public DateTime DueAt { get; set; }
 			public DateTime? GiveupAfter { get; set; }
-			public int FirstWaitDurationMs { get; set; }
+			public int MaxAttempts { get; set; }
 			public DateTime? RescheduleFor { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
@@ -43,10 +43,10 @@ namespace ReminderService.Messages
 				//default constructor
 			}
 
-			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int firstWaitDurationMs, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
+			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int maxAttempts, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
 			{
 				DueAt = dueAt;
-				FirstWaitDurationMs = firstWaitDurationMs;
+				MaxAttempts = maxAttempts;
 				GiveupAfter = giveupAfter;
 				RescheduleFor = rescheduleFor;
 				DeliveryUrl = deliveryUrl;
@@ -54,8 +54,8 @@ namespace ReminderService.Messages
 				Payload = payload;
 			}
 
-			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int firstWaitDurationMs, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
-				: this(dueAt, deliveryUrl, contentType, payload, firstWaitDurationMs, giveupAfter, rescheduleFor)
+			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int maxAttempts, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
+				: this(dueAt, deliveryUrl, contentType, payload, maxAttempts, giveupAfter, rescheduleFor)
 			{
 				ReminderId = reminderId;
 			}
@@ -128,6 +128,7 @@ namespace ReminderService.Messages
 
 			public Undelivered (ReminderMessage.Schedule reminder, string reason)
 			{
+				ReminderId = reminder.ReminderId;
 				Reminder = reminder;
 				Reason = reason;
 			}
