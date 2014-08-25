@@ -15,7 +15,7 @@ namespace ReminderService.Core.ScheduleReminder
 		private readonly object _locker = new object ();
 		private readonly ISendMessages _bus;
 		private readonly ITimer _timer;
-		private readonly MinPriorityQueue<ReminderMessage.Schedule> _pq;
+		private readonly MinPriorityQueue<ReminderMessage.ISchedulable> _pq;
 		private int _running = 0;
 
 		public Scheduler (ISendMessages bus, ITimer timer)
@@ -25,7 +25,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 			_bus = bus;
 			_timer = timer;
-			_pq = new MinPriorityQueue<ReminderMessage.Schedule> ((a, b) => a.DueAt > b.DueAt);
+			_pq = new MinPriorityQueue<ReminderMessage.ISchedulable> ((a, b) => a.DueAt > b.DueAt);
 		}
 			
 		public void Handle (SystemMessage.Start startMessage)

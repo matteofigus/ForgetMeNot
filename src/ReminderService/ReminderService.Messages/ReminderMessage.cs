@@ -23,8 +23,6 @@ namespace ReminderService.Messages
 		public interface ISchedulable : IReminder
 		{
 			DateTime DueAt { get; set; }
-			DateTime? GiveupAfter { get; set; }
-			DateTime? RescheduleFor { get; set; }
 		}
 
 		public class Schedule : ISchedulable, IDeliverable, IReminder

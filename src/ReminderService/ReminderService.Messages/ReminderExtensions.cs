@@ -7,9 +7,12 @@ namespace ReminderService.Messages
 {
 	public static class ReminderExtensions
 	{
-		public static ReminderMessage.Due AsDue(this ReminderMessage.Schedule source)
+		public static ReminderMessage.Due AsDue(this ReminderMessage.ISchedulable source)
 		{
-			return new ReminderMessage.Due (source);
+			if(source is ReminderMessage.Schedule)
+				return new ReminderMessage.Due ((ReminderMessage.Schedule)source);
+
+			throw new InvalidOperationException (string.Format("There is not support to convert from [{0}]", source.GetType().FullName));
 		}
 
 		public static ReminderMessage.Delivered AsSent(this ReminderMessage.Due source)
