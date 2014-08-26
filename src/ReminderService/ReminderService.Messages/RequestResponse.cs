@@ -22,6 +22,7 @@ namespace ReminderService.Messages
 			Scheduled,
 			Delivered,
 			Canceled,
+			Redelivering,
 			Undeliverable
 		}
 

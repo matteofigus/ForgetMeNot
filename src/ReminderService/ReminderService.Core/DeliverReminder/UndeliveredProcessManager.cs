@@ -9,7 +9,7 @@ namespace ReminderService.Core.DeliverReminder
 {
 	public class UndeliveredProcessManager : 
 		IConsume<ReminderMessage.Undelivered>,
-		IConsume<ReminderMessage.Delivered>	//IConsume<Envelopes.Journaled<ReminderMessage.Undelivered>>
+		IConsume<ReminderMessage.Delivered>
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(UndeliveredProcessManager));
 		private readonly object _lockObject = new object ();

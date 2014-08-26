@@ -82,6 +82,30 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 			AssertSent (reminderId);
 		}
 
+		[Test]
+		public void Should_write_Undeliverable_messages()
+		{
+			var reminderId = Guid.NewGuid ();
+			var schedule = new ReminderMessage.Schedule (
+				reminderId,
+				SystemTime.Now(),
+				"deliveryUrl",
+				"application/json",
+				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 
+				0
+			);
+
+			_journaler.Write (schedule);
+
+			AssertReminderExists (reminderId);
+
+			var undeliverable = new ReminderMessage.Undeliverable (schedule, "404");
+
+			_journaler.Write (undeliverable);
+
+			AssertUndeliverable (reminderId);
+		}
+
 		[TestFixtureTearDown]
 		public void Cleanup()
 		{
