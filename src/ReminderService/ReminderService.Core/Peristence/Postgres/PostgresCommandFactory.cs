@@ -13,9 +13,10 @@ namespace ReminderService.Core.Persistence.Postgres
 		const string GetCurrentReminders_CommandText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE";
 		const string GetCancellations_CommandText = "SELECT reminder_id FROM public.reminders WHERE cancelled = TRUE AND due_time >= '{0}'";
 		const string WriteCancellation_CommandText = "UPDATE public.reminders SET cancelled = TRUE WHERE reminder_id = '{0}'";
-		const string WriteScheduleReminder_CommandText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, FALSE, 1, '{3}')";
+		const string WriteScheduleReminder_CommandText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, FALSE, FALSE, 1, '{3}')";
 		const string WriteSentReminder_CommandText = "UPDATE public.reminders SET sent_time = '{0}' WHERE reminder_id = '{1}'";
 		const string WriteUndeliverable_CommandText = "UPDATE public.reminders SET undeliverable = TRUE WHERE reminder_id = '{0}'";
+		const string WriteUndelivered_CommandText = "UPDATE public.reminders SET undelivered = TRUE WHERE reminder_id = '{0}'";
 
 		private readonly IDictionary<Type, Func<IMessage, NpgsqlCommand>> _commandSelector;
 
@@ -53,6 +54,7 @@ namespace ReminderService.Core.Persistence.Postgres
 				dic.Add (typeof(ReminderMessage.Schedule), 		WriteScheduleCommand );
 				dic.Add (typeof(ReminderMessage.Delivered), 	WriteSentCommand );
 				dic.Add (typeof(ReminderMessage.Undeliverable),	WriteUndeliverableCommand);
+				dic.Add (typeof(ReminderMessage.Undelivered),	WriteUndeliveredCommand);
 				return dic;
 			}
 		}
@@ -93,6 +95,17 @@ namespace ReminderService.Core.Persistence.Postgres
 					var undeliverable = message as ReminderMessage.Undeliverable;
 					return new NpgsqlCommand(
 						string.Format(WriteUndeliverable_CommandText, undeliverable.ReminderId)
+					);
+				};
+			}
+		}
+
+		private Func<IMessage, NpgsqlCommand> WriteUndeliveredCommand {
+			get {
+				return (message) => {
+					var undelivered = message as ReminderMessage.Undelivered;
+					return new NpgsqlCommand(
+						string.Format(WriteUndelivered_CommandText, undelivered.ReminderId)
 					);
 				};
 			}

@@ -75,6 +75,20 @@ namespace ReminderService.Test.Common
 			}
 		}
 
+		protected void AssertUndelivered(Guid reminderId)
+		{
+			var commandText = 
+				string.Format("SELECT count(*) FROM public.reminders WHERE reminder_id = '{0}' AND cancelled = FALSE AND sent_time IS NULL AND undelivered = TRUE",
+					reminderId);
+			using (var connection = new NpgsqlConnection (ConnectionString)) {
+				using (var command = new NpgsqlCommand (commandText, connection)) {
+					connection.Open ();
+					var count = Convert.ToInt32( command.ExecuteScalar ());
+					Assert.AreEqual (1, count);
+				}
+			}
+		}
+
 		protected void CleanupDatabase()
 		{
 			var commandText = "DELETE FROM public.reminders";
