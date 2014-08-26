@@ -11,6 +11,7 @@ namespace ReminderService.Core.ReadModels
 		IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>,
 		IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>,
 		IConsume<ReminderMessage.Delivered>,
+		IConsume<ReminderMessage.Undeliverable>,
 		IHandleQueries<RequestResponse.GetReminderState, Maybe<RequestResponse.CurrentReminderState>>
 	{
 		private readonly object lockObject = new object();
@@ -48,6 +49,14 @@ namespace ReminderService.Core.ReadModels
 			lock (lockObject) {
 				if (_states.ContainsKey (sent.ReminderId))
 					_states [sent.ReminderId].Status = RequestResponse.ReminderStatusEnum.Delivered;
+			}
+		}
+
+		public void Handle (ReminderMessage.Undeliverable undeliverable)
+		{
+			lock (lockObject) {
+				if (_states.ContainsKey (undeliverable.ReminderId))
+					_states [undeliverable.ReminderId].Status = RequestResponse.ReminderStatusEnum.Undeliverable;
 			}
 		}
 

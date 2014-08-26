@@ -69,18 +69,17 @@ namespace ReminderService.Core.Tests.ReadModels
 		}
 
 		[Test]
-		[Ignore]
 		public void Should_keep_track_of_undeliverable_reminders ()
 		{
 			var reminderId = _reminders[4].ReminderId;
-			_reminderStates.Handle (new ReminderMessage.Delivered(reminderId, SystemTime.UtcNow()));
+			_reminderStates.Handle (new ReminderMessage.Undeliverable(_reminders[4], "404 - Not Found"));
 
 			var query = new RequestResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
-			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Delivered, response.Value.Status);
+			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Undeliverable, response.Value.Status);
 		}
 
 		[Test]
