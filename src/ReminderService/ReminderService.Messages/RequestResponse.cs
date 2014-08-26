@@ -30,16 +30,18 @@ namespace ReminderService.Messages
 		{
 			public ReminderStatusEnum Status { get; set; }
 			public ReminderMessage.Schedule Reminder { get; set; }
+			public int RedeliveryAttempts { get; set; }
 
 			public CurrentReminderState ()
 			{
 				//empty
 			}
 
-			public CurrentReminderState (ReminderMessage.Schedule reminder, ReminderStatusEnum status)
+			public CurrentReminderState (ReminderMessage.Schedule reminder, ReminderStatusEnum status, int redeliveryAttempts = 0)
 			{
 				Reminder = reminder;
 				Status = status;
+				RedeliveryAttempts = redeliveryAttempts;
 			}
 		}
 	}
