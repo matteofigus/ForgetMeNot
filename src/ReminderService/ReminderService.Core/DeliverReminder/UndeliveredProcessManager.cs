@@ -32,28 +32,30 @@ namespace ReminderService.Core.DeliverReminder
 				else
 					_retryAttempts [undelivered.ReminderId]++;
 
-				var rescheduled = CalculateNextDueTime (undelivered.Reminder, _retryAttempts[undelivered.ReminderId]);
-				if (GiveupRedelivering (rescheduled)) 
+				var retryAttempts = _retryAttempts [undelivered.ReminderId];
+				var nextDueTime = CalculateNextDueTime (undelivered.Reminder, retryAttempts);
+				var rescheduled = new ReminderMessage.Rescheduled (undelivered.Reminder, nextDueTime);
+
+				if (GiveupRedelivering (rescheduled, retryAttempts)) 
 					_bus.Send (new ReminderMessage.Undeliverable (undelivered.Reminder, undelivered.Reason));
 				 else 
 					_bus.Send (rescheduled);
 			}
 		}
 			
-		private ReminderMessage.Schedule CalculateNextDueTime(ReminderMessage.Schedule undelivered, int retryCount)
+		private DateTime CalculateNextDueTime(ReminderMessage.Schedule reminder, int retryCount)
 		{
-			undelivered.RescheduleFor = undelivered.DueAt.AddTicks (DecelerationFactor (undelivered) * retryCount * retryCount * retryCount);
-			return undelivered;
+			return reminder.DueAt.AddTicks (DecelerationFactor (reminder) * retryCount * retryCount * retryCount);
 		}
 
 		private long DecelerationFactor(ReminderMessage.Schedule reminder)
 		{
-			return (long)( (reminder.GiveupAfter.Value.Ticks - reminder.DueAt.Ticks) / (reminder.MaxAttempts * reminder.MaxAttempts * reminder.MaxAttempts) );
+			return (long)( (reminder.GiveupAfter.Value.Ticks - reminder.DueAt.Ticks) / (reminder.MaxRetries * reminder.MaxRetries * reminder.MaxRetries) );
 		}
 
-		private bool GiveupRedelivering(ReminderMessage.Schedule undelivered)
+		private bool GiveupRedelivering(ReminderMessage.Rescheduled rescheduled, int retryAttempts)
 		{
-			return undelivered.MaxAttempts == _retryAttempts[undelivered.ReminderId];
+			return retryAttempts > rescheduled.Reminder.MaxRetries;
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace ReminderService.Core.Tests.DeliverReminder
 	[TestFixture]
 	public class When_attempting_redelivery : 
 		RoutableTestBase, 
-		IConsume<ReminderMessage.Schedule>,
+		IConsume<ReminderMessage.Rescheduled>,
 		IConsume<ReminderMessage.Undeliverable>
 	{
 
@@ -27,7 +27,7 @@ namespace ReminderService.Core.Tests.DeliverReminder
 		public void Initialize()
 		{
 			_processManager = new UndeliveredProcessManager (Bus);
-			Subscribe<ReminderMessage.Schedule>(this);
+			Subscribe<ReminderMessage.Rescheduled>(this);
 			Subscribe<ReminderMessage.Undeliverable> (this);
 			_originalReminder = MessageBuilders.BuildReminders (1, 3, SystemTime.UtcNow().Add(_durationToGiveup)).First ();
 		}
@@ -42,10 +42,10 @@ namespace ReminderService.Core.Tests.DeliverReminder
 			}
 
 			//there should be 3 rescheduled reminders and one Undeliverable message
-			Received.ContainsThisMany<ReminderMessage.Schedule>(3);
+			Received.ContainsThisMany<ReminderMessage.Rescheduled>(3);
 			Received.ContainsOne<ReminderMessage.Undeliverable> ();
 
-			var timeSinceOriginalWasDue = ((ReminderMessage.Schedule)Received [Received.Count - 2]).RescheduleFor - _originalReminder.DueAt;
+			var timeSinceOriginalWasDue = ((ReminderMessage.Rescheduled)Received [Received.Count - 2]).DueAt - _originalReminder.DueAt;
 
 			//we hit some rounding errors in the math using DateTime's, so lets make sure we are close enough
 			Assert.That (timeSinceOriginalWasDue, Is.EqualTo (_durationToGiveup).Within (1).Seconds);
@@ -60,8 +60,8 @@ namespace ReminderService.Core.Tests.DeliverReminder
 		public void Should_emit_a_rescheduled_reminder_for_the_same_reminder(Guid reminderId)
 		{
 			var msg = Received[Received.Count -1];
-			Assert.IsInstanceOf<ReminderMessage.Schedule> (msg);
-			var received = (ReminderMessage.Schedule)msg;
+			Assert.IsInstanceOf<ReminderMessage.Rescheduled> (msg);
+			var received = (ReminderMessage.Rescheduled)msg;
 			Assert.AreEqual (received.ReminderId, reminderId);
 		}
 
@@ -72,12 +72,12 @@ namespace ReminderService.Core.Tests.DeliverReminder
 			return Received [Received.Count - 1] is ReminderMessage.Undeliverable;
 		}
 
-		public void Should_retry_until_GiveUp_is_reached(IMessage msg)
-		{
-			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (msg);
-		}
+//		public void Should_retry_until_GiveUp_is_reached(IMessage msg)
+//		{
+//			Assert.IsInstanceOf<ReminderMessage.Undeliverable> (msg);
+//		}
 
-		public void Handle (ReminderMessage.Schedule msg)
+		public void Handle (ReminderMessage.Rescheduled msg)
 		{
 			Received.Add (msg);
 		}

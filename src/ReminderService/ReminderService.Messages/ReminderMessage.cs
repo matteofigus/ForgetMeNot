@@ -30,7 +30,7 @@ namespace ReminderService.Messages
 			public Guid ReminderId { get; set; }
 			public DateTime DueAt { get; set; }
 			public DateTime? GiveupAfter { get; set; }
-			public int MaxAttempts { get; set; }
+			public int MaxRetries { get; set; }
 			public DateTime? RescheduleFor { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
@@ -44,7 +44,7 @@ namespace ReminderService.Messages
 			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int maxAttempts, DateTime? giveupAfter = null, DateTime? rescheduleFor = null)
 			{
 				DueAt = dueAt;
-				MaxAttempts = maxAttempts;
+				MaxRetries = maxAttempts;
 				GiveupAfter = giveupAfter;
 				RescheduleFor = rescheduleFor;
 				DeliveryUrl = deliveryUrl;
@@ -106,6 +106,20 @@ namespace ReminderService.Messages
 				Reminder = reminder;
 				Reason = reason;
 				ReminderId = reminder.ReminderId;
+			}
+		}
+
+		public class Rescheduled : ISchedulable
+		{
+			public ReminderMessage.Schedule Reminder { get; set; }
+			public DateTime DueAt { get; set; }
+			public Guid ReminderId { get; set; }
+
+			public Rescheduled (ReminderMessage.Schedule original, DateTime rescheduledFor)
+			{
+				Reminder = original;
+				DueAt = rescheduledFor;
+				ReminderId = Reminder.ReminderId;
 			}
 		}
 
