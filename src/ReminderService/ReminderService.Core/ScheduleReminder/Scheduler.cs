@@ -7,10 +7,12 @@ using ReminderService.Common;
 
 namespace ReminderService.Core.ScheduleReminder
 {
-	public class Scheduler : IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>, 
-								IConsume<SystemMessage.Start>, 
-								IConsume<SystemMessage.ShutDown>,
-								IDisposable
+	public class Scheduler : 
+		IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>, 
+		IConsume<ReminderMessage.Rescheduled>,
+		IConsume<SystemMessage.Start>, 
+		IConsume<SystemMessage.ShutDown>,
+		IDisposable
 	{
 		private readonly object _locker = new object ();
 		private readonly ISendMessages _bus;
@@ -42,6 +44,14 @@ namespace ReminderService.Core.ScheduleReminder
 		{
 			lock (_locker) {
 				_pq.Insert (journaled.Message);
+				SetTimeout ();
+			}
+		}
+
+		public void Handle(ReminderMessage.Rescheduled rescheduled)
+		{
+			lock (_locker) {
+				_pq.Insert (rescheduled);
 				SetTimeout ();
 			}
 		}

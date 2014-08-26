@@ -1,17 +1,19 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
+using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Tests.Helpers;
 using ReminderService.Router;
 using ReminderService.Messages;
-using ReminderService.Core.DeliverReminder;
-using ReminderService.Common;
 using ReminderService.Test.Common;
-using System.Linq;
+using ReminderService.Common;
+using ReminderService.Router.MessageInterfaces;
+using System.IO;
 
 namespace ReminderService.Core.Tests.DeliverReminder
 {
-	[TestFixture ()]
-	public class When_attempting_redelivery : 
+	[TestFixture]
+	public class When_cannot_deliver : 
 		RoutableTestBase, 
 		IConsume<ReminderMessage.Rescheduled>,
 		IConsume<ReminderMessage.Undeliverable>
@@ -19,7 +21,7 @@ namespace ReminderService.Core.Tests.DeliverReminder
 
 		private UndeliveredProcessManager _processManager;
 		private ReminderMessage.Schedule _originalReminder;
-		private TimeSpan _durationToGiveup = 60.Minutes();
+		private TimeSpan _durationToGiveup = 60.Minutes (); //TimeSpan.FromMinutes(60);
 
 		[TestFixtureSetUp]
 		public void Initialize()
@@ -34,34 +36,40 @@ namespace ReminderService.Core.Tests.DeliverReminder
 		public void Run_Steps()
 		{
 			When_receive_an_undelivered_reminder (_originalReminder);
-			Should_emit_a_rescheduled_reminder_for_the_same_reminder (_originalReminder.ReminderId);
-			When_receive_an_undelivered_reminder (_originalReminder);
-			Should_emit_a_rescheduled_reminder_for_the_same_reminder (_originalReminder.ReminderId);
-			When_receive_a_Delivered_message (_originalReminder.ReminderId);
+			while (!Undeliverable_message_received ()) {
+				Should_emit_a_rescheduled_reminder_for_the_same_reminder (_originalReminder.ReminderId);
+				When_receive_an_undelivered_reminder (_originalReminder);
+			}
 
-			//there should be 2 Rescheduled reminders and zero Undeliverable
-			Received.ContainsThisMany<ReminderMessage.Rescheduled>(2);
-			Received.DoesNotContain<ReminderMessage.Undeliverable> ();
+			//there should be 3 rescheduled reminders and one Undeliverable message
+			Received.ContainsThisMany<ReminderMessage.Rescheduled>(3);
+			Received.ContainsOne<ReminderMessage.Undeliverable> ();
+
+			var timeSinceOriginalWasDue = ((ReminderMessage.Rescheduled)Received [Received.Count - 2]).DueAt - _originalReminder.DueAt;
+
+			//we hit some rounding errors in the math using DateTime's, so lets make sure we are close enough
+			Assert.That (timeSinceOriginalWasDue, Is.EqualTo (_durationToGiveup).Within (1).Seconds);
 		}
 
-		private void When_receive_an_undelivered_reminder(ReminderMessage.Schedule reminder)
+		public void When_receive_an_undelivered_reminder(ReminderMessage.Schedule reminder)
 		{
 			var undelivered = new ReminderMessage.Undelivered (reminder, "failed reason");
 			_processManager.Handle (undelivered);
 		}
 
-		private void When_receive_a_Delivered_message(Guid reminderId)
-		{
-			var delivered = new ReminderMessage.Delivered (reminderId, SystemTime.UtcNow());
-			_processManager.Handle (delivered);
-		}
-
-		private void Should_emit_a_rescheduled_reminder_for_the_same_reminder(Guid reminderId)
+		public void Should_emit_a_rescheduled_reminder_for_the_same_reminder(Guid reminderId)
 		{
 			var msg = Received[Received.Count -1];
 			Assert.IsInstanceOf<ReminderMessage.Rescheduled> (msg);
 			var received = (ReminderMessage.Rescheduled)msg;
 			Assert.AreEqual (received.ReminderId, reminderId);
+		}
+
+		private bool Undeliverable_message_received()
+		{
+			if (Received.Count == 0)
+				return false;
+			return Received [Received.Count - 1] is ReminderMessage.Undeliverable;
 		}
 
 		public void Handle (ReminderMessage.Rescheduled msg)

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using ReminderService.Common;
 using ReminderService.Router;
 using ReminderService.Messages;
+using log4net;
 
 namespace ReminderService.Core.DeliverReminder
 {
-	public class UndeliveredProcessManager : IConsume<ReminderMessage.Undelivered> //IConsume<Envelopes.Journaled<ReminderMessage.Undelivered>>
+	public class UndeliveredProcessManager : 
+		IConsume<ReminderMessage.Undelivered>,
+		IConsume<ReminderMessage.Delivered>	//IConsume<Envelopes.Journaled<ReminderMessage.Undelivered>>
 	{
+		private readonly ILog Logger = LogManager.GetLogger(typeof(UndeliveredProcessManager));
 		private readonly object _lockObject = new object ();
 		private readonly IBus _bus;
 		private readonly Dictionary<Guid, int> _retryAttempts = new Dictionary<Guid, int> ();
@@ -19,9 +23,23 @@ namespace ReminderService.Core.DeliverReminder
 			_bus = bus;
 		}
 
+		public void Handle (ReminderMessage.Delivered delivered)
+		{
+			lock (_lockObject) {
+				if (_retryAttempts.ContainsKey (delivered.ReminderId)) {
+					_retryAttempts.Remove (delivered.ReminderId);
+					Logger.InfoFormat ("Reminder [{0}] was delivered, removing from cache.", delivered.ReminderId);
+				} else {
+					Logger.WarnFormat ("Reminder [{0}] was not found in the cache.", delivered.ReminderId);
+				}
+			}
+		}
+
 		public void Handle (ReminderMessage.Undelivered undelivered)
 		{
+			Logger.InfoFormat ("Reminder [{0}] was undelivered...", undelivered.ReminderId);
 			if (undelivered.DoNotAttemptRedelivery ()) {
+				Logger.InfoFormat ("Reminder [{0}] should not attempt redelivery; sending Undeliverable.", undelivered.ReminderId);
 				_bus.Send (new ReminderMessage.Undeliverable (undelivered.Reminder, undelivered.Reason));
 				return;
 			}
@@ -36,10 +54,13 @@ namespace ReminderService.Core.DeliverReminder
 				var nextDueTime = CalculateNextDueTime (undelivered.Reminder, retryAttempts);
 				var rescheduled = new ReminderMessage.Rescheduled (undelivered.Reminder, nextDueTime);
 
-				if (GiveupRedelivering (rescheduled, retryAttempts)) 
+				if (GiveupRedelivering (rescheduled, retryAttempts)) {
+					Logger.InfoFormat ("Reminder [{0}] giving-up redelivery after [{1}] attempts; sending Undeliverable.", undelivered.ReminderId, retryAttempts);
 					_bus.Send (new ReminderMessage.Undeliverable (undelivered.Reminder, undelivered.Reason));
-				 else 
+				} else {
+					Logger.InfoFormat ("Reminder [{0}]: rescheduling delivery for [{1}].", undelivered.ReminderId, rescheduled.DueAt);
 					_bus.Send (rescheduled);
+				}
 			}
 		}
 			

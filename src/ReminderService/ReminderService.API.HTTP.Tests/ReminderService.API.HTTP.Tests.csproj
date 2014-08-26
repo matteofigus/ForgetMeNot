@@ -91,6 +91,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="When_getting_a_reminder.cs" />
+    <Compile Include="When_the_payload_cannot_be_delivered.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
