@@ -93,14 +93,14 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected void SetHttpClientResponse(IRestResponse response)
 		{
-			_restResponse = response;
+			_restClient.SetResponseObject (response);
 		}
 
-		protected List<IRestRequest> AllDeliveredHttpRequests {
+		protected List<IRestRequest> AllInterceptedHttpRequests {
 			get { return _restClient.Requests; }
 		}
 
-		protected IRestRequest LastDeliveredHttpRequest{
+		protected IRestRequest LastInterceptedHttpRequest{
 			get { return _restClient.LastRequest; }
 		}
 

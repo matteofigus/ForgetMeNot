@@ -6,6 +6,7 @@ using Nancy.Testing;
 using System.Text;
 using ReminderService.Common;
 using RestSharp;
+using System.Linq;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -20,11 +21,10 @@ namespace ReminderService.API.HTTP.Tests
 			FreezeTime ();
 
 			//the response to be returned from the delivery endpoint -> makes our payload undeliverable
-			var failedResponse = new RestResponse {
+			SetHttpClientResponse (new RestResponse {
 				StatusCode = System.Net.HttpStatusCode.NotFound,
 				ResponseStatus = ResponseStatus.Completed,
-			};
-			SetHttpClientResponse (failedResponse);
+			});
 
 			var scheduleRequest = new ReminderMessage.Schedule (
 				Now.Add(2.Hours()),
@@ -32,30 +32,46 @@ namespace ReminderService.API.HTTP.Tests
 				"application/json",
 				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
 				3,
-				Now.Add(60.Minutes())
+				Now.Add(3.Hours())
 			);
 
-			POST ("/reminders", scheduleRequest);
+			POST ("/reminders/", scheduleRequest);
+
+			should_return_a_reminder_id ();
 		}
 
-		[Test]
-		public void should_return_a_reminder_id()
+		private void should_return_a_reminder_id()
 		{
 			Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
 			var responseBody = Response.Body.DeserializeJson<ScheduledResponse>();
-			Assert.AreNotEqual (Guid.Empty, responseBody.ReminderId);
 			_reminderId = responseBody.ReminderId;
 		}
 
 		[Test]
 		public void should_deliver_to_the_deadletterqueue()
 		{
-			Assert.AreEqual (0, AllDeliveredHttpRequests.Count);
+			Assert.AreEqual (0, AllInterceptedHttpRequests.Count);
 
-			AdvanceTimeBy (10.Minutes ());
+			AdvanceTimeBy (2.Hours ());
 			FireScheduler ();
 
-			GET("/reminders/", _reminderId);
+			GET ("/reminders/", _reminderId);
+			var body = Response.Body.AsString ();
+			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":"));
+
+			AdvanceTimeBy (3.Hours ());
+			FireScheduler ();
+
+			GET ("/reminders/", _reminderId);
+			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":"));
+
+			var deadLetterBody = LastInterceptedHttpRequest
+				.Parameters
+				.Where (p => p.Type == ParameterType.RequestBody)
+				.Select (p => p.Value)
+				.FirstOrDefault ();
+
+			Assert.AreEqual ("http://deadletter/url", LastInterceptedHttpRequest.Resource);
 
 		}
 	}

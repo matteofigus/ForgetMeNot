@@ -14,20 +14,26 @@ namespace ReminderService.Core.DeliverReminder
 		AMQP
 	}
 
-	public class DeliveryRouter : IConsume<ReminderMessage.Due>
+	public class DeliveryRouter : 
+		IConsume<ReminderMessage.Due>,
+		IConsume<ReminderMessage.Undeliverable>
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(DeliveryRouter));
+		private readonly string _deadLetterUrl;
 		private readonly ISendMessages _bus;
 		private readonly IDictionary<DeliveryTransport, IDeliverReminders> _handlers = new Dictionary<DeliveryTransport, IDeliverReminders> ();
-		private readonly Func<ReminderMessage.Due, DeliveryTransport, bool> _handlerSelector = 
+		private readonly Func<ReminderMessage.Schedule, DeliveryTransport, bool> _handlerSelector = 
 			(due, transport) => 
 				transport == DeliveryTransport.HTTP &&
-					due.Reminder.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
+					due.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
 
-		public DeliveryRouter (ISendMessages bus)
+		public DeliveryRouter (ISendMessages bus, string deadLetterUrl)
 		{
 			Ensure.NotNull (bus, "bus");
+			Ensure.NotNullOrEmpty (deadLetterUrl, "deadLetterUrl");
+
 			_bus = bus;
+			_deadLetterUrl = deadLetterUrl;
 		}
 
 		public void AddHandler(DeliveryTransport transport, IDeliverReminders handler)
@@ -36,21 +42,30 @@ namespace ReminderService.Core.DeliverReminder
 				_handlers.Add(transport, handler);
 		}
 
-		public void Handle (ReminderMessage.Due msg)
+		public void Handle (ReminderMessage.Due due)
 		{
 			foreach (var handler in _handlers) {
-				if (_handlerSelector(msg, handler.Key)) {
-					handler.Value.Send (msg);
-					_bus.Send (new ReminderMessage.Delivered(msg.ReminderId, SystemTime.Now()));
+				if (_handlerSelector(due.Reminder, handler.Key)) {
+					handler.Value.Send (due.Reminder, due.Reminder.DeliveryUrl);
 					return;
 				}
 			}
 
 			//if we get here then the transport scheme for the reminder is not supported.
-			var exception = new NotSupportedException (string.Format("Delivery transport not supported for reminder [{0}]", msg.ReminderId));
+			var exception = new NotSupportedException (string.Format("Delivery transport not supported for reminder [{0}]", due.ReminderId));
 			Logger.Error (
-				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", msg.Reminder.DeliveryUrl), exception);
+				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", due.Reminder.DeliveryUrl), exception);
 			throw exception;
+		}
+
+		public void Handle (ReminderMessage.Undeliverable undeliverable)
+		{
+			foreach (var handler in _handlers) {
+				if (_handlerSelector(undeliverable.Reminder, handler.Key)) {
+					handler.Value.Send (undeliverable.Reminder, _deadLetterUrl);
+					return;
+				}
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using ReminderService.Messages;
 
 namespace ReminderService.Core.DeliverReminder
 {
@@ -8,7 +9,7 @@ namespace ReminderService.Core.DeliverReminder
 		{
 		}
 			
-		public void Send (ReminderService.Messages.ReminderMessage.Due reminder)
+		public void Send (ReminderMessage.Schedule reminder, string url)
 		{
 			throw new NotImplementedException ();
 		}

@@ -41,8 +41,8 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			AdvanceTimeBy (2.Hours());
 			FireScheduler ();
-			Assert.IsNotNull (LastDeliveredHttpRequest);
-			Assert.AreEqual ("http://delivery", LastDeliveredHttpRequest.Resource);
+			Assert.IsNotNull (LastInterceptedHttpRequest);
+			Assert.AreEqual ("http://delivery", LastInterceptedHttpRequest.Resource);
 			//hmmm, how to get the payload from the request that was made by the HTTPDelivery component?
 		}
 	}

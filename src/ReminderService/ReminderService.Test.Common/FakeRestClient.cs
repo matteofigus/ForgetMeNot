@@ -22,6 +22,11 @@ namespace ReminderService.Test.Common
 			get { return _requests; }
 		}
 
+		public void SetResponseObject(IRestResponse response)
+		{
+			_responses [0] = response;
+		}
+
 		public FakeRestClient (IEnumerable<IRestResponse> responses)
 		{
 			_responses = new List<IRestResponse>(responses);

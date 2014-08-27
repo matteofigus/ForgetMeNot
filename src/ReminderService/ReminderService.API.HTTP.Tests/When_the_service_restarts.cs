@@ -83,7 +83,7 @@ namespace ReminderService.API.HTTP.Tests
 		private void Get_reminderIds_that_were_sent()
 		{
 			_sentReminderIds.AddRange(
-				AllDeliveredHttpRequests.Select (request => 
+				AllInterceptedHttpRequests.Select (request => 
 					request.GetFakePayload().CorrelationId));
 		}
 

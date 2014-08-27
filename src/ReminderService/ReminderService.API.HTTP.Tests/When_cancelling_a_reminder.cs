@@ -45,9 +45,9 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			AdvanceTimeBy (2.Hours());
 			FireScheduler ();
-			Assert.AreEqual (9, AllDeliveredHttpRequests.Count);
+			Assert.AreEqual (9, AllInterceptedHttpRequests.Count);
 			Assert.IsTrue(
-				AllDeliveredHttpRequests.DoesNotContain<IRestRequest> (r => r.Resource.EndsWith("0"))); //since we are cancelling the first reminder in the list, then the message with delivery url 'http://deliveryurl/0' should not exist in this list. Cant think of a better way to do this right now!
+				AllInterceptedHttpRequests.DoesNotContain<IRestRequest> (r => r.Resource.EndsWith("0"))); //since we are cancelling the first reminder in the list, then the message with delivery url 'http://deliveryurl/0' should not exist in this list. Cant think of a better way to do this right now!
 		}
 	}
 }

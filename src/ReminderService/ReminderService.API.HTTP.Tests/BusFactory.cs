@@ -73,6 +73,7 @@ namespace ReminderService.API.HTTP.Tests
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
+			_bus.Subscribe (scheduler as IConsume<ReminderMessage.Rescheduled>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 
@@ -88,6 +89,12 @@ namespace ReminderService.API.HTTP.Tests
 			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
 			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>);
 			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undelivered>);
+			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undeliverable>);
+
+			var undeliveredProcessManager = GetUndeliverableRemindersProcessManager ();
+			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Undelivered>);
 
 			return _bus;
 		}
@@ -115,8 +122,8 @@ namespace ReminderService.API.HTTP.Tests
 
 		private CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (_restClient, DeadLetterUrl);
-			var router = new DeliveryRouter (_bus);
+			var httpDelivery = new HTTPDelivery (_restClient, _bus);
+			var router = new DeliveryRouter (_bus, DeadLetterUrl);
 
 			if (_overrideDeliveryHandlers)
 				foreach (var handler in _deliveryHandlers) {
@@ -133,6 +140,11 @@ namespace ReminderService.API.HTTP.Tests
 		private CurrentStateOfReminders GetCurrentStateOfReminders()
 		{
 			return new CurrentStateOfReminders ();
+		}
+
+		private UndeliveredProcessManager GetUndeliverableRemindersProcessManager()
+		{
+			return new UndeliveredProcessManager (_bus);
 		}
 	}
 }

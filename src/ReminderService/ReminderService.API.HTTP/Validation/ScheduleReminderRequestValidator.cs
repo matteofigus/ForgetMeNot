@@ -19,6 +19,12 @@ namespace ReminderService.API.HTTP
 			RuleFor (request => request.DueAt)
 				.GreaterThan (SystemTime.Now ())
 				.WithMessage("The TimeoutAt value cannot be in the past.");
+			RuleFor (request => request.MaxRetries)
+				.GreaterThanOrEqualTo (0);
+			RuleFor (request => request.GiveupAfter)
+				.Must ((schedule, giveUp) =>
+					giveUp.HasValue ? giveUp.Value > schedule.DueAt : true
+				);
 		}
 	}
 }

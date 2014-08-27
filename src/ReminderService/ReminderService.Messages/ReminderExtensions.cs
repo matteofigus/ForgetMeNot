@@ -12,7 +12,10 @@ namespace ReminderService.Messages
 			if(source is ReminderMessage.Schedule)
 				return new ReminderMessage.Due ((ReminderMessage.Schedule)source);
 
-			throw new InvalidOperationException (string.Format("There is not support to convert from [{0}]", source.GetType().FullName));
+			if (source is ReminderMessage.Rescheduled)
+				return new ReminderMessage.Due (((ReminderMessage.Rescheduled)source).Reminder);
+
+			throw new InvalidOperationException (string.Format("Can not create a Due message. Can not convert from [{0}]", source.GetType().FullName));
 		}
 
 		public static ReminderMessage.Delivered AsSent(this ReminderMessage.Due source)
