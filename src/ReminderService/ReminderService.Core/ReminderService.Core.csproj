@@ -93,6 +93,7 @@
     <Compile Include="Peristence\Postgres\CurrentRemindersReplayer.cs" />
     <Compile Include="ReadModels\CurrentStateOfReminders.cs" />
     <Compile Include="DeliverReminder\UndeliveredProcessManager.cs" />
+    <Compile Include="Peristence\Postgres\UndeliveredRemindersReplayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

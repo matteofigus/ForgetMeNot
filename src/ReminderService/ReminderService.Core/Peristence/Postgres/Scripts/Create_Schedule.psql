@@ -4,6 +4,7 @@ CREATE TABLE reminders (
   message         		json NOT NULL,
   sent_time       		timestamp with time zone,
   undelivered 			boolean,
+  undelivered_reason 	text,
   undeliverable 		boolean,
   cancelled       		boolean NOT NULL,
   message_version 		integer NOT NULL,

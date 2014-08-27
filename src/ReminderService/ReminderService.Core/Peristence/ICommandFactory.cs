@@ -10,6 +10,8 @@ namespace ReminderService.Core
 
 		IDbCommand GetCurrentRemindersCommand ();
 
+		IDbCommand GetUndeliveredRemindersCommand ();
+
 		IDbCommand BuildWriteCommand<TMessage> (TMessage message) where TMessage : IMessage;
 	}
 }

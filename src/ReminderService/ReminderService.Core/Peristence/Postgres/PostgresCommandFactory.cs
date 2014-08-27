@@ -10,13 +10,14 @@ namespace ReminderService.Core.Persistence.Postgres
 {
 	public class PostgresCommandFactory : ICommandFactory
 	{
-		const string GetCurrentReminders_CommandText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE";
+		const string GetCurrentReminders_CommandText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE AND undelivered = FALSE AND undeliverable = FALSE";
 		const string GetCancellations_CommandText = "SELECT reminder_id FROM public.reminders WHERE cancelled = TRUE AND due_time >= '{0}'";
+		const string GetUndeliveredReminders_CommandText = "SELECT * FROM public.reminders WHERE undelivered = TRUE AND undeliverable = FALSE";
 		const string WriteCancellation_CommandText = "UPDATE public.reminders SET cancelled = TRUE WHERE reminder_id = '{0}'";
-		const string WriteScheduleReminder_CommandText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, FALSE, FALSE, 1, '{3}')";
+		const string WriteScheduleReminder_CommandText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, NULL, FALSE, FALSE, 1, '{3}')";
 		const string WriteSentReminder_CommandText = "UPDATE public.reminders SET sent_time = '{0}' WHERE reminder_id = '{1}'";
 		const string WriteUndeliverable_CommandText = "UPDATE public.reminders SET undeliverable = TRUE WHERE reminder_id = '{0}'";
-		const string WriteUndelivered_CommandText = "UPDATE public.reminders SET undelivered = TRUE WHERE reminder_id = '{0}'";
+		const string WriteUndelivered_CommandText = "UPDATE public.reminders SET undelivered = TRUE, undelivered_reason = '{1}' WHERE reminder_id = '{0}'";
 
 		private readonly IDictionary<Type, Func<IMessage, NpgsqlCommand>> _commandSelector;
 
@@ -39,6 +40,11 @@ namespace ReminderService.Core.Persistence.Postgres
 		public IDbCommand GetCurrentRemindersCommand ()
 		{
 			return new NpgsqlCommand (GetCurrentReminders_CommandText);
+		}
+
+		public IDbCommand GetUndeliveredRemindersCommand ()
+		{
+			return new NpgsqlCommand (GetUndeliveredReminders_CommandText);
 		}
 
 		public IDbCommand BuildWriteCommand<T> (T message) where T : IMessage
@@ -78,7 +84,7 @@ namespace ReminderService.Core.Persistence.Postgres
 			}
 		}
 
-		private Func<IMessage, NpgsqlCommand> WriteSentCommand {
+		public Func<IMessage, NpgsqlCommand> WriteSentCommand {
 			get { 
 				return (message) => {
 					var sent = message as ReminderMessage.Delivered;
@@ -89,23 +95,23 @@ namespace ReminderService.Core.Persistence.Postgres
 			}
 		}
 
-		private Func<IMessage, NpgsqlCommand> WriteUndeliverableCommand {
+		public Func<IMessage, NpgsqlCommand> WriteUndeliverableCommand {
 			get {
 				return (message) => {
 					var undeliverable = message as ReminderMessage.Undeliverable;
 					return new NpgsqlCommand(
-						string.Format(WriteUndeliverable_CommandText, undeliverable.ReminderId)
+						string.Format(WriteUndeliverable_CommandText, undeliverable.ReminderId, undeliverable.Reason)
 					);
 				};
 			}
 		}
 
-		private Func<IMessage, NpgsqlCommand> WriteUndeliveredCommand {
+		public Func<IMessage, NpgsqlCommand> WriteUndeliveredCommand {
 			get {
 				return (message) => {
 					var undelivered = message as ReminderMessage.Undelivered;
 					return new NpgsqlCommand(
-						string.Format(WriteUndelivered_CommandText, undelivered.ReminderId)
+						string.Format(WriteUndelivered_CommandText, undelivered.ReminderId, undelivered.Reason)
 					);
 				};
 			}

@@ -1,25 +1,37 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.API.HTTP.Tests/ServiceSpec.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Core/Peristence/Postgres/UndeliveredRemindersReplayer.cs">
     <Files>
-      <File FileName="ReminderService.Core.Tests/DeliverReminder/When_cannot_deliver.cs" Line="54" Column="54" />
-      <File FileName="ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" Line="26" Column="26" />
-      <File FileName="ReminderService.Core/DeliverReminder/UndeliveredProcessManager.cs" Line="24" Column="24" />
-      <File FileName="ReminderService.Messages/ReminderMessage.cs" Line="27" Column="27" />
-      <File FileName="ReminderService.Router.Tests/PolymorphicRouting.cs" Line="48" Column="48" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" Line="4" Column="4" />
+      <File FileName="ReminderService.Core/DeliverReminder/UndeliveredProcessManager.cs" Line="1" Column="1" />
       <File FileName="ReminderService.Core/Peristence/Postgres/Scripts/Create_Schedule.psql" Line="1" Column="1" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_scheduling_a_reminder.cs" Line="50" Column="50" />
-      <File FileName="ReminderService.API.HTTP.Tests/ServiceSpec.cs" Line="24" Column="24" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/PostgresCommandFactory.cs" Line="137" Column="137" />
+      <File FileName="ReminderService.Core/ReadModels/CurrentStateOfReminders.cs" Line="59" Column="59" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/UndeliveredRemindersReplayer.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Core/Peristence/Postgres/CancellationReplayer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
+          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
+            <Node name="ReminderService" expanded="True">
+              <Node name="API" expanded="True">
+                <Node name="HTTP" expanded="True">
+                  <Node name="Tests" expanded="True">
+                    <Node name="When_the_payload_cannot_be_delivered" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
           <Node name="ReminderService.Core.Tests" expanded="True">
             <Node name="ReminderService" expanded="True">
-              <Node name="Core" expanded="True">
+              <Node name="Core" expanded="True" selected="True">
                 <Node name="Tests" expanded="True">
-                  <Node name="DeliverReminder" expanded="True" selected="True" />
+                  <Node name="Persistence" expanded="True">
+                    <Node name="Postgres" expanded="True">
+                      <Node name="APostgresJournaler" expanded="True" />
+                    </Node>
+                  </Node>
                 </Node>
               </Node>
             </Node>
@@ -103,12 +115,20 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="37" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/ScheduleReminder/Scheduler.cs" line="45" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="57" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="38" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="39" column="6" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/An_UndeliveredProcessManager.cs" line="50" column="40" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="111" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="102" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="101" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/UndeliveredProcessManager.cs" line="47" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="28" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="44" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="45" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="51" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="56" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="52" column="8" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/PostgresTestBase.cs" line="66" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Postgres/PostgresJournaler.cs" line="28" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

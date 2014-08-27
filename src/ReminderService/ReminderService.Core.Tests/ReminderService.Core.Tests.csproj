@@ -103,6 +103,7 @@
     <Compile Include="DeliverReminder\When_redelivery_should_not_be_attempted.cs" />
     <Compile Include="DeliverReminder\When_cannot_deliver.cs" />
     <Compile Include="DeliverReminder\When_attempting_redelivery.cs" />
+    <Compile Include="Persistence\Postgres\A_UndeliveredReminderReplayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
