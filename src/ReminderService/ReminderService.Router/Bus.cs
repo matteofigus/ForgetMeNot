@@ -50,16 +50,15 @@ namespace ReminderService.Router
 
 		public void Subscribe<T>(IConsume<T> consumer) where T : class, IMessage
         {
-			IDispatchMessages handler = new MessageDispatcher<T> (consumer);
 			_subscribers.AddOrUpdate (
 				typeof(T).FullName,
 				s => {
 					var list = new List<IDispatchMessages> ();
-					list.Add(handler);
+					list.Add(new MessageDispatcher<T> (consumer));
 					return list;
 				},
 				(_, list) => {
-					list.Add (handler);
+					list.Add (new MessageDispatcher<T> (consumer));
 					return list;
 				});
         }
