@@ -66,16 +66,9 @@ namespace ReminderService.Router
 
 		public void Subscribe<TRequest, TResponse> (IHandleQueries<TRequest, TResponse> queryhandler) where TRequest : IRequest<TResponse>
 		{
-            if (_queryHandlers.ContainsKey(typeof(TRequest).FullName))
-                throw new InvalidOperationException(
-                    string.Format("Cannot subscribe because a query handler is already registered for request of type [{0}]", typeof(TRequest).FullName));
-
-			_queryHandlers.AddOrUpdate (
-				typeof(TRequest).FullName,
-				new QueryDispatcher<TRequest, TResponse>(queryhandler),
-				(_, dispatcher) => 
-					new QueryDispatcher<TRequest, TResponse>(queryhandler)
-			);
+			if(!_queryHandlers.TryAdd (typeof(TRequest).FullName, new QueryDispatcher<TRequest, TResponse> (queryhandler)))
+				throw new InvalidOperationException(
+					string.Format("Cannot subscribe because a query handler is already registered for request of type [{0}]", typeof(TRequest).FullName));
 		}
 
         public void ClearSubscribers()
