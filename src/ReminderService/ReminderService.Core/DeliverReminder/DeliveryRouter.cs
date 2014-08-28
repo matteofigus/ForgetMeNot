@@ -14,9 +14,7 @@ namespace ReminderService.Core.DeliverReminder
 		AMQP
 	}
 
-	public class DeliveryRouter : 
-		IConsume<ReminderMessage.Due>,
-		IConsume<ReminderMessage.Undeliverable>
+	public class DeliveryRouter : IConsume<ReminderMessage.Due>
 	{
 		private readonly ILog Logger = LogManager.GetLogger(typeof(DeliveryRouter));
 		private readonly string _deadLetterUrl;
@@ -46,7 +44,7 @@ namespace ReminderService.Core.DeliverReminder
 		{
 			foreach (var handler in _handlers) {
 				if (_handlerSelector(due.Reminder, handler.Key)) {
-					handler.Value.Send (due.Reminder, due.Reminder.DeliveryUrl);
+					handler.Value.Send (due.Reminder, due.Reminder.DeliveryUrl, OnSuccessfulDelivery, OnFailedDelivery);
 					return;
 				}
 			}
@@ -58,14 +56,14 @@ namespace ReminderService.Core.DeliverReminder
 			throw exception;
 		}
 
-		public void Handle (ReminderMessage.Undeliverable undeliverable)
+		private void OnSuccessfulDelivery(ReminderMessage.Schedule sentReminder)
 		{
-			foreach (var handler in _handlers) {
-				if (_handlerSelector(undeliverable.Reminder, handler.Key)) {
-					handler.Value.Send (undeliverable.Reminder, _deadLetterUrl);
-					return;
-				}
-			}
+			_bus.Send (new ReminderMessage.Delivered(sentReminder.ReminderId, SystemTime.UtcNow()));
+		}
+
+		private void OnFailedDelivery(ReminderMessage.Schedule failedReminder, string errorMessage)
+		{
+			_bus.Send (new ReminderMessage.Undelivered(failedReminder, errorMessage));
 		}
 	}
 }

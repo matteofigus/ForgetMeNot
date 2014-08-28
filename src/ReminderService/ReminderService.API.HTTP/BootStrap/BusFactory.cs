@@ -54,7 +54,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (new RestClient(), _bus);
+			var httpDelivery = new HTTPDelivery (new RestClient());
 			var router = new DeliveryRouter (_bus, DeadLetterUrl);
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 			var cancellationFilter = new CancellationFilter (router);

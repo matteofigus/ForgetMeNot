@@ -8,8 +8,8 @@ namespace ReminderService.Core.DeliverReminder
 		public AmqpDelivery ()
 		{
 		}
-			
-		public void Send (ReminderMessage.Schedule reminder, string url)
+
+		public void Send (ReminderMessage.Schedule dueReminder, string url, Action<ReminderMessage.Schedule> onSuccessfulSend, Action<ReminderMessage.Schedule, string> onFailedSend)
 		{
 			throw new NotImplementedException ();
 		}

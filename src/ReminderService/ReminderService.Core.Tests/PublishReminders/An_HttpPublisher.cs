@@ -12,12 +12,23 @@ using RestSharp;
 using ReminderService.Test.Common;
 using TestPayload = ReminderService.Core.Tests.Helpers.TestPayload;
 using ReminderService.Router.MessageInterfaces;
+using System.Net;
 
 namespace ReminderService.Core.Tests.PublishReminders
 {
 	[TestFixture]
 	public class An_HttpPublisher
 	{
+		private bool _sendSucceeded;
+		private bool _sendFailed;
+
+		[SetUp]
+		public void BeforeEach()
+		{
+			_sendSucceeded = false;
+			_sendFailed = false;
+		}
+
 		[Test]
 		public void should_send_reminders_to_the_DeliveryUrl ()
 		{
@@ -26,20 +37,21 @@ namespace ReminderService.Core.Tests.PublishReminders
 				{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = new ReminderMessage.Schedule (
 					Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","content", payload.AsUtf8Encoding(), 0);
-			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed };
+			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed, StatusCode = HttpStatusCode.Created };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
-			var publisher = new HTTPDelivery (fakeClient, new FakeBus());
+			var publisher = new HTTPDelivery (fakeClient);
 
 			//act
-			publisher.Send (due, due.DeliveryUrl);
+			publisher.Send (due, due.DeliveryUrl, OnSuccessfulSend, OnFailedSend);
 
 			//assert
+			Assert.IsTrue (_sendSucceeded);
 			Assert.IsNotNull (fakeClient.LastRequest);
 			Assert.AreEqual ("http://delivery/url", fakeClient.LastRequest.Resource);
 		}
 
 		[Test]
-		public void should_send_an_Undelivered_message_if_the_DeliveryUrl_fails()
+		public void should_invoke_the_failed_callback_if_the_DeliveryUrl_fails()
 		{
 			//arrange
 			var payload = new TestPayload()
@@ -48,15 +60,23 @@ namespace ReminderService.Core.Tests.PublishReminders
 					Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","application/json", payload.AsUtf8Encoding(), 0);
 			var response = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {response});
-			IMessage receivedMessage = null;
-			var fakeBus = new FakeBus (msg => receivedMessage = msg);
-			var publisher = new HTTPDelivery (fakeClient, fakeBus);
+			var publisher = new HTTPDelivery (fakeClient);
 
 			//act
-			publisher.Send (due, due.DeliveryUrl);
+			publisher.Send (due, due.DeliveryUrl, OnSuccessfulSend, OnFailedSend);
 
 			//assert
-			Assert.That(receivedMessage, Is.InstanceOf<ReminderMessage.Undelivered>());
+			Assert.IsTrue (_sendFailed);
+		}
+
+		private void OnSuccessfulSend(ReminderMessage.Schedule sent)
+		{
+			_sendSucceeded = true;
+		}
+
+		private void OnFailedSend(ReminderMessage.Schedule failed, string error)
+		{
+			_sendFailed = true;
 		}
 	}
 }

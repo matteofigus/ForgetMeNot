@@ -1,18 +1,18 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Nancy.Testing;
+using NUnit.Framework;
 using Nancy;
-using ReminderService.Router.MessageInterfaces;
-using RestSharp;
-using ReminderService.Test.Common;
-using ReminderService.Core.ScheduleReminder;
-using ReminderService.Router;
-using ReminderService.Messages;
+using Nancy.Testing;
+using ReminderService.API.HTTP.BootStrap;
 using ReminderService.Common;
 using ReminderService.Core;
 using ReminderService.Core.Persistence.Postgres;
-using ReminderService.API.HTTP.BootStrap;
+using ReminderService.Core.ScheduleReminder;
+using ReminderService.Messages;
+using ReminderService.Router;
+using ReminderService.Router.MessageInterfaces;
+using ReminderService.Test.Common;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -96,6 +96,11 @@ namespace ReminderService.API.HTTP.Tests
 			_restClient.SetResponseObject (response);
 		}
 
+		protected void SetHttpClientResponses(IEnumerable<IRestResponse> responses)
+		{
+			_restClient.SetResponses (responses);
+		}
+
 		protected List<IRestRequest> AllInterceptedHttpRequests {
 			get { return _restClient.Requests; }
 		}
@@ -109,8 +114,12 @@ namespace ReminderService.API.HTTP.Tests
 			_service = new Browser (ServiceConfigurator);
 		}
 
-		protected DateTime Now{
+		protected DateTime Now {
 			get { return SystemTime.Now (); }
+		}
+
+		protected DateTime UtcNow {
+			get { return SystemTime.UtcNow (); }
 		}
 
 		protected void FreezeTime()

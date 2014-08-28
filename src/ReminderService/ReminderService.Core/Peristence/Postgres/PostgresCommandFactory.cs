@@ -56,11 +56,12 @@ namespace ReminderService.Core.Persistence.Postgres
 		private Dictionary<Type, Func<IMessage, NpgsqlCommand>> WriteCommandSelector {
 			get	{
 				var dic = new Dictionary<Type, Func<IMessage, NpgsqlCommand>> ();
-				dic.Add (typeof(ReminderMessage.Cancel), 		WriteCancellationCommand );
-				dic.Add (typeof(ReminderMessage.Schedule), 		WriteScheduleCommand );
-				dic.Add (typeof(ReminderMessage.Delivered), 	WriteSentCommand );
-				dic.Add (typeof(ReminderMessage.Undeliverable),	WriteUndeliverableCommand);
-				dic.Add (typeof(ReminderMessage.Undelivered),	WriteUndeliveredCommand);
+				dic.Add (typeof(ReminderMessage.Cancel), 			WriteCancellationCommand );
+				dic.Add (typeof(ReminderMessage.Schedule), 			WriteScheduleCommand );
+				dic.Add (typeof(ReminderMessage.Delivered), 		WriteSentCommand );
+				dic.Add (typeof(ReminderMessage.Undeliverable),		WriteUndeliverableCommand);
+				dic.Add (typeof(ReminderMessage.Undelivered),		WriteUndeliveredCommand);
+				dic.Add (typeof(ReminderMessage.SentToDeadLetter),	WriteSentToDeadLetterCommand);
 				return dic;
 			}
 		}
@@ -88,6 +89,17 @@ namespace ReminderService.Core.Persistence.Postgres
 			get { 
 				return (message) => {
 					var sent = message as ReminderMessage.Delivered;
+					return new NpgsqlCommand(
+						string.Format(WriteSentReminder_CommandText, sent.SentStamp, sent.ReminderId)
+					);
+				};
+			}
+		}
+
+		public Func<IMessage, NpgsqlCommand> WriteSentToDeadLetterCommand {
+			get { 
+				return (message) => {
+					var sent = message as ReminderMessage.SentToDeadLetter;
 					return new NpgsqlCommand(
 						string.Format(WriteSentReminder_CommandText, sent.SentStamp, sent.ReminderId)
 					);

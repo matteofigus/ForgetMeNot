@@ -21,18 +21,31 @@ namespace ReminderService.API.HTTP.Tests
 			FreezeTime ();
 
 			//the response to be returned from the delivery endpoint -> makes our payload undeliverable
-			SetHttpClientResponse (new RestResponse {
+			var failedResponse = new RestResponse {
 				StatusCode = System.Net.HttpStatusCode.NotFound,
 				ResponseStatus = ResponseStatus.Completed,
+			};
+
+			var successfulResponse = new RestResponse {
+				StatusCode = System.Net.HttpStatusCode.Created,
+				ResponseStatus = ResponseStatus.Completed,
+			};
+
+			SetHttpClientResponses (new [] {
+				failedResponse,
+				failedResponse,
+				failedResponse,
+				failedResponse,
+				successfulResponse,
 			});
 
 			var scheduleRequest = new ReminderMessage.Schedule (
-				Now.Add(2.Hours()),
+				UtcNow.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
 				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
 				3,
-				Now.Add(3.Hours())
+				UtcNow.Add(3.Hours())
 			);
 
 			POST ("/reminders/", scheduleRequest);
@@ -57,13 +70,13 @@ namespace ReminderService.API.HTTP.Tests
 
 			GET ("/reminders/", _reminderId);
 			var body = Response.Body.AsString ();
-			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":"));
+			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":1"));
 
 			AdvanceTimeBy (3.Hours ());
 			FireScheduler ();
 
 			GET ("/reminders/", _reminderId);
-			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":"));
+			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":4"));
 
 			var deadLetterBody = LastInterceptedHttpRequest
 				.Parameters
@@ -72,7 +85,6 @@ namespace ReminderService.API.HTTP.Tests
 				.FirstOrDefault ();
 
 			Assert.AreEqual ("http://deadletter/url", LastInterceptedHttpRequest.Resource);
-
 		}
 	}
 }

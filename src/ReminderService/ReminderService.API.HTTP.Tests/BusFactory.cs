@@ -96,6 +96,9 @@ namespace ReminderService.API.HTTP.Tests
 			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Delivered>);
 			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Undelivered>);
 
+			var deadLetterDeliver = GetDeadLetterDelivery ();
+			_bus.Subscribe (deadLetterDeliver as IConsume<ReminderMessage.Undeliverable>);
+
 			return _bus;
 		}
 
@@ -122,7 +125,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		private CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (_restClient, _bus);
+			var httpDelivery = new HTTPDelivery (_restClient);
 			var router = new DeliveryRouter (_bus, DeadLetterUrl);
 
 			if (_overrideDeliveryHandlers)
@@ -145,6 +148,13 @@ namespace ReminderService.API.HTTP.Tests
 		private UndeliveredProcessManager GetUndeliverableRemindersProcessManager()
 		{
 			return new UndeliveredProcessManager (_bus);
+		}
+
+		private DeadLetterDelivery GetDeadLetterDelivery()
+		{
+			//this will be configurable in service config...
+			var httpDelivery = new HTTPDelivery (_restClient);
+			return new DeadLetterDelivery (_bus, httpDelivery, DeadLetterUrl);
 		}
 	}
 }

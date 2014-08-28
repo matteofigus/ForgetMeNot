@@ -12,7 +12,7 @@ namespace ReminderService.Core.Tests.Helpers
 			_onSend = onSend;
 		}
 
-		public void Send (ReminderMessage.Schedule reminder, string url)
+		public void Send (ReminderMessage.Schedule reminder, string url, Action<ReminderMessage.Schedule> onSuccessfulSend, Action<ReminderMessage.Schedule, string> onFailedSend)
 		{
 			if (_onSend != null)
 				_onSend (reminder);

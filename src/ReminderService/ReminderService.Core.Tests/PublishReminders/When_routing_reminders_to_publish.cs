@@ -38,7 +38,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var fakeBus = new FakeBus ();
 			var fakeRestClient = new FakeRestClient (new []{ new RestResponse () });
 			var router = new DeliveryRouter (fakeBus, "deadletterurl");
-			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient, fakeBus));
+			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient));
 			router.AddHandler (DeliveryTransport.None, null);
 
 			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), DateTime.Now, "rabbit://queue/name", "",new byte[0], 0).AsDue());

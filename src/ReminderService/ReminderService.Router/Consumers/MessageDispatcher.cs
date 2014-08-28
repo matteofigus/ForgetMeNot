@@ -1,5 +1,6 @@
 ﻿using System;
 using ReminderService.Router.MessageInterfaces;
+using ReminderService.Common;
 
 namespace ReminderService.Router
 {
@@ -14,8 +15,7 @@ namespace ReminderService.Router
 
 		public MessageDispatcher(IConsume<T> consumer)
 		{
-			if (consumer == null)
-				throw new ArgumentNullException("consumer");
+			Ensure.NotNull (consumer, "consumer");
 			_consumer = consumer;
 		}
 
@@ -25,10 +25,6 @@ namespace ReminderService.Router
 			if (msg != null)
 			{
 				_consumer.Handle(msg);
-			}
-			else
-			{
-			    throw new InvalidOperationException("");
 			}
 		}
 	}
