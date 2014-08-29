@@ -1,6 +1,8 @@
 ﻿using System;
 using ReminderService.DataStructures;
 using ReminderService.Messages;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ReminderService.Core.PerformanceTests
 {
@@ -8,6 +10,8 @@ namespace ReminderService.Core.PerformanceTests
 	{
 		private readonly int _numberOfElements;
 		private readonly MinPriorityQueue<ReminderMessage.ISchedulable> _pq;
+		private readonly Dictionary<string, string> _results = new Dictionary<string, string> ();
+		private readonly Stopwatch _stopWatch = new Stopwatch();
 
 		public When_writing_to_the_queue (int numberOfElementsToWrite)
 		{
@@ -20,14 +24,22 @@ namespace ReminderService.Core.PerformanceTests
 			var dueAt = DateTime.Now.AddDays(1);
 			var reminderId = Guid.NewGuid ();
 
+			_stopWatch.Start ();
+
 			for (int i = 0; i < _numberOfElements ; i++) {
 				_pq.Insert (new TestSchedulable(reminderId, dueAt));
 			}
+
+			_stopWatch.Stop ();
+
+			_results.Add ("Elapsed Time (ms)", _stopWatch.ElapsedMilliseconds.ToString());
+			_results.Add ("Number of elemens inserted", _numberOfElements.ToString());
+			//_results.Add ("Elements per ms", (_numberOfElements / (_stopWatch.ElapsedTicks / 10000000)).ToString());
 		}
 
-		public object GetResults ()
+		public IDictionary<string, string> GetResults ()
 		{
-			throw new NotImplementedException ();
+			return _results;
 		}
 	}
 

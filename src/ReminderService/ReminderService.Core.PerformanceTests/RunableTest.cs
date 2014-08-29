@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ReminderService.Core.PerformanceTests
 {
@@ -6,7 +7,7 @@ namespace ReminderService.Core.PerformanceTests
 	{
 		void Run();
 
-		object GetResults();
+		IDictionary<string, string> GetResults();
 	}
 }
 
