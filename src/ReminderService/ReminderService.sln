@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Test.Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Router.MessageInterfaces", "ReminderService.Router.MessageInterfaces\ReminderService.Router.MessageInterfaces.csproj", "{510F1AD2-59F7-4C54-B330-DFE328BE555C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Core.PerformanceTests", "ReminderService.Core.PerformanceTests\ReminderService.Core.PerformanceTests.csproj", "{963EDD5B-B550-4448-A8F6-3B51F577123E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.PerformanceTests.Runner", "ReminderService.PerformanceTests.Runner\ReminderService.PerformanceTests.Runner.csproj", "{7321977D-2DBE-494C-AC59-A4350180C9D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,10 @@ Global
 		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6096A7F3-7A97-48AF-B816-77BAEAF143E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7321977D-2DBE-494C-AC59-A4350180C9D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7321977D-2DBE-494C-AC59-A4350180C9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7321977D-2DBE-494C-AC59-A4350180C9D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7321977D-2DBE-494C-AC59-A4350180C9D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7386CC41-3A17-4131-A961-2904147E03EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +63,10 @@ Global
 		{8CD8ED87-DFD4-4289-A7ED-F5837D2CAFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CD8ED87-DFD4-4289-A7ED-F5837D2CAFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CD8ED87-DFD4-4289-A7ED-F5837D2CAFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
