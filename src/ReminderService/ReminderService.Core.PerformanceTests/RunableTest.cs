@@ -7,7 +7,7 @@ namespace ReminderService.Core.PerformanceTests
 	{
 		void Run();
 
-		IDictionary<string, string> GetResults();
+		Tuple<int, int> GetResults();
 	}
 }
 

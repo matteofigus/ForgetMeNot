@@ -3,41 +3,68 @@ using ReminderService.DataStructures;
 using ReminderService.Messages;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ReminderService.Common;
 
-namespace ReminderService.Core.PerformanceTests
+namespace ReminderService.Core.PerformanceTests.PriorityQueue
 {
 	public class When_writing_to_the_queue : RunableTest
 	{
+		const int TicksPerSecond = 10000000;
 		private readonly int _numberOfElements;
 		private readonly MinPriorityQueue<ReminderMessage.ISchedulable> _pq;
-		private readonly Dictionary<string, string> _results = new Dictionary<string, string> ();
+		private Tuple<int, int> _results;
 		private readonly Stopwatch _stopWatch = new Stopwatch();
+		private readonly DateTime _now;
+		private readonly DateTime _until;
+		private readonly Random _random = new Random ();
+		private readonly Func<DateTime> _dueDateFactory;
 
 		public When_writing_to_the_queue (int numberOfElementsToWrite)
 		{
 			_numberOfElements = numberOfElementsToWrite;
 			_pq = new MinPriorityQueue<ReminderMessage.ISchedulable> ((a, b) => a.DueAt > b.DueAt);
+
+			//for generating random dates
+			_now = SystemTime.UtcNow ();
+			_until = _now.AddDays (10);
+			_dueDateFactory = () => {
+				var range =  (_until - _now).Hours;
+				var nextDate = _now.AddHours(_random.Next(range));
+				return nextDate;
+			};
 		}
 
 		public void Run()
 		{
-			var dueAt = DateTime.Now.AddDays(1);
 			var reminderId = Guid.NewGuid ();
 
-			_stopWatch.Start ();
+			_stopWatch.Restart ();
 
 			for (int i = 0; i < _numberOfElements ; i++) {
-				_pq.Insert (new TestSchedulable(reminderId, dueAt));
+				_pq.Insert (new TestSchedulable(reminderId, _dueDateFactory()));
 			}
 
 			_stopWatch.Stop ();
 
-			_results.Add ("Elapsed Time (ms)", _stopWatch.ElapsedMilliseconds.ToString());
-			_results.Add ("Number of elemens inserted", _numberOfElements.ToString());
-			//_results.Add ("Elements per ms", (_numberOfElements / (_stopWatch.ElapsedTicks / 10000000)).ToString());
+			_results = Tuple.Create((int)_stopWatch.ElapsedMilliseconds, _numberOfElements);
 		}
 
-		public IDictionary<string, string> GetResults ()
+		private long calcUnitsPerSecond(int numberOfElements, long elapsedMilliseconds)
+		{
+			if (elapsedMilliseconds <= 0)
+				return 0;
+
+			var elementsPerMilli = numberOfElements / elapsedMilliseconds;
+			var elementsPerSecond = elementsPerMilli * 1000;
+
+			return elementsPerSecond;
+		}
+
+		/// <summary>
+		/// Time : Number Of Elements
+		/// </summary>
+		/// <returns>The results.</returns>
+		public Tuple<int, int> GetResults ()
 		{
 			return _results;
 		}

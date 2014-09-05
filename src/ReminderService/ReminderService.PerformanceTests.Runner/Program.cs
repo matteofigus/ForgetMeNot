@@ -1,21 +1,31 @@
 ﻿using System;
 using ReminderService.Core.PerformanceTests;
+using System.Collections.Generic;
+using ReminderService.Core.PerformanceTests.PriorityQueue;
+using ReminderService.Core.PerformanceTests.Scheduling;
 
 namespace ReminderService.PerformanceTests.Runner
 {
 	class MainClass
 	{
-		private static TestSuit _testRunner = new TestSuit();
+		private static List<ITestSuit> _tests = new List<ITestSuit>{
+			new InsertPQTestSuit(),
+			new AvergeTimeToInsert(),
+			new ReadingTestSuit(),
+			new SchedulingTestSuit(),
+		};
 
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Welcome to the test runner...");
-			_testRunner.Run ();
-			Console.WriteLine ("Results:");
-			foreach (var result in _testRunner.GetResults()) {
-				Console.WriteLine (result);
+
+			foreach (var test in _tests) {
+				Console.WriteLine ("Running test: " + test.Title);
+				test.Run ();
+				Console.WriteLine ("Run complete.");
 			}
 
+			Console.WriteLine ("Finished test runs.");
 		}
 	}
 }
