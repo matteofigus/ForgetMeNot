@@ -36,7 +36,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var payload = new TestPayload()
 				{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = new ReminderMessage.Schedule (
-				Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","content","utf8",ReminderMessage.TransportEnum.http,  payload.AsUtf8Encoding(), 0);
+				Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","content",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http,  payload.AsUtf8Encoding(), 0);
 			var expectedResponse = new RestResponse { ResponseStatus = ResponseStatus.Completed, StatusCode = HttpStatusCode.Created };
 			var fakeClient = new FakeRestClient (new [] {expectedResponse});
 			var publisher = new HTTPDelivery (fakeClient);
@@ -57,7 +57,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			var payload = new TestPayload()
 			{ Property1 = "string property", Property2 = 42, Property3 = SystemTime.Now () };
 			var due = new ReminderMessage.Schedule (
-				Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","application/json","utf8",ReminderMessage.TransportEnum.http,  payload.AsUtf8Encoding(), 0);
+				Guid.NewGuid (), SystemTime.Now (), "http://delivery/url","application/json",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http,  payload.AsUtf8Encoding(), 0);
 			var response = new RestResponse { ResponseStatus = ResponseStatus.Error };
 			var fakeClient = new FakeRestClient (new [] {response});
 			var publisher = new HTTPDelivery (fakeClient);

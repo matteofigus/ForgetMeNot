@@ -37,7 +37,7 @@ namespace ReminderService.Core.PerformanceTests.Scheduling
 						SystemTime.UtcNow(),
 						"deliveryurl",
 						"text",
-						"utf8",
+						ReminderMessage.ContentEncodingEnum.utf8,
 						ReminderMessage.TransportEnum.http, 
 						new byte[0],
 						0

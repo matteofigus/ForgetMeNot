@@ -19,7 +19,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 		{
 			var published = new List<IMessage>();
 			var fakeBus = new FakeBus (msg => published.Add(msg));
-			var dueReminder = new ReminderMessage.Schedule (Guid.NewGuid (), DateTime.Now, "http://delivery/url", "", "utf8",ReminderMessage.TransportEnum.http, new byte[0], 0).AsDue();
+			var dueReminder = new ReminderMessage.Schedule (Guid.NewGuid (), DateTime.Now, "http://delivery/url", "", ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http, new byte[0], 0).AsDue();
 			var router = new DeliveryRouter (fakeBus, "deadletterurl");
 			router.AddHandler (DeliveryTransport.HTTP, new FakeDelivery((due) => {
 				Assert.AreSame(dueReminder.Reminder, due);
@@ -41,7 +41,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient));
 			router.AddHandler (DeliveryTransport.None, null);
 
-			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), DateTime.Now, "rabbit://queue/name", "","utf8",ReminderMessage.TransportEnum.http, new byte[0], 0).AsDue());
+			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), DateTime.Now, "rabbit://queue/name", "",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http, new byte[0], 0).AsDue());
 		}
 	}
 }

@@ -13,8 +13,8 @@ namespace ReminderService.API.HTTP.Models
 				source.DueAt,
 				source.DeliveryUrl,
 				source.ContentType,
-				source.Encoding,
-				(ReminderMessage.TransportEnum)Enum.Parse(typeof(ReminderMessage.TransportEnum), source.Transport.ToLower()), //we validated the user request, so this should not be able to fail
+				(ReminderMessage.ContentEncodingEnum)Enum.Parse(typeof(ReminderMessage.ContentEncodingEnum), source.Encoding.ToLower()),
+				(ReminderMessage.TransportEnum)Enum.Parse(typeof(ReminderMessage.TransportEnum), source.Transport.ToLower()), 
 				source.Payload,
 				source.MaxRetries,
 				source.GiveupAfter

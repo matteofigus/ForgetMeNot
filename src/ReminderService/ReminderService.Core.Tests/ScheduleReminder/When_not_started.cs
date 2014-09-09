@@ -17,7 +17,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 				Now,
 				"http://deliveryUrl",
 				"content/type",
-				"utf8",
+				ReminderMessage.ContentEncodingEnum.utf8,
 				ReminderMessage.TransportEnum.http,
 				new byte[0],
 				0);

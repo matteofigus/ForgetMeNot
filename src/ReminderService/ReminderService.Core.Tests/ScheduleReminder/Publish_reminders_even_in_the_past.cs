@@ -21,7 +21,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (-100),
 					"http://deliveryUrl",
 					"content/type",
-					"utf8",
+					ReminderMessage.ContentEncodingEnum.utf8,
 					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 
@@ -30,7 +30,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (-160),
 					"http://deliveryUrl",
 					"content/type",
-					"utf8",
+					ReminderMessage.ContentEncodingEnum.utf8,
 					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 
@@ -39,7 +39,7 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (50),
 					"http://deliveryUrl",
 					"content/type",
-					"utf8",
+					ReminderMessage.ContentEncodingEnum.utf8,
 					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 		}
