@@ -9,6 +9,7 @@ using ReminderService.Common;
 using ReminderService.Messages;
 using ReminderService.Test.Common;
 using RestSharp;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -22,7 +23,7 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			FreezeTime ();
 
-			var remindersToSchedule = MessageBuilders.BuildRemindersWithoutIds (10);
+			var remindersToSchedule = Helpers.BuildScheduleRequests (10);
 
 			foreach (var reminder in remindersToSchedule) {
 				POST ("/reminders", reminder);
@@ -35,7 +36,7 @@ namespace ReminderService.API.HTTP.Tests
 		public void When_the_reminder_is_cancelled()
 		{
 			_canceledReminderId = _reminderIds.First ();
-			DELETE ("/reminders", _canceledReminderId);
+			DELETE ("/reminders/", _canceledReminderId);
 
 			Assert.AreEqual (HttpStatusCode.NoContent, Response.StatusCode);
 		}

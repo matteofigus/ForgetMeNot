@@ -7,6 +7,7 @@ using RestSharp;
 using Nancy;
 using Nancy.Testing;
 using System.Text;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -17,11 +18,13 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			FreezeTime ();
 
-			var scheduleRequest = new ReminderMessage.Schedule (
+			var scheduleRequest = new ScheduleReminder (
 				Now.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
+				"utf8",
+				"http",
+				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
 				0
 			);
 

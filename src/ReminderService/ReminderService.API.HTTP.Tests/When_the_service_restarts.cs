@@ -9,15 +9,17 @@ using Nancy.Testing;
 using ReminderService.Messages;
 using ReminderService.Test.Common;
 using Newtonsoft.Json;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
 	[TestFixture]
 	public class When_the_service_restarts : ServiceSpec<ReminderApiModule>
 	{
-		private List<Tuple<ReminderMessage.Schedule, Guid>> _scheduledReminders = new List<Tuple<ReminderMessage.Schedule, Guid>> ();
+		private List<Tuple<ScheduleReminder, Guid>> _scheduledReminders = new List<Tuple<ScheduleReminder, Guid>> ();
 		private List<Guid> _canceledReminderIds = new List<Guid> ();
-		private List<Guid> _sentReminderIds = new List<Guid>();
+		private List<Guid> _sentCorrelatioIds = new List<Guid>();
+		private List<Guid> _correlationIds;
 
 		[TestFixtureSetUp]
 		public void Initialize_the_service()
@@ -41,29 +43,36 @@ namespace ReminderService.API.HTTP.Tests
 			_canceledReminderIds.Should ().HaveCount (3);
 			_canceledReminderIds
 				.Should ()
-				.NotIntersectWith (_sentReminderIds, "The test rig received ReminderId's for cancelled Reminders");
+				.NotIntersectWith (_sentCorrelatioIds, "The test rig received ReminderId's for cancelled Reminders");
 		}
 
 		[Test]
-		public void Then_current_reminders_should_be_sent()
+		public void Then_due_reminders_should_be_sent()
 		{
-			//failing because records coming out of PostGres are in UTC
-			_sentReminderIds.Should ().HaveCount (7);
+			_sentCorrelatioIds.Should ().HaveCount (7);
 
-			_sentReminderIds
+			_sentCorrelatioIds
 				.Should()
-				.IntersectWith(_scheduledReminders.Select(r => r.Item1.GetFakePayload().CorrelationId), "No reminders were received.");
+				.IntersectWith(
+					_scheduledReminders
+					.Select(r => 
+						r.Item1.GetFakePayload().CorrelationId), "No reminders were received.");
 		}
 
 		private void Given_some_reminders_have_been_scheduled()
 		{
-			var reminders = MessageBuilders.BuildRemindersWithoutIds (10);
-			foreach (var reminder in reminders) {
+			_correlationIds = Enumerable
+				.Range (0, 10)
+				.Select (i => Guid.NewGuid())
+				.ToList();
+
+			foreach (var id in _correlationIds) {
+				var reminder = Helpers.BuildScheduleRequest (id);
 				POST ("/reminders", reminder);
 				Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
 
 				var reminderId = Response.Body.DeserializeJson<ScheduledResponse> ().ReminderId;
-				_scheduledReminders.Add(new Tuple<ReminderMessage.Schedule, Guid>(reminder, reminderId));
+				_scheduledReminders.Add(new Tuple<ScheduleReminder, Guid>(reminder, reminderId));
 			}
 		}
 
@@ -71,7 +80,7 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			var cancellations = _scheduledReminders.Select (r => r.Item2).Take (3);
 			foreach (var cancellation in cancellations) {
-				DELETE ("/reminders", cancellation);
+				DELETE ("/reminders/", cancellation);
 				Assert.AreEqual (HttpStatusCode.NoContent, Response.StatusCode, 
 					string.Format(
 						"DELETE request for reminder [{0}] failed with HttpStatus [{1}] and '{2}'", 
@@ -82,7 +91,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		private void Get_reminderIds_that_were_sent()
 		{
-			_sentReminderIds.AddRange(
+			_sentCorrelatioIds.AddRange(
 				AllInterceptedHttpRequests.Select (request => 
 					request.GetFakePayload().CorrelationId));
 		}
@@ -90,6 +99,15 @@ namespace ReminderService.API.HTTP.Tests
 		private void When_service_restarts()
 		{
 			RestartService();
+		}
+
+		private IEnumerable<string> GetReminderStates(IEnumerable<Guid> reminders)
+		{
+			foreach (var id in reminders) {
+				//var response = _service.Get ("/reminders/" + id.ToString());
+				GET ("/reminders", id);
+				yield return ResponseBody;
+			}
 		}
 	}
 }

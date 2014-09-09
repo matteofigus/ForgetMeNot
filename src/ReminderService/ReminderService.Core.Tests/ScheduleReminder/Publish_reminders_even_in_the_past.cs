@@ -21,6 +21,8 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (-100),
 					"http://deliveryUrl",
 					"content/type",
+					"utf8",
+					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
@@ -28,6 +30,8 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (-160),
 					"http://deliveryUrl",
 					"content/type",
+					"utf8",
+					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 
 			GivenA (new Envelopes.Journaled<ReminderMessage.Schedule> (
@@ -35,6 +39,8 @@ namespace ReminderService.Core.Tests.ScheduleReminder
 					Now.AddMilliseconds (50),
 					"http://deliveryUrl",
 					"content/type",
+					"utf8",
+					ReminderMessage.TransportEnum.http,
 					new byte[0], 0)));
 		}
 

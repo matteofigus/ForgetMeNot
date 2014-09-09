@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReminderService.API.HTTP
+namespace ReminderService.API.HTTP.Models
 {
 	public class ScheduledResponse
 	{

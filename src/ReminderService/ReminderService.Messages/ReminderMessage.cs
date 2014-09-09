@@ -25,6 +25,12 @@ namespace ReminderService.Messages
 			DateTime DueAt { get; set; }
 		}
 
+		public enum TransportEnum
+		{
+			http,
+			rabbitmq
+		}
+
 		public class Schedule : ISchedulable, IDeliverable, IReminder
 		{
 			public Guid ReminderId { get; set; }
@@ -33,6 +39,8 @@ namespace ReminderService.Messages
 			public int MaxRetries { get; set; }
 			public string DeliveryUrl { get; set; }
 			public string ContentType { get; set; }
+			public string Encoding { get; set; }
+			public TransportEnum Transport { get; set; }
 			public byte[] Payload { get; set; }
 
 			public Schedule ()
@@ -40,18 +48,20 @@ namespace ReminderService.Messages
 				//default constructor
 			}
 
-			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int maxAttempts, DateTime? giveupAfter = null)
+			public Schedule (DateTime dueAt, string deliveryUrl, string contentType, string encoding, TransportEnum transport, byte[] payload, int maxAttempts, DateTime? giveupAfter = null)
 			{
 				DueAt = dueAt;
 				MaxRetries = maxAttempts;
 				GiveupAfter = giveupAfter;
 				DeliveryUrl = deliveryUrl;
 				ContentType = contentType;
+				Encoding = encoding;
+				Transport = transport;
 				Payload = payload;
 			}
 
-			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, byte[] payload, int maxAttempts, DateTime? giveupAfter = null)
-				: this(dueAt, deliveryUrl, contentType, payload, maxAttempts, giveupAfter)
+			public Schedule (Guid reminderId, DateTime dueAt, string deliveryUrl, string contentType, string encoding, TransportEnum transport, byte[] payload, int maxAttempts, DateTime? giveupAfter = null)
+				: this(dueAt, deliveryUrl, contentType, encoding, transport, payload, maxAttempts, giveupAfter)
 			{
 				ReminderId = reminderId;
 			}

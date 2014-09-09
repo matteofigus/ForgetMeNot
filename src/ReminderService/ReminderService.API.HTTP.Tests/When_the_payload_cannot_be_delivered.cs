@@ -7,6 +7,7 @@ using System.Text;
 using ReminderService.Common;
 using RestSharp;
 using System.Linq;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -39,11 +40,13 @@ namespace ReminderService.API.HTTP.Tests
 				successfulResponse,
 			});
 
-			var scheduleRequest = new ReminderMessage.Schedule (
+			var scheduleRequest = new ScheduleReminder (
 				UtcNow.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
+				"utf8",
+				"http",
+				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
 				3,
 				UtcNow.Add(3.Hours())
 			);

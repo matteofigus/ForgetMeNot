@@ -9,6 +9,7 @@ using Nancy.Validation;
 using ReminderService.Router;
 using ReminderService.Messages;
 using ReminderService.Router.Consumers;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP
 {
@@ -44,8 +45,7 @@ namespace ReminderService.API.HTTP
 
 			// Schedule a reminder
 			Post["/"] = parameters => {
-				var model = this.Bind<ReminderMessage.Schedule>();
-				model.ReminderId = Guid.NewGuid();
+				var model = this.Bind<ScheduleReminder>();
 				var result = this.Validate(model);
 
 				if (!result.IsValid) {
@@ -53,10 +53,13 @@ namespace ReminderService.API.HTTP
 					return Response.AsJson(errors, HttpStatusCode.BadRequest);
 				}
 
-				//errors are handled by a request level error handler, no need to try-catch here...
-				_bus.Send(model);
+				var schedule = model.BuildScheduleMessage(Guid.NewGuid());
+				//model.ReminderId = Guid.NewGuid();
 
-				var scheduleRes = new ScheduledResponse{ReminderId = model.ReminderId};
+				//errors are handled by a request level error handler, no need to try-catch here...
+				_bus.Send(schedule);
+
+				var scheduleRes = new ScheduledResponse{ReminderId = schedule.ReminderId};
 				var res = Response.AsJson(
 					scheduleRes,
 					HttpStatusCode.Created);

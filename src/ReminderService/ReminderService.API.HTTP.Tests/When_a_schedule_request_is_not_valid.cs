@@ -7,6 +7,7 @@ using Nancy;
 using Nancy.Testing;
 using ReminderService.Common;
 using ReminderService.Messages;
+using ReminderService.API.HTTP.Models;
 using ReminderService.API.HTTP.BootStrap;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Test.Common;
@@ -27,11 +28,13 @@ namespace ReminderService.API.HTTP.Tests
 			var browser = new Browser(bootstrapper);
 
 			// When
-			var requestBody = new ReminderMessage.Schedule (
+			var requestBody = new ScheduleReminder (
 				DateTime.Now.AddDays (1),
 				"",
 				"application/json",
-				new byte[1] {01},
+				"utf8",
+				"http",
+				"payload".AsUtf8EncodedByteArray(),
 				0
 			);
 			var result = browser.Post("/reminders", with => {

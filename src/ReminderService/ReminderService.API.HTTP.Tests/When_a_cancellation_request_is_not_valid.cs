@@ -10,7 +10,7 @@ namespace ReminderService.API.HTTP.Tests
 		[SetUp]
 		public void When_the_reimderId_is_not_valid()
 		{
-			DELETE ("/reminders", Guid.Empty);
+			DELETE ("/reminders/", Guid.Empty);
 		}
 
 		[Test]

@@ -5,6 +5,7 @@ using Nancy;
 using Nancy.Testing;
 using ReminderService.Common;
 using System.Text;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -17,11 +18,13 @@ namespace ReminderService.API.HTTP.Tests
 		[TestFixtureSetUp]
 		public void Given_a_reminder_exists_in_the_service()
 		{
-			var scheduleRequest = new ReminderMessage.Schedule (
+			var scheduleRequest = new ScheduleReminder (
 				Now.Add(2.Hours()),
 				"http://delivery",
 				"application/json",
-				Encoding.UTF8.GetBytes ("{\"property1\": \"payload\"}"),
+				"utf8",
+				"http",
+				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
 				0
 			);
 

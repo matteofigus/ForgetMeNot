@@ -1,3 +1,6 @@
 Number of test runs: 5
 Average time to read (ms): 99888
 Reads per second: 1001.1212558065
+Number of test runs: 5
+Average time to read (ms): 97717.2
+Reads per second: 1023.36129156382

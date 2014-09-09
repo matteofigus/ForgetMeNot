@@ -21,6 +21,8 @@ namespace ReminderService.Test.Common
 							SystemTime.UtcNow ().AddMilliseconds(10),
 							"http://deliveryUrl/" + i,
 							"application/json",
+							"utf8",
+							ReminderMessage.TransportEnum.http,
 							new TestPayload(reminderId).AsJsonEncoded(),
 							maxAttempts,
 							giveupAfter
@@ -37,6 +39,8 @@ namespace ReminderService.Test.Common
 						SystemTime.UtcNow ().AddMilliseconds (100),
 						"http://deliveryUrl/" + i,
 						"application/json",
+						"utf8",
+						ReminderMessage.TransportEnum.http,
 						new TestPayload (Guid.NewGuid ()).AsJsonEncoded (),
 						maxAttempts,
 						giveupAfter

@@ -31,6 +31,8 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
+				"utf8",
+				ReminderMessage.TransportEnum.http, 
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 0);
 
 			_journaler.Write (schedule);
@@ -47,6 +49,8 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
+				"utf8",
+				ReminderMessage.TransportEnum.http, 
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 0);
 
 			_journaler.Write (schedule);
@@ -69,6 +73,8 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
+				"utf8",
+				ReminderMessage.TransportEnum.http, 
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 0);
 
 			_journaler.Write (schedule);
@@ -91,6 +97,8 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
+				"utf8",
+				ReminderMessage.TransportEnum.http, 
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 
 				0
 			);
@@ -115,6 +123,8 @@ namespace ReminderService.Core.Tests.Persistence.Postgres
 				SystemTime.Now(),
 				"deliveryUrl",
 				"application/json",
+				"utf8",
+				ReminderMessage.TransportEnum.http, 
 				Encoding.UTF8.GetBytes("{\"property1:\" \"value1\"}"), 
 				0
 			);

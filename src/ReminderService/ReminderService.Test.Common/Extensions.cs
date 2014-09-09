@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Script.Serialization;
 using ReminderService.Messages;
 using RestSharp;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.Test.Common
 {
@@ -39,7 +40,7 @@ namespace ReminderService.Test.Common
 			return json;
 		}
 
-		public static TestPayload GetFakePayload(this ReminderMessage.Schedule reminder)
+		public static TestPayload GetFakePayload(this ScheduleReminder reminder)
 		{
 			var serializer = new JavaScriptSerializer ();
 			var payloadString = Encoding.UTF8.GetString (reminder.Payload);

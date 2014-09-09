@@ -86,6 +86,8 @@
     <Compile Include="CustomSerializers\CustomJsonSerializer.cs" />
     <Compile Include="CustomSerializers\ByteArrayConverter.cs" />
     <Compile Include="Models\ScheduledResponse.cs" />
+    <Compile Include="Models\ScheduleReminder.cs" />
+    <Compile Include="Models\ExtensionMethods.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

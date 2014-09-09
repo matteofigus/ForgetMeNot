@@ -20,7 +20,7 @@ namespace ReminderService.API.HTTP.Tests
 	public abstract class ServiceSpec<TModule> : PostgresTestBase where TModule : NancyModule
 	{
 		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
-		private Browser _service;
+		protected Browser _service;
 		private IBusFactory _busFactory;
 		private FakeRestClient _restClient;
 		private IRestResponse _restResponse = new RestResponse{ StatusCode = System.Net.HttpStatusCode.Created, ResponseStatus = ResponseStatus.Completed };
@@ -79,7 +79,7 @@ namespace ReminderService.API.HTTP.Tests
 			});
 		}
 
-		protected void POST(string url, IMessage message)
+		protected void POST(string url, object message)
 		{
 			_response = _service.Post(url, with => {
 				with.JsonBody(message);
@@ -88,7 +88,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected void DELETE(string url, Guid reminderId)
 		{
-			_response = _service.Delete(url + "/" + reminderId.ToString());
+			_response = _service.Delete(url + reminderId.ToString());
 		}
 
 		protected void SetHttpClientResponse(IRestResponse response)
@@ -135,6 +135,14 @@ namespace ReminderService.API.HTTP.Tests
 		protected void FireScheduler()
 		{
 			_timer.Fire ();
+		}
+
+		protected void AssertReminderWasSent(Guid reminderId)
+		{
+			GET ("/reminders/", reminderId);
+			Assert.AreEqual (HttpStatusCode.OK, _response.StatusCode);
+			Assert.IsTrue (ResponseBody.Contains(reminderId.ToString()));
+			Assert.IsTrue (ResponseBody.Contains("Delivered"));
 		}
 	}
 }

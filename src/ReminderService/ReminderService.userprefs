@@ -1,16 +1,52 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.PerformanceTests.Runner/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.API.HTTP.Tests/ServiceSpec.cs">
     <Files>
-      <File FileName="ReminderService.Core.PerformanceTests/PriorityQueue/When_writing_to_the_queue.cs" Line="31" Column="31" />
-      <File FileName="ReminderService.Core.PerformanceTests/PriorityQueue/InsertPQTestSuit.cs" Line="38" Column="38" />
-      <File FileName="ReminderService.Core.PerformanceTests/PriorityQueue/AvergeTimeToInsert.cs" Line="39" Column="39" />
-      <File FileName="ReminderService.Core.PerformanceTests/PriorityQueue/ReadingTestSuit.cs" Line="70" Column="70" />
-      <File FileName="ReminderService.Core/ScheduleReminder/Scheduler.cs" Line="1" Column="1" />
       <File FileName="PriorityQueue/MinPriorityQueue.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.PerformanceTests.Runner/Program.cs" Line="26" Column="26" />
-      <File FileName="ReminderService.Core.PerformanceTests/When_reading_from_the_queue.cs" Line="5" Column="5" />
+      <File FileName="ReminderService.Core.PerformanceTests/Scheduler/SchedulingTestSuit.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="7" Column="7" />
+      <File FileName="ReminderService.API.HTTP/Models/ScheduleReminder.cs" Line="26" Column="26" />
+      <File FileName="ReminderService.API.HTTP.Tests/ServiceSpec.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ReminderService.API.HTTP" expanded="True">
+            <Node name="Models" expanded="True" />
+            <Node name="Validation" expanded="True" />
+          </Node>
+          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
+            <Node name="ServiceSpec.cs" selected="True" />
+          </Node>
+          <Node name="ReminderService.Core" expanded="True">
+            <Node name="ScheduleReminder" expanded="True" />
+          </Node>
+          <Node name="ReminderService.Messages" expanded="True" />
+          <Node name="ReminderService.Test.Common" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
+            <Node name="ReminderService" expanded="True">
+              <Node name="API" expanded="True">
+                <Node name="HTTP" expanded="True">
+                  <Node name="Tests" expanded="True">
+                    <Node name="ValidationTests" expanded="True" />
+                    <Node name="When_cancelling_a_reminder" expanded="True" />
+                    <Node name="When_getting_a_reminder" expanded="True" />
+                    <Node name="When_the_service_restarts" expanded="True">
+                      <Node name="Then_due_reminders_should_be_sent" selected="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -23,9 +59,9 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" line="63" column="19" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/A_Scheduler_should.cs" line="131" column="6" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Scheduler_Spec.cs" line="57" column="13" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/When_not_started.cs" line="29" column="6" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Publish_reminders_even_in_the_past.cs" line="44" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Publish_all_reminders_that_are_due_at_the_same_time.cs" line="57" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/When_not_started.cs" line="31" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Publish_reminders_even_in_the_past.cs" line="50" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/ScheduleReminder/Publish_all_reminders_that_are_due_at_the_same_time.cs" line="67" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" line="45" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" line="66" column="16" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/PublishReminders/HTTPPublisher.cs" line="32" column="9" />
@@ -44,8 +80,8 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/FakeReplayer.cs" line="10" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="35" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="42" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="58" column="7" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="36" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="62" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="38" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CancellationReplayer.cs" line="43" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="39" column="11" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/BootStrap/BootStrapper.cs" line="34" column="9" />
@@ -67,7 +103,6 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="48" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="23" column="18" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="25" column="18" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="51" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="30" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/ExtensionTests.cs" line="13" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="21" column="8" />
@@ -76,41 +111,40 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="42" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/WhenAReplayFails.cs" line="24" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="31" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="38" column="5" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="40" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="77" column="9" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="83" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="89" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/CustomSerializers/ByteArrayConverter.cs" line="16" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="57" column="35" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_getting_a_reminder.cs" line="59" column="35" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="37" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/An_UndeliveredProcessManager.cs" line="50" column="40" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="111" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="102" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/DeliverReminder/When_attempting_redelivery.cs" line="101" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="28" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="44" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="46" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/Peristence/Journaler.cs" line="56" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="52" column="8" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/APostgresJournaler.cs" line="56" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/PostgresTestBase.cs" line="66" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_UndeliveredReminderReplayer.cs" line="31" column="6" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_UndeliveredReminderReplayer.cs" line="41" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/ScheduleReminder/Scheduler.cs" line="53" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/ScheduleReminder/Scheduler.cs" line="62" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="73" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="78" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="75" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="80" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" line="74" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" line="41" column="5" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/PublishReminders/An_HttpPublisher.cs" line="79" column="1" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="68" column="10" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/ScheduleReminder/Scheduler.cs" line="45" column="6" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/ScheduleReminder/Scheduler.cs" line="75" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_payload_cannot_be_delivered.cs" line="70" column="10" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/DeadLetterDelivery.cs" line="32" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core/DeliverReminder/UndeliveredProcessManager.cs" line="59" column="39" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/FakeRestClient.cs" line="62" column="7" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.PerformanceTests.Runner/FileWriter.cs" line="20" column="6" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.PerformanceTests/InsertPQTestSuit.cs" line="47" column="11" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.PerformanceTests/PriorityQueue/When_writing_to_the_queue.cs" line="49" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.PerformanceTests/InsertPQTestSuit.cs" line="64" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/Validation/ScheduleReminderRequestValidator.cs" line="49" column="11" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="54" column="9" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="30" column="7" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
