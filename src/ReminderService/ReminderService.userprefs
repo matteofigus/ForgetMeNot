@@ -1,50 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.API.HTTP.Tests/ServiceSpec.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReminderService.Hosting.NancySelf/Program.cs">
     <Files>
-      <File FileName="PriorityQueue/MinPriorityQueue.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.Core.PerformanceTests/Scheduler/SchedulingTestSuit.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.API.HTTP/ReminderApiModule.cs" Line="7" Column="7" />
-      <File FileName="ReminderService.API.HTTP/Models/ScheduleReminder.cs" Line="26" Column="26" />
-      <File FileName="ReminderService.API.HTTP.Tests/ServiceSpec.cs" Line="1" Column="1" />
-      <File FileName="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" Line="1" Column="1" />
+      <File FileName="ReminderService.Hosting.NancySelf/Program.cs" Line="69" Column="69" />
     </Files>
     <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="ReminderService.API.HTTP" expanded="True">
-            <Node name="Models" expanded="True" />
-            <Node name="Validation" expanded="True" />
-          </Node>
-          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
-            <Node name="ServiceSpec.cs" selected="True" />
-          </Node>
-          <Node name="ReminderService.Core" expanded="True">
-            <Node name="ScheduleReminder" expanded="True" />
-          </Node>
-          <Node name="ReminderService.Messages" expanded="True" />
-          <Node name="ReminderService.Test.Common" expanded="True" />
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>bus</Value>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="ReminderService.API.HTTP.Tests" expanded="True">
-            <Node name="ReminderService" expanded="True">
-              <Node name="API" expanded="True">
-                <Node name="HTTP" expanded="True">
-                  <Node name="Tests" expanded="True">
-                    <Node name="ValidationTests" expanded="True" />
-                    <Node name="When_cancelling_a_reminder" expanded="True" />
-                    <Node name="When_getting_a_reminder" expanded="True" />
-                    <Node name="When_the_service_restarts" expanded="True">
-                      <Node name="Then_due_reminders_should_be_sent" selected="True" />
-                    </Node>
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -102,8 +69,8 @@
       <Catchpoint exceptionName="Nancy.ViewEngines.ViewNotFoundException" includeSubclasses="True" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="48" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_cancelling_a_reminder.cs" line="23" column="18" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="25" column="18" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="30" column="1" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="26" column="18" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="31" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Test.Common/ExtensionTests.cs" line="13" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Persistence/Postgres/A_CurrentReminderReplayer.cs" line="21" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.Tests/Startup/OnSuccessfulStartUp.cs" line="25" column="12" />
@@ -143,8 +110,8 @@
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.PerformanceTests/PriorityQueue/When_writing_to_the_queue.cs" line="49" column="8" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.Core.PerformanceTests/InsertPQTestSuit.cs" line="64" column="1" />
       <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/Validation/ScheduleReminderRequestValidator.cs" line="49" column="11" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="54" column="9" />
-      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="30" column="7" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP/ReminderApiModule.cs" line="30" column="6" />
+      <Breakpoint file="/Users/robert/Documents/Programming/GitHub/ForgetMeNot/src/ReminderService/ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="37" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -156,6 +123,8 @@
     <Watch file="ReminderService.Core.Tests/Persistence/A_CancellationReplayer.cs" line="31" offsetX="1150" offsetY="127" expression="cancellations" liveUpdate="False" />
     <Watch file="ReminderService.Core.Tests/Persistence/Postgres/A_CancellationReplayer.cs" line="33" offsetX="495" offsetY="118" expression="cancel.ReminderId" liveUpdate="False" />
     <Watch file="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="18" offsetX="1182" offsetY="96" expression="this._scheduledReminders" liveUpdate="False" />
-    <Watch file="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="18" offsetX="1022" offsetY="255" expression="this._scheduledReminders" liveUpdate="False" />
+    <Watch file="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="18" offsetX="86" offsetY="228" expression="this._scheduledReminders" liveUpdate="False" />
+    <Watch file="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="21" offsetX="797" offsetY="229" expression="this._sentReminderIds" liveUpdate="False" />
+    <Watch file="ReminderService.API.HTTP.Tests/When_the_service_restarts.cs" line="20" offsetX="537" offsetY="476" expression="this._canceledReminderIds" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

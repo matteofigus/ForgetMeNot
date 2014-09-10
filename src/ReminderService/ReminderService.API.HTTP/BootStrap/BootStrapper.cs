@@ -43,6 +43,7 @@ namespace ReminderService.API.HTTP.BootStrap
 		{
 			base.ConfigureApplicationContainer (container);
 
+			Logger.Info ("Configuring bus...");
 			var busInstance = (Bus)container.Resolve<IBusFactory> ().Build ();
 			container.Register<IBus, Bus> (busInstance);
 

@@ -26,8 +26,13 @@ namespace ReminderService.API.HTTP
 
 			// Get the current state of a reminder
 			Get ["/{reminderId}"] = parameters => {
-				//TODO: add a validator to make sure the reminderId is a valid GUID, so that we can do this parse with confidence that the resulting id is a GUID...
-				Guid reminderId = Guid.Parse(parameters.reminderId.ToString());
+				Guid reminderId;
+				if(!Guid.TryParse(parameters.reminderId.ToString(), out reminderId)){
+					var res = Response.AsText("Not a valid Reminder Id.");
+					res.StatusCode = HttpStatusCode.BadRequest;
+					return res;
+				}
+					
 			    var request = new RequestResponse.GetReminderState(reminderId);
                 var response = bus.Send(request);
 
