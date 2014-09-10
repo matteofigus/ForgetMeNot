@@ -11,4 +11,3 @@ WORKDIR /app
 #the first run fails, but creates the file used in the second run, which works....???
 RUN mono /tmp/NuGet.exe restore src/ReminderService/ReminderService.sln || mono /root/.local/share/NuGet/NuGet.exe restore src/ReminderService/ReminderService.sln
 RUN xbuild src/ReminderService/ReminderService.sln
-
