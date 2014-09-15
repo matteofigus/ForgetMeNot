@@ -13,19 +13,19 @@ namespace ReminderService.API.HTTP.Tests
 	public class When_getting_a_reminder : ServiceSpec<ReminderApiModule>
 	{
 		private Guid _reminderId;
-		private RequestResponse.CurrentReminderState _getResponse;
 
 		[TestFixtureSetUp]
 		public void Given_a_reminder_exists_in_the_service()
 		{
 			var scheduleRequest = new ScheduleReminder (
-				Now.Add(2.Hours()),
+				Now.Add(2.Hours()).ToString("o"),
 				"http://delivery",
 				"application/json",
 				"utf8",
 				"http",
 				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
-				0
+				0,
+				string.Empty
 			);
 
 			POST ("/reminders", scheduleRequest);

@@ -1,11 +1,12 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace ReminderService.API.HTTP.Models
 {
 	public class ScheduleReminder
 	{
-		public DateTime DueAt { get; set; }
-		public DateTime? GiveupAfter { get; set; }
+		public string DueAt { get; set; }
+		public string GiveupAfter { get; set; }
 		public int MaxRetries { get; set; }
 		public string DeliveryUrl { get; set; }
 		public string ContentType { get; set; }
@@ -18,7 +19,7 @@ namespace ReminderService.API.HTTP.Models
 			//empty
 		}
 
-		public ScheduleReminder (DateTime dueAt, string deliveryUrl, string contentType, string encoding, string transport, byte[] payload, int maxRetries, DateTime? giveupAfter = null)
+		public ScheduleReminder (string dueAt, string deliveryUrl, string contentType, string encoding, string transport, byte[] payload, int maxRetries, string giveupAfter)
 		{
 			DueAt = dueAt;
 			DeliveryUrl = deliveryUrl;

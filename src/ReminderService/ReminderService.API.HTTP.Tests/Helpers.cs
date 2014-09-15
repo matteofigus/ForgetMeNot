@@ -16,28 +16,28 @@ namespace ReminderService.API.HTTP.Tests
 				.Range (0, count)
 				.Select (i => 
 					new ScheduleReminder (
-						SystemTime.UtcNow ().AddMilliseconds (100),
+						SystemTime.UtcNow ().AddSeconds (100).ToString("o"), //yyyy-MM-ddTHH:mm:ssZ
 						"http://deliveryUrl/" + i,
 						"application/json",
 						"utf8",
 						"http",
 						new TestPayload (Guid.NewGuid ()).AsJsonEncoded (),
 						maxAttempts,
-						giveupAfter
+						giveupAfter.ToString()
 					));
 		}
 
 		public static ScheduleReminder BuildScheduleRequest(Guid reminderId, int maxAttempts = 1, DateTime? giveupAfter = null)
 		{
 			return new ScheduleReminder (
-				SystemTime.UtcNow ().AddMilliseconds (100),
+				SystemTime.UtcNow ().AddSeconds (100).ToString("o"),
 				"http://deliveryUrl/" + reminderId,
 				"application/json",
 				"utf8",
 				"http",
 				new TestPayload (reminderId).AsJsonEncoded (),
 				maxAttempts,
-				giveupAfter
+				giveupAfter.ToString()
 			);
 		}
 	}

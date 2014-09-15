@@ -2,6 +2,8 @@
 using FluentValidation;
 using System.Collections.Generic;
 using System.Text;
+using NodaTime;
+using NodaTime.Text;
 
 namespace ReminderService.API.HTTP
 {
