@@ -178,6 +178,7 @@ FakesAssemblies/
 
 # xamarin files
 *.usertasks
+*.userprefs
 
 # Other files
 *.data
