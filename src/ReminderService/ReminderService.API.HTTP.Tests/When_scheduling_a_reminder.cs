@@ -19,13 +19,14 @@ namespace ReminderService.API.HTTP.Tests
 			FreezeTime ();
 
 			var scheduleRequest = new ScheduleReminder (
-				Now.Add(2.Hours()),
+				Now.Add(2.Hours()).ToString("o", System.Globalization.CultureInfo.InvariantCulture),
 				"http://delivery",
 				"application/json",
 				"utf8",
 				"http",
 				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
-				0
+				0,
+				string.Empty
 			);
 
 			POST ("/reminders", scheduleRequest);

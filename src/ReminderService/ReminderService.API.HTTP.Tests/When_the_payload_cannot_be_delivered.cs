@@ -41,14 +41,14 @@ namespace ReminderService.API.HTTP.Tests
 			});
 
 			var scheduleRequest = new ScheduleReminder (
-				UtcNow.Add(2.Hours()),
+				UtcNow.Add(2.Hours()).ToString("o"),
 				"http://delivery",
 				"application/json",
 				"utf8",
 				"http",
 				"{\"property1\": \"payload\"}".AsUtf8EncodedByteArray(),
 				3,
-				UtcNow.Add(3.Hours())
+				UtcNow.Add(3.Hours()).ToString("o")
 			);
 
 			POST ("/reminders/", scheduleRequest);
@@ -72,7 +72,6 @@ namespace ReminderService.API.HTTP.Tests
 			FireScheduler ();
 
 			GET ("/reminders/", _reminderId);
-			var body = Response.Body.AsString ();
 			Assert.That (ResponseBody.Contains ("RedeliveryAttempts\":1"));
 
 			AdvanceTimeBy (3.Hours ());

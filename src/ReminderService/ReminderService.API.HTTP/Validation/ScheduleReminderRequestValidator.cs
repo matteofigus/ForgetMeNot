@@ -5,6 +5,8 @@ using ReminderService.Messages;
 using ReminderService.API.HTTP.Models;
 using System.Collections.Generic;
 using System.Linq;
+using NodaTime.Text;
+using NodaTime;
 
 namespace ReminderService.API.HTTP
 {
@@ -13,8 +15,10 @@ namespace ReminderService.API.HTTP
 		public ScheduleReminderRequestValidator ()
 		{
 			RuleFor (request => request.DeliveryUrl).NotEmpty ();
-			RuleFor (request => request.Payload).NotEmpty ();
-			RuleFor (request => request.Payload).IsValidJson();
+			//RuleFor (request => request.Payload).NotEmpty ();
+			RuleFor (request => request.Payload)
+				.NotEmpty()
+				.IsValidJson();
 			RuleFor (request => request.ContentType)
 				.NotEmpty ()
 				.Equal ("application/json")
@@ -28,14 +32,15 @@ namespace ReminderService.API.HTTP
 				.Must(BeAValidTransport)
 				.WithMessage ("We only support Http and RabbitMQ transports at the moment.");
 			RuleFor (request => request.DueAt)
-				.GreaterThan (SystemTime.Now ())
-				.WithMessage("The TimeoutAt value cannot be in the past.");
+				.Cascade (CascadeMode.StopOnFirstFailure)
+				.NotEmpty ()
+				.Must (BeAValidDueAtTime)
+				.WithMessage ("The DueAt value could not be deserialized to a valid DateTime instance OR is in the past.");
 			RuleFor (request => request.MaxRetries)
 				.GreaterThanOrEqualTo (0);
 			RuleFor (request => request.GiveupAfter)
-				.Must ((schedule, giveUp) =>
-					giveUp.HasValue ? giveUp.Value > schedule.DueAt : true
-				);
+				.Must (BeAValidGiveUpAfterTime)
+				.WithMessage ("The GiveupAfter value could not be deserialized to a valid DateTime instance OR is in the past.");
 		}
 
 		private bool BeAValidTransport(string transport)
@@ -49,6 +54,35 @@ namespace ReminderService.API.HTTP
 
 			var input = transport.ToLower ();
 			return (input == "http" || input == "rabbitmq");
+		}
+
+		private bool BeAValidDueAtTime(string dueAtString)
+		{
+			var pattern = OffsetDateTimePattern.ExtendedIsoPattern;
+			var result = pattern.Parse (dueAtString);
+
+			if (!result.Success)
+				return false;
+
+			var dueAtUtc = result.Value.ToInstant ().InUtc ().ToInstant();
+			var utcNow = Instant.FromDateTimeUtc (SystemTime.UtcNow ());
+			return (dueAtUtc.CompareTo (utcNow) > 0);
+		}
+
+		private bool BeAValidGiveUpAfterTime(ScheduleReminder request, string giveUpAfterString)
+		{
+			if (string.IsNullOrEmpty (giveUpAfterString))
+				return true;
+
+			var pattern = OffsetDateTimePattern.ExtendedIsoPattern;
+			var result = pattern.Parse (giveUpAfterString);
+
+			if (!result.Success)
+				return false;
+
+			var giveupAfterUtc = result.Value.ToInstant ().InUtc ();
+			var dueAtUtc = pattern.Parse (request.DueAt).GetValueOrThrow().ToInstant().InUtc();
+			return (giveupAfterUtc.CompareTo (dueAtUtc) > 0);
 		}
 	}
 }

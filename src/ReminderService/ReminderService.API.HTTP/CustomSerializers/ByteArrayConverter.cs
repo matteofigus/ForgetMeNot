@@ -22,6 +22,7 @@ namespace ReminderService.API.HTTP
 			byte[] data = (byte[])value;
 
 			writer.WriteRawValue (Encoding.UTF8.GetString (data));
+			//writer.WriteRawValue (Convert.ToBase64String( Encoding.UTF8.GetString (data));
 		}
 
 		public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

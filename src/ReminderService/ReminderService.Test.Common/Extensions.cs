@@ -20,6 +20,7 @@ namespace ReminderService.Test.Common
 
 		public static string AsJsonString(this byte[] byteArray)
 		{
+			Convert.FromBase64String ("");
 			return Encoding.UTF8.GetString (byteArray);
 		}
 

@@ -29,13 +29,14 @@ namespace ReminderService.API.HTTP.Tests
 
 			// When
 			var requestBody = new ScheduleReminder (
-				DateTime.Now.AddDays (1),
+				DateTime.Now.AddDays (1).ToString(),
 				"",
 				"application/json",
 				"utf8",
 				"http",
 				"payload".AsUtf8EncodedByteArray(),
-				0
+				0,
+				string.Empty
 			);
 			var result = browser.Post("/reminders", with => {
 				with.JsonBody(requestBody);
