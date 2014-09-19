@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text;
 
-namespace ReminderService.API.HTTP
+namespace ForgetMeNot.TestClient.Http
 {
 	public class ByteArrayConverter : JsonConverter
 	{
@@ -44,7 +43,7 @@ namespace ReminderService.API.HTTP
 						byteList.Add(Convert.ToByte(reader.Value));
 						break;
 					case JsonToken.EndArray:
-						return byteList.ToArray();
+						return Convert.ToBase64String(byteList.ToArray());
 					case JsonToken.Comment:
 						// skip
 						break;
