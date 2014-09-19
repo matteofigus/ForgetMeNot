@@ -58,11 +58,13 @@ namespace ReminderService.Core.DeliverReminder
 
 		private void OnSuccessfulDelivery(ReminderMessage.Schedule sentReminder)
 		{
+			Logger.DebugFormat ("Reminder [{0}] was successfully delivered.", sentReminder.ReminderId);
 			_bus.Send (new ReminderMessage.Delivered(sentReminder.ReminderId, SystemTime.UtcNow()));
 		}
 
 		private void OnFailedDelivery(ReminderMessage.Schedule failedReminder, string errorMessage)
 		{
+			Logger.DebugFormat ("Reminder [{0}] could not be delivered: {1}", failedReminder.ReminderId, errorMessage);
 			_bus.Send (new ReminderMessage.Undelivered(failedReminder, errorMessage));
 		}
 	}

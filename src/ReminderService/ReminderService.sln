@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Performance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Hosting.NancySelf", "ReminderService.Hosting.NancySelf\ReminderService.Hosting.NancySelf.csproj", "{5C4BB5FB-B200-46AE-9956-A0650CBD564B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgetMeNot.TestClient.Http", "ForgetMeNot.TestClient\ForgetMeNot.TestClient.Http.csproj", "{A208F8DD-05B8-4C36-B204-B4F542BA7091}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{963EDD5B-B550-4448-A8F6-3B51F577123E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A208F8DD-05B8-4C36-B204-B4F542BA7091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A208F8DD-05B8-4C36-B204-B4F542BA7091}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A208F8DD-05B8-4C36-B204-B4F542BA7091}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A208F8DD-05B8-4C36-B204-B4F542BA7091}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3CBCD5-27A1-4543-A8A5-694EC18D02D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
