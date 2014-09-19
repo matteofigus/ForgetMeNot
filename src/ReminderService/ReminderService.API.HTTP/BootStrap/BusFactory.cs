@@ -8,21 +8,23 @@ using ReminderService.Core.Startup;
 using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Postgres;
 using System.Collections.Generic;
+using ReminderService.Core.ReadModels;
+using System.Configuration;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
 	public class BusFactory : IBusFactory
 	{
-		const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
-		const string DeadLetterUrl = "http://deadletter/url";
+		private string ConnectionString; //= "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
+		private string DeadLetterUrl; //= "http://deadletter/url";
 		private Bus _bus;
 
 		public IBus Build()
 		{
-			_bus = new Bus ();
+			ConnectionString = ConfigurationManager.ConnectionStrings ["postgres"].ConnectionString;
+			DeadLetterUrl = ConfigurationManager.ConnectionStrings ["deadletterqueue"].ConnectionString;
 
-			var startupManager = GetStartupManager ();
-			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);
+			_bus = new Bus ();
 
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
@@ -31,6 +33,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
+			_bus.Subscribe (scheduler as IConsume<ReminderMessage.Rescheduled>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 
@@ -38,12 +41,30 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Cancel>);
 
+			var startupManager = GetStartupManager ();
+			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);
+
+			var currentReminderState = GetCurrentStateOfReminders ();
+			_bus.Subscribe (currentReminderState);
+			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
+			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Cancel>>);
+			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undelivered>);
+			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undeliverable>);
+
+			var undeliveredProcessManager = GetUndeliverableRemindersProcessManager ();
+			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Undelivered>);
+
+			var deadLetterDeliver = GetDeadLetterDelivery ();
+			_bus.Subscribe (deadLetterDeliver as IConsume<ReminderMessage.Undeliverable>);
+
 			return _bus;
 		}
 
 		public Journaler GetJournaler()
 		{
-			return new Journaler (_bus, new InMemoryJournaler ());
+			return new Journaler (_bus, new PostgresJournaler (new PostgresCommandFactory(), ConnectionString));
 		}
 
 		public Scheduler GetScheduler()
@@ -69,6 +90,22 @@ namespace ReminderService.API.HTTP.BootStrap
 				new CurrentRemindersReplayer(commandFactory, ConnectionString),
 			};
 			return new SystemStartManager (_bus, replayers);
+		}
+
+		private CurrentStateOfReminders GetCurrentStateOfReminders()
+		{
+			return new CurrentStateOfReminders ();
+		}
+
+		private UndeliveredProcessManager GetUndeliverableRemindersProcessManager()
+		{
+			return new UndeliveredProcessManager (_bus);
+		}
+
+		private DeadLetterDelivery GetDeadLetterDelivery()
+		{
+			var httpDelivery = new HTTPDelivery (new RestClient());
+			return new DeadLetterDelivery (_bus, httpDelivery, DeadLetterUrl);
 		}
 	}
 }

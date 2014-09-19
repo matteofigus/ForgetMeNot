@@ -11,7 +11,7 @@ namespace ReminderService.Core.Persistence.Postgres
 	{
 		private static readonly ILog Logger = LogManager.GetLogger (typeof(PostgresJournaler));
 		private readonly ICommandFactory _commandFactory;
-		private readonly string _connectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
+		private readonly string _connectionString; // = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 
 		public PostgresJournaler (ICommandFactory commandFactory, string connectionString)
 		{
