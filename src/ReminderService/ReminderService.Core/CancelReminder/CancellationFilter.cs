@@ -42,9 +42,10 @@ namespace ReminderService.Core
 
 			if (found == null)
 				_innerHandler.Handle (due);
-			else
+			else {
 				_cancellations.Remove (found);
-				Logger.Info (string.Format("Cancelled Reminder [{0}] found and removed from cancellation list", due.ReminderId));
+				Logger.Info (string.Format ("Cancelled Reminder [{0}] found and removed from cancellation list", due.ReminderId));
+			}
 		}
 	}
 }

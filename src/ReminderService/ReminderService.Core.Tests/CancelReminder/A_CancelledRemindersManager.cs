@@ -55,6 +55,19 @@ namespace ReminderService.Core.Tests.CancelReminder
 		}
 
 		[Test]
+		public void should_pass_through_reminders_when_there_are_no_cancellations()
+		{
+			var reminderId = Guid.NewGuid ();
+			var cancelledReminderId = Guid.NewGuid ();
+
+			_cancellationManager.Handle(
+				new ReminderMessage.Schedule(reminderId, SystemTime.Now(), "deliveryUrl","content",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http, new byte[0], 0)
+				.AsDue());
+
+			_fakeConsumer.Received.ContainsOne<ReminderMessage.Due>();
+		}
+
+		[Test]
 		public void should_not_publish_cancelled_reminders()
 		{
 			var reminderId = Guid.NewGuid ();
