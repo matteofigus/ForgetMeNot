@@ -1,15 +1,15 @@
-﻿using ReminderService.Core;
-using ReminderService.Core.ScheduleReminder;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using ReminderService.Core;
 using ReminderService.Core.DeliverReminder;
-using ReminderService.Router;
-using ReminderService.Messages;
-using RestSharp;
-using ReminderService.Core.Startup;
 using ReminderService.Core.Persistence;
 using ReminderService.Core.Persistence.Postgres;
-using System.Collections.Generic;
 using ReminderService.Core.ReadModels;
-using System.Configuration;
+using ReminderService.Core.ScheduleReminder;
+using ReminderService.Core.Startup;
+using ReminderService.Messages;
+using ReminderService.Router;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -30,6 +30,7 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Cancel>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (journaler as IConsume<ReminderMessage.Undeliverable>);
 
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
