@@ -29,8 +29,6 @@ namespace ReminderService.Core.DeliverReminder
 				if (_retryAttempts.ContainsKey (delivered.ReminderId)) {
 					_retryAttempts.Remove (delivered.ReminderId);
 					Logger.InfoFormat ("Reminder [{0}] was delivered, removing from cache.", delivered.ReminderId);
-				} else {
-					Logger.WarnFormat ("Reminder [{0}] was not found in the cache.", delivered.ReminderId);
 				}
 			}
 		}

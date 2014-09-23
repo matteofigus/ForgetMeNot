@@ -4,6 +4,7 @@ using ReminderService.DataStructures;
 using ReminderService.Router;
 using ReminderService.Messages;
 using ReminderService.Common;
+using log4net;
 
 namespace ReminderService.Core.ScheduleReminder
 {
@@ -14,6 +15,7 @@ namespace ReminderService.Core.ScheduleReminder
 		IConsume<SystemMessage.ShutDown>,
 		IDisposable
 	{
+		private readonly static ILog Logger = LogManager.GetLogger(typeof(Scheduler));
 		private readonly object _locker = new object ();
 		private readonly ISendMessages _bus;
 		private readonly ITimer _timer;
@@ -42,6 +44,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 		public void Handle (Envelopes.Journaled<ReminderMessage.Schedule> journaled)
 		{
+			Logger.DebugFormat ("Scheduling reminder [{0}]", journaled.Message.ReminderId);
 			lock (_locker) {
 				_pq.Insert (journaled.Message);
 				SetTimeout ();
@@ -50,6 +53,7 @@ namespace ReminderService.Core.ScheduleReminder
 
 		public void Handle(ReminderMessage.Rescheduled rescheduled)
 		{
+			Logger.DebugFormat ("Re-scheduling reminder [{0}]", rescheduled.ReminderId);
 			lock (_locker) {
 				_pq.Insert (rescheduled);
 				SetTimeout ();
@@ -61,7 +65,9 @@ namespace ReminderService.Core.ScheduleReminder
 			//get all the items from the pq that are due
 			lock (_locker) {
 				while (!_pq.IsEmpty && _pq.Min ().DueAt <= SystemTime.UtcNow()) {
-					_bus.Send (_pq.RemoveMin().AsDue());
+					var due = _pq.RemoveMin ().AsDue ();
+					Logger.DebugFormat ("Timer fired. Dequeing reminder {0}", due.ReminderId);
+					_bus.Send (due);
 				}
 			}
 		}
@@ -72,7 +78,7 @@ namespace ReminderService.Core.ScheduleReminder
 			{
 				var nextTimeoutAt = _pq.Min ().DueAt;
 				var timeToNext = Convert.ToInt32 (nextTimeoutAt.Subtract (SystemTime.UtcNow ()).TotalMilliseconds); //Int32.MaxValue in milliseconds is about 68 years! Hopefully nobody is going to schedule something that far in the future
-				Console.WriteLine ("SetTimeout, timeToNext: " + timeToNext);
+				Logger.DebugFormat ("Setting next timeout for {0}ms", timeToNext);
 				_timer.FiresIn (timeToNext, OnTimerFired);
 			}
 		}

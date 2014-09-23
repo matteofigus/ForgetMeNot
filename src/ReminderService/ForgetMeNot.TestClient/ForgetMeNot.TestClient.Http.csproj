@@ -58,8 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileParser.cs" />
     <Compile Include="ScheduleRequest.cs" />
-    <Compile Include="ReceiveReminers\HttpServer.cs" />
     <Compile Include="ByteArrayConverter.cs" />
+    <Compile Include="HttpServer\HttpServer.cs" />
+    <Compile Include="HttpServer\CollectionExtensions.cs" />
+    <Compile Include="HttpServer\Request.cs" />
+    <Compile Include="HttpServer\RequestContext.cs" />
+    <Compile Include="HttpServer\Response.cs" />
+    <Compile Include="HttpServer\StreamExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,7 +72,7 @@
     <None Include="TestFiles\reminders.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ReceiveReminers\" />
     <Folder Include="TestFiles\" />
+    <Folder Include="HttpServer\" />
   </ItemGroup>
 </Project>

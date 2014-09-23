@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NDesk.Options;
 using System.Reactive.Linq;
 using RestSharp;
+using System.Text;
 
 namespace ForgetMeNot.TestClient.Http
 {
@@ -15,6 +16,12 @@ namespace ForgetMeNot.TestClient.Http
 		static FileParser _fileParser;
 		static RestClient _restClient;
 
+		/// <summary>
+		/// Problem: looks like the Rx http server is holding open the receive from the delivery of ForgetMeNot.
+		/// When I stop the client, and restart, it seems to kick Rx and suddenly I can receive.
+		/// </summary>
+		/// <param name="args">The command-line arguments.</param>
+
 		public static void Main (string[] args)
 		{
 			ParseArgs (args);
@@ -23,30 +30,43 @@ namespace ForgetMeNot.TestClient.Http
 			Console.WriteLine ("Delivery Uri: " + _deliveryEndpoint);
 			Console.WriteLine ("File: " + _filePath);
 
-			//standup the http listener that will receive due reminders
-			using (var httpServer = new HttpServer(_deliveryEndpoint.ToString())) {
-				Console.WriteLine (string.Format ("Listening for delivered reminders on {0} ...", _deliveryEndpoint.ToString ()));
-				httpServer.Subscribe(context => 
-					Console.WriteLine("Received:" + Environment.NewLine + context.Request.Url));
-			}
+			//standup the http listener to receive due reminders
+			using (var server = new HttpServer (_deliveryEndpoint.ToString ())) {
+				Console.WriteLine (string.Format ("Listening for due reminders to be delivered on {0} ...", _deliveryEndpoint.ToString ()));
+				server
+					.Where (context => context.Request.HttpMethod == "POST")
+					.Subscribe (context => context.Request.InputStream.ReadBytes (context.Request.ContentLength)
+						.Subscribe (bytes => {
+							Console.WriteLine ("Received: " + Encoding.UTF8.GetString (bytes));
+							context.Respond (new EmptyResponse (201));
+					})
+				);
+			
+				server
+					.Where (context => context.Request.HttpMethod != "POST")
+					.Subscribe (context => {
+						Console.WriteLine ("I can only process POST requests...received an HTTP " + context.Request.HttpMethod);
+				});
 
-			// read requests from the file and POST
-			_fileParser  = new FileParser(_filePath);
-			_restClient = new RestClient (_forgetMeNotEndpoint.ToString());
-			foreach (var request in _fileParser.Parse()) {
-				var response = _restClient.Post (
-					               new RestRequest (Method.POST) 
+				// read requests from the file and POST
+				_fileParser = new FileParser (_filePath);
+				_restClient = new RestClient (_forgetMeNotEndpoint.ToString ());
+				foreach (var request in _fileParser.Parse()) {
+					var response = _restClient.Post (
+						              new RestRequest (Method.POST) 
 							{ RequestFormat = DataFormat.Json, }
 					.AddBody (request));
 
-				if (response.StatusCode != System.Net.HttpStatusCode.Created)
-					Console.WriteLine("Could not schedule reminder: " + response.Content);
+					if (response.StatusCode != System.Net.HttpStatusCode.Created)
+						Console.WriteLine ("Could not schedule reminder: " + response.Content);
 
-				Console.WriteLine ("Reminder Scheduled: " + response.Content);
+					Console.WriteLine ("Reminder Scheduled: " + response.Content);
+				}
+
+				Console.WriteLine ("Test running...");
+				Console.ReadLine ();
+				server.Dispose ();
 			}
-
-			Console.WriteLine ("Test running...");
-			Console.ReadLine ();
 		}
 
 		static void ParseArgs(string[] args)
