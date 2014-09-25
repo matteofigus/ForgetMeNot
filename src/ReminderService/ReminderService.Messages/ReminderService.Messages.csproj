@@ -38,8 +38,8 @@
     <Compile Include="SystemMessage.cs" />
     <Compile Include="ReminderMessage.cs" />
     <Compile Include="ReminderExtensions.cs" />
-    <Compile Include="RequestResponse.cs" />
     <Compile Include="Envelopes.cs" />
+    <Compile Include="QueryResponse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -30,12 +30,12 @@ namespace ReminderService.Core.Tests.ReadModels
 		public void Should_keep_track_of_reminders ()
 		{
 			var reminderId = _reminders[2].ReminderId;
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
-			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Scheduled, response.Value.Status);
+			Assert.AreEqual (QueryResponse.ReminderStatusEnum.Scheduled, response.Value.Status);
 		}
 
 		[Test]
@@ -46,12 +46,12 @@ namespace ReminderService.Core.Tests.ReadModels
 				new ReminderMessage.Cancel (reminderId))
 			);
 
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
-			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Canceled, response.Value.Status);
+			Assert.AreEqual (QueryResponse.ReminderStatusEnum.Canceled, response.Value.Status);
 		}
 
 		[Test]
@@ -60,12 +60,12 @@ namespace ReminderService.Core.Tests.ReadModels
 			var reminderId = _reminders[4].ReminderId;
 			_reminderStates.Handle (new ReminderMessage.Delivered(reminderId, SystemTime.UtcNow()));
 
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
-			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Delivered, response.Value.Status);
+			Assert.AreEqual (QueryResponse.ReminderStatusEnum.Delivered, response.Value.Status);
 		}
 
 		[Test]
@@ -75,7 +75,7 @@ namespace ReminderService.Core.Tests.ReadModels
 			_reminderStates.Handle (new ReminderMessage.Undelivered(_reminders[4], "404 - Not Found"));
 			_reminderStates.Handle (new ReminderMessage.Undelivered(_reminders[4], "404 - Not Found"));
 
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
@@ -89,12 +89,12 @@ namespace ReminderService.Core.Tests.ReadModels
 			var reminderId = _reminders[4].ReminderId;
 			_reminderStates.Handle (new ReminderMessage.Undeliverable(_reminders[4], "404 - Not Found"));
 
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsTrue (response.HasValue);
 			Assert.AreEqual (reminderId, response.Value.Reminder.ReminderId);
-			Assert.AreEqual (RequestResponse.ReminderStatusEnum.Undeliverable, response.Value.Status);
+			Assert.AreEqual (QueryResponse.ReminderStatusEnum.Undeliverable, response.Value.Status);
 		}
 
 		[Test]
@@ -102,7 +102,7 @@ namespace ReminderService.Core.Tests.ReadModels
 		public void Should_return_an_empty_Maybe_if_the_reminder_does_not_exist()
 		{
 			var reminderId = Guid.NewGuid();
-			var query = new RequestResponse.GetReminderState (reminderId);
+			var query = new QueryResponse.GetReminderState (reminderId);
 			var response = _reminderStates.Handle (query);
 
 			Assert.IsFalse (response.HasValue);

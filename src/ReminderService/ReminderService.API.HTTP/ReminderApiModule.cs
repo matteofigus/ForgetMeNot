@@ -33,7 +33,7 @@ namespace ReminderService.API.HTTP
 					return res;
 				}
 					
-			    var request = new RequestResponse.GetReminderState(reminderId);
+			    var request = new QueryResponse.GetReminderState(reminderId);
                 var response = bus.Send(request);
 
 				if(response.HasValue)
