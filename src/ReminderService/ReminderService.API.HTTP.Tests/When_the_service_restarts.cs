@@ -10,6 +10,7 @@ using ReminderService.Messages;
 using ReminderService.Test.Common;
 using Newtonsoft.Json;
 using ReminderService.API.HTTP.Models;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP.Tests
 {

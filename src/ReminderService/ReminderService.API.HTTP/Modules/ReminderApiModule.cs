@@ -11,7 +11,7 @@ using ReminderService.Messages;
 using ReminderService.Router.Consumers;
 using ReminderService.API.HTTP.Models;
 
-namespace ReminderService.API.HTTP
+namespace ReminderService.API.HTTP.Modules
 {
 	public class ReminderApiModule : NancyModule, IConsume<SystemMessage.InitializationCompleted>
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using Nancy;
 
-namespace ReminderService.API.HTTP
+namespace ReminderService.API.HTTP.Modules
 {
 	public class RootModule : NancyModule
 	{
