@@ -93,6 +93,7 @@
     <Compile Include="Models\ExtensionMethods.cs" />
     <Compile Include="Modules\ReminderApiModule.cs" />
     <Compile Include="Modules\RootModule.cs" />
+    <Compile Include="Modules\ServiceMonitoringModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

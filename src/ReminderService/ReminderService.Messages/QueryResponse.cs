@@ -63,5 +63,15 @@ namespace ReminderService.Messages
 				//empty
 			}
 		}
+
+		public class GetQueueStats : IRequest<QueueStats>
+		{
+			//empty
+		}
+
+		public class QueueStats : IMessage
+		{
+			public int QueueSize { get; set; }
+		}
 	}
 }

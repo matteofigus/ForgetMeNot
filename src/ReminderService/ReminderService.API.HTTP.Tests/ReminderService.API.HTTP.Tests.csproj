@@ -88,6 +88,8 @@
     <Compile Include="When_the_payload_cannot_be_delivered.cs" />
     <Compile Include="Validation\ValidationTests.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="ServiceMonitoring\When_getting_service_monitor_state.cs" />
+    <Compile Include="ServiceMonitoring\MonitorGroupTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -129,5 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BootStrap\" />
+    <Folder Include="ServiceMonitoring\" />
   </ItemGroup>
 </Project>

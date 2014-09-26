@@ -13,6 +13,7 @@ namespace ReminderService.Core.ScheduleReminder
 		IConsume<ReminderMessage.Rescheduled>,
 		IConsume<SystemMessage.Start>, 
 		IConsume<SystemMessage.ShutDown>,
+	IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>,
 		IDisposable
 	{
 		private readonly static ILog Logger = LogManager.GetLogger(typeof(Scheduler));
@@ -30,6 +31,13 @@ namespace ReminderService.Core.ScheduleReminder
 			_bus = bus;
 			_timer = timer;
 			_pq = new MinPriorityQueue<ReminderMessage.ISchedulable> ((a, b) => a.DueAt > b.DueAt);
+		}
+
+		public QueryResponse.QueueStats Handle (QueryResponse.GetQueueStats request)
+		{
+			lock (_locker) {
+				return new QueryResponse.QueueStats{ QueueSize = _pq.Size };
+			}
 		}
 			
 		public void Handle (SystemMessage.Start startMessage)

@@ -105,6 +105,7 @@
     <Compile Include="DeliverReminder\When_attempting_redelivery.cs" />
     <Compile Include="Persistence\Postgres\A_UndeliveredReminderReplayer.cs" />
     <Compile Include="ReadModels\A_ServiceMonitor_Model.cs" />
+    <Compile Include="ScheduleReminder\Should_handle_queuesize_query.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
