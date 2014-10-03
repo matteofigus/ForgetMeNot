@@ -41,7 +41,7 @@ namespace ReminderService.Core.Tests.PublishReminders
 			router.AddHandler (DeliveryTransport.HTTP, new HTTPDelivery (fakeRestClient));
 			router.AddHandler (DeliveryTransport.None, null);
 
-			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), DateTime.Now, "rabbit://queue/name", "",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.http, new byte[0], 0).AsDue());
+			router.Handle (new ReminderMessage.Schedule(Guid.NewGuid(), DateTime.Now, "amqp://queue/name", "",ReminderMessage.ContentEncodingEnum.utf8,ReminderMessage.TransportEnum.rabbitmq, new byte[0], 0).AsDue());
 		}
 	}
 }

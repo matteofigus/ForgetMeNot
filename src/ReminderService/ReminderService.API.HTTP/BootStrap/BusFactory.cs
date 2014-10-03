@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
+using System.Linq;
 using ReminderService.Core;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Persistence;
@@ -9,6 +11,7 @@ using ReminderService.Core.ScheduleReminder;
 using ReminderService.Core.Startup;
 using ReminderService.Messages;
 using ReminderService.Router;
+using OpenTable.Services.Components.RabbitMq;
 using RestSharp;
 
 namespace ReminderService.API.HTTP.BootStrap
@@ -76,10 +79,17 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery (new RestClient());
 			var router = new DeliveryRouter (_bus, DeadLetterUrl);
+
+			var httpDelivery = new HTTPDelivery(new RestClient());
 			router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
-			var cancellationFilter = new CancellationFilter (router);
+
+			var publisher = new MessagePublisher();
+			publisher.Configure(GetRabbitMqSettings());
+			var rabbitDelivery = new RabbitMqDelivery(publisher);
+			router.AddHandler(DeliveryTransport.AMQP, rabbitDelivery);
+
+			var cancellationFilter = new CancellationFilter(router);
 			return cancellationFilter;
 		}
 
@@ -107,6 +117,12 @@ namespace ReminderService.API.HTTP.BootStrap
 		{
 			var httpDelivery = new HTTPDelivery (new RestClient());
 			return new DeadLetterDelivery (_bus, httpDelivery, DeadLetterUrl);
+		}
+
+		private Dictionary<string,string> GetRabbitMqSettings()
+		{
+			var rabbitMqSettings = (NameValueCollection)ConfigurationManager.GetSection("rabbitMqSettings");
+			return rabbitMqSettings.AllKeys.ToDictionary(key => key, key => rabbitMqSettings[key]);
 		}
 	}
 }

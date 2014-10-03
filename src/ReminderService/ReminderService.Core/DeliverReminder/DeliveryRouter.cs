@@ -19,11 +19,14 @@ namespace ReminderService.Core.DeliverReminder
 		private readonly ILog Logger = LogManager.GetLogger(typeof(DeliveryRouter));
 		private readonly string _deadLetterUrl;
 		private readonly ISendMessages _bus;
+
 		private readonly IDictionary<DeliveryTransport, IDeliverReminders> _handlers = new Dictionary<DeliveryTransport, IDeliverReminders> ();
-		private readonly Func<ReminderMessage.Schedule, DeliveryTransport, bool> _handlerSelector = 
-			(due, transport) => 
-				transport == DeliveryTransport.HTTP &&
-					due.DeliveryUrl.ToUpper ().StartsWith ("HTTP");
+		private readonly IDictionary<ReminderMessage.TransportEnum, DeliveryTransport> _transportMap 
+			= new Dictionary<ReminderMessage.TransportEnum, DeliveryTransport>
+		{
+			{ ReminderMessage.TransportEnum.http, DeliveryTransport.HTTP },
+			{ ReminderMessage.TransportEnum.rabbitmq, DeliveryTransport.AMQP },
+		};
 
 		public DeliveryRouter (ISendMessages bus, string deadLetterUrl)
 		{
@@ -40,20 +43,18 @@ namespace ReminderService.Core.DeliverReminder
 				_handlers.Add(transport, handler);
 		}
 
-		public void Handle (ReminderMessage.Due due)
+		public void Handle(ReminderMessage.Due due)
 		{
-			foreach (var handler in _handlers) {
-				if (_handlerSelector(due.Reminder, handler.Key)) {
-					handler.Value.Send (due.Reminder, due.Reminder.DeliveryUrl, OnSuccessfulDelivery, OnFailedDelivery);
-					return;
-				}
+			if (!_transportMap.ContainsKey(due.Reminder.Transport) || !_handlers.ContainsKey(_transportMap[due.Reminder.Transport])) 
+			{
+				var exception = new NotSupportedException(string.Format("Delivery transport not supported for reminder [{0}]", due.ReminderId));
+				Logger.Error(
+					string.Format("There are no reminder delivery handlers registered to deliver '{0}'", due.Reminder.DeliveryUrl), exception);
+     				throw exception;
 			}
 
-			//if we get here then the transport scheme for the reminder is not supported.
-			var exception = new NotSupportedException (string.Format("Delivery transport not supported for reminder [{0}]", due.ReminderId));
-			Logger.Error (
-				string.Format("There are no reminder delivery handlers registered to deliver '{0}'", due.Reminder.DeliveryUrl), exception);
-			throw exception;
+			var handler = _handlers[_transportMap[due.Reminder.Transport]];
+			handler.Send(due.Reminder, due.Reminder.DeliveryUrl, OnSuccessfulDelivery, OnFailedDelivery);
 		}
 
 		private void OnSuccessfulDelivery(ReminderMessage.Schedule sentReminder)
