@@ -11,7 +11,7 @@ namespace ReminderService.Core.DeliverReminder
 	{
 		None,
 		HTTP,
-		AMQP
+		RabbitMq
 	}
 
 	public class DeliveryRouter : IConsume<ReminderMessage.Due>
@@ -25,7 +25,7 @@ namespace ReminderService.Core.DeliverReminder
 			= new Dictionary<ReminderMessage.TransportEnum, DeliveryTransport>
 		{
 			{ ReminderMessage.TransportEnum.http, DeliveryTransport.HTTP },
-			{ ReminderMessage.TransportEnum.rabbitmq, DeliveryTransport.AMQP },
+			{ ReminderMessage.TransportEnum.rabbitmq, DeliveryTransport.RabbitMq },
 		};
 
 		public DeliveryRouter (ISendMessages bus, string deadLetterUrl)

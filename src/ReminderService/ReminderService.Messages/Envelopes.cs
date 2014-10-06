@@ -17,11 +17,11 @@ namespace ReminderService.Messages
 			}
 		}
 
-		public class AmqpDelivery<T> : IMessage where T : class, IMessage
+		public class RabbitMqDelivery<T> : IMessage where T : class, IMessage
 		{
 			public T Reminder { get; private set; }
 
-			public AmqpDelivery (T toBeSent)
+			public RabbitMqDelivery (T toBeSent)
 			{
 				Ensure.NotNull(toBeSent, "toBeSent");
 				Reminder = toBeSent;

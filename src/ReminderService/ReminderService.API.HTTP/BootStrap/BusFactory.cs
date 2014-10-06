@@ -87,7 +87,7 @@ namespace ReminderService.API.HTTP.BootStrap
 			var publisher = new MessagePublisher();
 			publisher.Configure(GetRabbitMqSettings());
 			var rabbitDelivery = new RabbitMqDelivery(publisher);
-			router.AddHandler(DeliveryTransport.AMQP, rabbitDelivery);
+			router.AddHandler(DeliveryTransport.RabbitMq, rabbitDelivery);
 
 			var cancellationFilter = new CancellationFilter(router);
 			return cancellationFilter;
