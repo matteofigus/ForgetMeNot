@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Peristence\Postgres\Scripts\Create_Schedule.psql" />
+    <None Include="Peristence\Postgres\Scripts\Create_DB.psql" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
