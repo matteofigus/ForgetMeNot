@@ -16,7 +16,7 @@ namespace ReminderService.Core
 
 			if (raw is DBNull) {
 				if (defaultIfNull == null)
-					return default(T);
+		  			return default(T);
 				else
 					return defaultIfNull;
 			}

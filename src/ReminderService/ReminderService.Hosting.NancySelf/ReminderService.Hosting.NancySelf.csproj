@@ -38,14 +38,14 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTable.Services.Components.DiscoveryClient">
-      <HintPath>..\packages\OpenTable.Services.Components.DiscoveryClient.1.0.11\lib\net40\OpenTable.Services.Components.DiscoveryClient.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.DiscoveryClient">
+      <HintPath>..\packages\OpenTable.Services.Components.DiscoveryClient.1.0.13\lib\net40\OpenTable.Services.Components.DiscoveryClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

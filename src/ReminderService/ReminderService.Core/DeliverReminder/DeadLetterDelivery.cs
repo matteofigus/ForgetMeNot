@@ -50,6 +50,6 @@ namespace ReminderService.Core.DeliverReminder
 			Logger.ErrorFormat (message);
 			throw new ReminderUndeliverableException<ReminderMessage.Schedule> (failedReminder, message);
 		}
-	}
+	} 
 }
 

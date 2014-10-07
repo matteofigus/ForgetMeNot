@@ -73,6 +73,12 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.RabbitMq">
+      <HintPath>..\packages\OpenTable.Services.Components.RabbitMq.1.0.10\lib\net40\OpenTable.Services.Components.RabbitMq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -104,6 +110,7 @@
     <Compile Include="DeliverReminder\When_cannot_deliver.cs" />
     <Compile Include="DeliverReminder\When_attempting_redelivery.cs" />
     <Compile Include="Persistence\Postgres\A_UndeliveredReminderReplayer.cs" />
+    <Compile Include="PublishReminders\A_RabbitMqPublisher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

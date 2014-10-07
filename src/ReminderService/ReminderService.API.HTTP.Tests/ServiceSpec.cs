@@ -13,6 +13,7 @@ using ReminderService.Router;
 using ReminderService.Router.MessageInterfaces;
 using ReminderService.Test.Common;
 using RestSharp;
+using OpenTable.Services.Components.RabbitMq;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -23,6 +24,7 @@ namespace ReminderService.API.HTTP.Tests
 		protected Browser _service;
 		private IBusFactory _busFactory;
 		private FakeRestClient _restClient;
+		private FakeRabbitMqPublisher _rabbitMqPublisher;
 		private IRestResponse _restResponse = new RestResponse{ StatusCode = System.Net.HttpStatusCode.Created, ResponseStatus = ResponseStatus.Completed };
 		private TestTimer _timer = new TestTimer();
 		private BrowserResponse _response;
@@ -34,14 +36,16 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			CleanupDatabase ();
 			_restClient = new FakeRestClient (new []{ _restResponse });
+			_rabbitMqPublisher = new FakeRabbitMqPublisher();
 			_journaler = new PostgresJournaler (new PostgresCommandFactory (), ConnectionString);
 			//_journaler = new InMemoryJournaler ();
 
 			_busFactory = new BusFactory ()
 				.WithConnectionString(ConnectionString)
-				.WithRestClient (_restClient)
-				.WithJournaler (_journaler)
-				.WithTimer (_timer);
+				.WithRestClient(_restClient)
+				.WithRabbitMqPublisher(_rabbitMqPublisher)
+				.WithJournaler(_journaler)
+				.WithTimer(_timer);
 
 			_service = new Browser (ServiceConfigurator);
 
@@ -108,6 +112,21 @@ namespace ReminderService.API.HTTP.Tests
 		protected IRestRequest LastInterceptedHttpRequest{
 			get { return _restClient.LastRequest; }
 		}
+
+		protected string LastInterceptedRabbitMqConnect
+		{
+			get { return _rabbitMqPublisher.LastConnectionString; }
+		}
+
+		protected byte[] LastInterceptedRabbitMqPublishBody
+		{
+			get { return _rabbitMqPublisher.LastMessageBody; }
+		}   
+
+		protected RoutingParameters LastInterceptedRabbitMqPublishRoutingParameters
+		{
+			get { return _rabbitMqPublisher.LastRoutingParameters; }
+		}   
 
 		protected void RestartService()
 		{

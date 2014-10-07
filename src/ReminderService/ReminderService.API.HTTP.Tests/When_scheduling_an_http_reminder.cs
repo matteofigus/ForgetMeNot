@@ -11,10 +11,10 @@ using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests
 {
-	public class When_scheduling_a_reminder : ServiceSpec<ReminderApiModule>
+	public class When_scheduling_an_http_reminder : ServiceSpec<ReminderApiModule>
 	{
 		[TestFixtureSetUp]
-		public void when_scheduling_a_reminder()
+		public void FixtureSetUp()
 		{
 			FreezeTime ();
 

@@ -46,6 +46,12 @@
     <Reference Include="nunit.framework">
       <HintPath>..\libs\NUnit\2.6.3\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.RabbitMq">
+      <HintPath>..\packages\OpenTable.Services.Components.RabbitMq.1.0.10\lib\net40\OpenTable.Services.Components.RabbitMq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -57,6 +63,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="TestPayload.cs" />
+    <Compile Include="FakeRabbitMqPublisher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

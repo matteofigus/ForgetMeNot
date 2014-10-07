@@ -68,6 +68,12 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.RabbitMq">
+      <HintPath>..\packages\OpenTable.Services.Components.RabbitMq.1.0.10\lib\net40\OpenTable.Services.Components.RabbitMq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,7 +83,6 @@
     <Compile Include="ScheduleReminder\ThreadingTimer.cs" />
     <Compile Include="DeliverReminder\DeliveryRouter.cs" />
     <Compile Include="DeliverReminder\HTTPDelivery.cs" />
-    <Compile Include="DeliverReminder\AmqpDelivery.cs" />
     <Compile Include="Peristence\InMemoryJournaler.cs" />
     <Compile Include="DeliverReminder\IDeliverReminders.cs" />
     <Compile Include="CancelReminder\CancellationFilter.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="DeliverReminder\UndeliveredProcessManager.cs" />
     <Compile Include="Peristence\Postgres\UndeliveredRemindersReplayer.cs" />
     <Compile Include="DeliverReminder\DeadLetterDelivery.cs" />
+    <Compile Include="DeliverReminder\RabbitMqDelivery.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
