@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Microsoft.Reactive.Testing;
 using NUnit.Framework;
+using ReminderService.API.HTTP.Models;
 using ReminderService.API.HTTP.Monitoring;
 using ReminderService.Common;
-using System.Collections.Generic;
-using ReminderService.API.HTTP.Models;
 using ReminderService.Test.Common;
 
 namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
@@ -64,6 +65,11 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 			_results.ContainsThisMany<MonitorGroup> (1, x => x.Name == "route/reminders POST");
 			_results.ContainsThisMany<MonitorGroup> (1, x => x.Name == "route/reminders GET");
 			_results.ContainsThisMany<MonitorGroup> (1, x => x.Name == "route/reminders DELETE");
+		}
+
+		[Test]
+		public void Then_each_group_contains_the_set_of_monitoritems()
+		{
 		}
 
 		public void TestUsingTestScheduler()

@@ -96,7 +96,6 @@
     <Compile Include="Peristence\Postgres\UndeliveredRemindersReplayer.cs" />
     <Compile Include="DeliverReminder\DeadLetterDelivery.cs" />
     <Compile Include="ReadModels\ServiceMonitor.cs" />
-    <Compile Include="ServiceMonitoring\ObservableConsumer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

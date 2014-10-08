@@ -11,7 +11,6 @@ using ReminderService.Core.Persistence.Postgres;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using ReminderService.Common;
-using ReminderService.Core.ServiceMonitoring;
 using ReminderService.API.HTTP.Monitoring;
 
 namespace ReminderService.API.HTTP.BootStrap
@@ -55,23 +54,27 @@ namespace ReminderService.API.HTTP.BootStrap
 					var elapsedMs = stopwatch.ElapsedMilliseconds;
 					ctx.Items.Remove(RequestTimerKey);
 
-//					container
-//						.Resolve<ObservableMonitor<MonitorMessage.MonitorEvent>>()
-//						.PushEvent();
+					container
+						.Resolve<ObservableMonitor<MonitorEvent>>()
+						.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "ResponseTime", elapsedMs));
 
-					IBus bus;
-					if(container.TryResolve<IBus>(out bus)) {}
+					//IBus bus;
+					//if(container.TryResolve<IBus>(out bus)) {}
 						//bus.Send(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "ResponseTime", elapsedMs));
 				}
 			});
 
 			//request size
 			pipelines.BeforeRequest.AddItemToEndOfPipeline (ctx => {
-				IBus bus;
-				if(container.TryResolve<IBus>(out bus)) {
+				container
+					.Resolve<ObservableMonitor<MonitorEvent>>()
+					.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
+
+				//IBus bus;
+				//if(container.TryResolve<IBus>(out bus)) {
 					//check if the content length header exists
 					//bus.Send(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
-				}
+				//}
 			    return null;
 			});
 
@@ -89,9 +92,9 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			container.Register(typeof(JsonSerializer), typeof(CustomJsonSerializer));
 
-			var monitorObservable = new ObservableMonitor<MonitorEvent> ();
-			container.Register (monitorObservable);
-			container.Register<HttpApiMonitor> (new HttpApiMonitor(monitorObservable, 1000, 10));
+			var observable = new ObservableMonitor<MonitorEvent> ();
+			container.Register (observable);
+			container.Register<HttpApiMonitor> (new HttpApiMonitor(observable, 1000, 10));
 		}
 	}
 }
