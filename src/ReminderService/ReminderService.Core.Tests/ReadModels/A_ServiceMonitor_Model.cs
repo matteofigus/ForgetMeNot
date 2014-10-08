@@ -17,16 +17,9 @@ namespace ReminderService.Core.Tests.ReadModels
 			_serviceMonitor = new ServiceMonitor ();
 			_serviceMonitor.Handle (new ReminderMessage.Delivered(Guid.NewGuid(), DateTime.Now));
 			_serviceMonitor.Handle (new ReminderMessage.Delivered(Guid.NewGuid(), DateTime.Now));
-			_serviceMonitor.Handle (new ReminderMessage.Undelivered(new ReminderMessage.Schedule{ReminderId = Guid.NewGuid()}, "a reason"));
 			_serviceMonitor.Handle (new ReminderMessage.Undeliverable(new ReminderMessage.Schedule{ReminderId = Guid.NewGuid()}, "a reason"));
 
 			_monitorState = _serviceMonitor.Handle (new QueryResponse.GetServiceMonitorState());
-		}
-
-		[Test]
-		public void Should_track_UndeliveredReminders()
-		{
-			Assert.AreEqual (1, _monitorState.UndeliveredCount);
 		}
 
 		[Test]

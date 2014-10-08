@@ -40,7 +40,7 @@
     <Compile Include="ReminderExtensions.cs" />
     <Compile Include="Envelopes.cs" />
     <Compile Include="QueryResponse.cs" />
-    <Compile Include="ServiceState.cs" />
+    <Compile Include="MonitorMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

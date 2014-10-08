@@ -54,9 +54,14 @@ namespace ReminderService.Messages
 		{
 			public DateTime ServiceStartedAt { get; set; }
 			public int QueueSize { get; set; }
-			public int UndeliveredCount { get; set; }
 			public int UndeliverableCount { get; set; }
 			public int DeliveredReminderCount { get; set; }
+			public int AverageResponseTime { get; set; }
+			public int MinResponseTime { get; set; }
+			public int MaxResponseTime { get; set; }
+			public int AverageRequestSize { get; set; }
+			public int MinRequestSize { get; set; }
+			public int MaxRequestSize { get; set; }
 
 			public ServiceMonitorState ()
 			{

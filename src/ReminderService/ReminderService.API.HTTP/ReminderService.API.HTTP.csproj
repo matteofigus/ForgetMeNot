@@ -76,6 +76,18 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +106,10 @@
     <Compile Include="Modules\ReminderApiModule.cs" />
     <Compile Include="Modules\RootModule.cs" />
     <Compile Include="Modules\ServiceMonitoringModule.cs" />
+    <Compile Include="Models\ServiceMonitoring.cs" />
+    <Compile Include="Monitoring\ObservableMonitor.cs" />
+    <Compile Include="Monitoring\MonitorEvent.cs" />
+    <Compile Include="Monitoring\HttpApiMonitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -125,5 +141,6 @@
     <Folder Include="Models\" />
     <Folder Include="CustomSerializers\" />
     <Folder Include="Modules\" />
+    <Folder Include="Monitoring\" />
   </ItemGroup>
 </Project>

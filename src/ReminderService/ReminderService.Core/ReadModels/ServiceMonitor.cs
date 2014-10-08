@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using ReminderService.Messages;
 using ReminderService.Router;
+using ReminderService.Common;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.ReadModels
 {
 	public class ServiceMonitor : 
-		IConsume<ReminderMessage.Undelivered>,
 		IConsume<ReminderMessage.Undeliverable>,
 		IConsume<ReminderMessage.Delivered>,
 		IHandleQueries<QueryResponse.GetServiceMonitorState, QueryResponse.ServiceMonitorState>
@@ -15,13 +17,6 @@ namespace ReminderService.Core.ReadModels
 
 		public ServiceMonitor ()
 		{
-		}
-
-		public void Handle (ReminderMessage.Undelivered msg)
-		{
-			lock (_lockObject) {
-				_state.UndeliveredCount++;
-			}
 		}
 
 		public void Handle (ReminderMessage.Undeliverable msg)
@@ -41,9 +36,11 @@ namespace ReminderService.Core.ReadModels
 		public QueryResponse.ServiceMonitorState Handle (QueryResponse.GetServiceMonitorState request)
 		{
 			lock (_lockObject) {
-				return _state; //hmmm, do we need to clone this instance before returning? is serialization of this going to interfere with anything?
+				return _state;
 			}
 		}
+
+		const string Undelivered_Key = "UndeliveredCount";
 	}
 }
 

@@ -3,26 +3,28 @@ using Nancy;
 using ReminderService.Router;
 using ReminderService.Common;
 using ReminderService.Messages;
+using ReminderService.API.HTTP.Models;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP
 {
-	public class ServiceMonitoringModule : NancyModule
+	public class ServiceMonitoringModule : RootModule
 	{
-		private readonly IBus _bus;
-
 		public ServiceMonitoringModule (IBus bus)
 			: base()
 		{
 			Ensure.NotNull (bus, "bus");
 
-			_bus = bus;
-
-			Get["/"] = parameters => {
+			Get["/service-status"] = parameters => {
 				var state = bus.Send(new QueryResponse.GetServiceMonitorState());
 				var queueStats = bus.Send(new QueryResponse.GetQueueStats());
-				state.QueueSize = queueStats.QueueSize;
 
-				return Response.AsJson(state);
+				var monitorModel = MonitorGroup
+					.Create("Message Stats", SystemTime.UtcNow())
+					.AddMonitor(SystemTime.UtcNow(), "UndeliverableCount", state.UndeliverableCount.ToString())
+					.AddMonitor(SystemTime.UtcNow(), "QueueSize", queueStats.QueueSize.ToString());
+
+				return Response.AsJson(monitorModel);
 			};
 		}
 	}

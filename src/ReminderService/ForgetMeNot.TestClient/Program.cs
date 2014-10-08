@@ -16,12 +16,6 @@ namespace ForgetMeNot.TestClient.Http
 		static FileParser _fileParser;
 		static RestClient _restClient;
 
-		/// <summary>
-		/// Problem: looks like the Rx http server is holding open the receive from the delivery of ForgetMeNot.
-		/// When I stop the client, and restart, it seems to kick Rx and suddenly I can receive.
-		/// </summary>
-		/// <param name="args">The command-line arguments.</param>
-
 		public static void Main (string[] args)
 		{
 			ParseArgs (args);

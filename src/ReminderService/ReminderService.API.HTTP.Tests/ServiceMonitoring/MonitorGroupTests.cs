@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using ReminderService.Messages;
 using ReminderService.Common;
+using ReminderService.API.HTTP.Models;
 
 namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 {
@@ -20,24 +21,21 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 		public void Creating_a_monitor_group_throws()
 		{
 			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup ((ServiceState.MonitorItem)null));
-
-			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup(string.Empty));
+				new MonitorGroup(string.Empty, DateTime.Now));
 		}
 
 		[Test]
 		public void Creating_a_monitor_group_from_string()
 		{
 			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup ((ServiceState.MonitorItem)null));
+				new MonitorGroup (string.Empty, DateTime.MinValue));
 
 			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup(string.Empty));
+				new MonitorGroup(string.Empty, DateTime.Now));
 
-			ServiceState.MonitorGroup monitorGroup = null;
+			MonitorGroup monitorGroup = null;
 			Assert.DoesNotThrow (() =>
-				monitorGroup = new ServiceState.MonitorGroup("Testing, testing..."));
+				monitorGroup = new MonitorGroup("Testing, testing...", _now));
 			Assert.AreEqual ("Testing, testing...", monitorGroup.Name);
 			Assert.AreEqual (0, monitorGroup.Items.Count);
 			Assert.AreEqual (_now, monitorGroup.TimeStamp);
@@ -47,21 +45,17 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 		public void Creating_a_monitor_group_from_item()
 		{
 			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup ((ServiceState.MonitorItem)null));
+				new MonitorGroup(string.Empty, DateTime.Now));
 
-			Assert.Throws<ArgumentNullException> (() =>
-				new ServiceState.MonitorGroup(string.Empty));
-
-			ServiceState.MonitorGroup monitorGroup = null;
-			ServiceState.MonitorItem item = new ServiceState.MonitorItem { 
-				Name = "A monitor name",
+			MonitorGroup monitorGroup = null;
+			MonitorItem item = new MonitorItem { 
 				TimeStamp = _now,
 				Key = "key",
 				Value = "value"
 			};
 			Assert.DoesNotThrow (() =>
-				monitorGroup = new ServiceState.MonitorGroup(item));
-			Assert.AreEqual (item.Name, monitorGroup.Name);
+				monitorGroup = new MonitorGroup(item));
+			Assert.AreEqual ("name", monitorGroup.Name);
 			Assert.AreEqual (1, monitorGroup.Items.Count);
 			Assert.AreEqual (_now, monitorGroup.TimeStamp);
 			Assert.AreEqual (item.TimeStamp, monitorGroup.TimeStamp);
@@ -70,25 +64,52 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 		[Test]
 		public void Inserting_items()
 		{
-			var monitorGroup = new ServiceState.MonitorGroup("TestMonitor");
-			var item = new ServiceState.MonitorItem { 
-				Name = "TestMonitor",
+			var monitorGroup = new MonitorGroup("TestMonitor", _now);
+			var item = new MonitorItem { 
 				TimeStamp = _now,
 				Key = "key1",
 				Value = "value1"
 			};
-			monitorGroup.AddOrUpdate (item);
+			monitorGroup.Upsert (item);
 			Assert.AreEqual (1, monitorGroup.Items.Count);
 			Assert.AreEqual ("value1", monitorGroup.Items[0].Value);
 
-			monitorGroup.AddOrUpdate (item);
+			monitorGroup.Upsert (item);
 			Assert.AreEqual (1, monitorGroup.Items.Count);
 			Assert.AreEqual ("value1", monitorGroup.Items[0].Value);
 
 			item.Value = "updated";
-			monitorGroup.AddOrUpdate (item);
+			monitorGroup.Upsert (item);
 			Assert.AreEqual (1, monitorGroup.Items.Count);
 			Assert.AreEqual ("updated", monitorGroup.Items[0].Value);
+		}
+
+		[Test]
+		public void Extension_method_adds_item()
+		{
+			var monitorGroup = new MonitorGroup("TestMonitor", _now);
+			var groupWithItem = monitorGroup.AddMonitor (_now, "newkey", "newvalue");
+
+			Assert.AreEqual (1, groupWithItem.Items.Count);
+			Assert.AreEqual ("newkey", monitorGroup.Items[0].Key);
+			Assert.AreEqual ("newvalue", monitorGroup.Items[0].Value);
+		}
+
+		[Test]
+		public void Extension_method_updates_item()
+		{
+			var monitorGroup = new MonitorGroup("TestMonitor", _now);
+			var groupWithItem = monitorGroup.AddMonitor (_now, "newkey", "11");
+
+			Assert.AreEqual (1, groupWithItem.Items.Count);
+			Assert.AreEqual ("newkey", monitorGroup.Items[0].Key);
+			Assert.AreEqual ("11", monitorGroup.Items[0].Value);
+
+			monitorGroup.Update ("newkey", 12.ToString());
+
+			Assert.AreEqual (1, groupWithItem.Items.Count);
+			Assert.AreEqual ("newkey", monitorGroup.Items[0].Key);
+			Assert.AreEqual ("12", monitorGroup.Items[0].Value);
 		}
 	}
 }

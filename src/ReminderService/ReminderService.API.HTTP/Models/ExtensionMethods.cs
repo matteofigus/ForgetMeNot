@@ -32,6 +32,17 @@ namespace ReminderService.API.HTTP.Models
 			var pattern = OffsetDateTimePattern.ExtendedIsoPattern;
 			return pattern.Parse (dateTimeString).GetValueOrThrow().ToInstant().InUtc();
 		}
+
+		public static MonitorGroup AddMonitor(this MonitorGroup group, DateTime timeStamp, string key, string value)
+		{
+			group.Upsert (new MonitorItem {
+				TimeStamp = timeStamp,
+				Key = key,
+				Value = value
+			});
+
+			return group;
+		}
 	}
 }
 
