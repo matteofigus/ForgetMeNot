@@ -19,6 +19,7 @@ namespace ReminderService.API.HTTP
 				var state = bus.Send(new QueryResponse.GetServiceMonitorState());
 				var queueStats = bus.Send(new QueryResponse.GetQueueStats());
 
+
 				var monitorModel = MonitorGroup
 					.Create("Message Stats", SystemTime.UtcNow())
 					.AddMonitor(SystemTime.UtcNow(), "UndeliverableCount", state.UndeliverableCount.ToString())

@@ -57,10 +57,6 @@ namespace ReminderService.API.HTTP.BootStrap
 					container
 						.Resolve<ObservableMonitor<MonitorEvent>>()
 						.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "ResponseTime", elapsedMs));
-
-					//IBus bus;
-					//if(container.TryResolve<IBus>(out bus)) {}
-						//bus.Send(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "ResponseTime", elapsedMs));
 				}
 			});
 
@@ -69,12 +65,6 @@ namespace ReminderService.API.HTTP.BootStrap
 				container
 					.Resolve<ObservableMonitor<MonitorEvent>>()
 					.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
-
-				//IBus bus;
-				//if(container.TryResolve<IBus>(out bus)) {
-					//check if the content length header exists
-					//bus.Send(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
-				//}
 			    return null;
 			});
 
