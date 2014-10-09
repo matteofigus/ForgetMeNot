@@ -86,9 +86,9 @@ namespace ReminderService.API.HTTP.Monitoring
 				_monitors [item.Topic].Upsert (item);
 		}
 
-		public IEnumerable<MonitorGroup> GetMonitors()
+		public List<MonitorGroup> GetMonitors()
 		{
-			return _monitors.Values;
+			return new List<MonitorGroup>(_monitors.Values);
 		}
 
 		private class WindowState
