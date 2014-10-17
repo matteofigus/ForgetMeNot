@@ -52,7 +52,7 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 
 								container
 									.Resolve<HitTracker>()
-									.AppendHit(ctx.Request.Url.ToString(), new Hit {
+									.AppendHit(ctx.ResolvedRoute.Description.Path, new Hit {
 										StartTime = maybeStarted.HasValue ? maybeStarted.Value : DateTime.MinValue,
 										IsError = false,
 										TimeTaken = stopwatch.Elapsed

@@ -115,8 +115,8 @@
     <Compile Include="ServiceMonitoring\TestMediator.cs" />
     <Compile Include="ServiceMonitoring\Given_the_service_is_configured_with_monitoring.cs" />
     <Compile Include="ServiceMonitoring\MonitorModel.cs" />
-    <Compile Include="ServiceMonitoring\MonitorFactoryTests.cs" />
     <Compile Include="ServiceMonitoring\When_there_are_route_errors.cs" />
+    <Compile Include="ServiceMonitoring\When_there_are_no_route_errors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

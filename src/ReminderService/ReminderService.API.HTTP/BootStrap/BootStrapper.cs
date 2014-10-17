@@ -43,7 +43,7 @@ namespace ReminderService.API.HTTP.BootStrap
 				{
 					container
 						.Resolve<HitTracker>()
-						.AppendHit(ctx.Request.Url.ToString(), new Hit {
+						.AppendHit(ctx.ResolvedRoute.Description.Path, new Hit {
 							IsError = true,
 							StartTime = SystemTime.UtcNow(),
 							TimeTaken = TimeSpan.Zero
@@ -72,7 +72,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 					container
 						.Resolve<HitTracker>()
-						.AppendHit(ctx.Request.Url.ToString(), new Hit {
+						.AppendHit(ctx.ResolvedRoute.Description.Path, new Hit {
 							StartTime = maybeStarted.HasValue ? maybeStarted.Value : DateTime.MinValue,
 							IsError = false,
 							TimeTaken = stopwatch.Elapsed
@@ -80,18 +80,9 @@ namespace ReminderService.API.HTTP.BootStrap
 				}
 			});
 
-			//request size
-//			pipelines.BeforeRequest.AddItemToEndOfPipeline (ctx => {
-//				container
-//					.Resolve<IPushEvents>()
-//					.Push (new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
-//			    return null;
-//			});
-
 			base.RequestStartup(container, pipelines, context);
 		}
 
-		const string HttpMonitorKey = "HttpApiObservable";
 		protected override void ConfigureApplicationContainer (Nancy.TinyIoc.TinyIoCContainer container)
 		{
 			base.ConfigureApplicationContainer (container);

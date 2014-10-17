@@ -74,9 +74,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected void GET(string url, Guid reminderId)
 		{
-			_response = _service.Get (url + reminderId, with => {
-				with.Query("reminderId", reminderId.ToString());
-			});
+			_response = _service.Get (url + reminderId);
 		}
 
 		protected void POST(string url, object message)

@@ -25,12 +25,15 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 		{
 			FreezeTime ();
 
-			var remindersToSchedule = Helpers.BuildScheduleRequests (10);
+			var remindersToSchedule = Helpers.BuildScheduleRequests (14);
 
 			foreach (var reminder in remindersToSchedule) {
 				POST ("/reminders", reminder);
 				Assert.AreEqual (HttpStatusCode.Created, Response.StatusCode);
 			}
+
+			//make a couple of GET requests, check that they appear in the results
+			GET ("/reminders/", Guid.NewGuid ());
 
 			_response = GET_ServiceStatus ();
 		}
@@ -46,11 +49,15 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 		{
 			var monitors = _response.Body.DeserializeJson<List<MonitorModel.MonitorGroup>> ();
 			Assert.NotNull (monitors);
-			Assert.AreEqual (2, monitors.Count);
-			Assert.IsTrue (monitors.Any(grp => grp.Name == "http:///reminders"));
+			Assert.AreEqual (3, monitors.Count);
+			Assert.IsTrue (monitors.Any(grp => grp.Name == "/reminders"));
+			Assert.IsTrue (monitors.Any(grp => grp.Name == "/reminders/{reminderId}"));
 			Assert.IsTrue (monitors.Any(grp => grp.Name == "Message Stats"));
-			Assert.AreEqual (10, monitors.Where (mg => mg.Name == "http:///reminders").SelectMany(mg => mg.Items).Count());
+			Assert.AreEqual (10, monitors.Where (mg => mg.Name == "/reminders").SelectMany(mg => mg.Items).Count());
+			Assert.AreEqual ("10", monitors.Where(mg => mg.Name == "/reminders").SelectMany(mg => mg.Items).First(item => item.Key == "Count").Value);
 			Assert.AreEqual (4, monitors.Where(mg => mg.Name == "Message Stats").SelectMany(mg => mg.Items).Count());
+			Assert.AreEqual (10, monitors.Where(mg => mg.Name == "/reminders/{reminderId}").SelectMany(mg => mg.Items).Count());
+			Assert.AreEqual ("1", monitors.Where(mg => mg.Name == "/reminders/{reminderId}").SelectMany(mg => mg.Items).First(item => item.Key == "Count").Value);
 		}
 	}
 }
