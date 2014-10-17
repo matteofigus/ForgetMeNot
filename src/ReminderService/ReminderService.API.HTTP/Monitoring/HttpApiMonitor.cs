@@ -3,82 +3,96 @@ using System.Collections.Generic;
 using ReminderService.API.HTTP.Models;
 using ReminderService.API.HTTP.Monitoring;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Disposables;
+using ReminderService.Common;
 
 namespace ReminderService.API.HTTP.Monitoring
 {
-	//todo: maybe split the class in 2; the observable elements of this class from the stateful dictionary
-	//that way we can subscribe to the observable from another (or more classes) to project to any form we need.
-
 	public class HttpApiMonitor
 	{
 		private readonly int _windowSize;
 		private readonly int _windowSlide;
+		private readonly IMediateEvents _eventMediator;
+		private readonly Subject<MonitorEvent> _subject;
+		private IObservable<MonitorEvent> _stream;
 		private readonly Dictionary<string, MonitorGroup> _monitors = new Dictionary<string, MonitorGroup>();
 
-		public HttpApiMonitor (IObservable<MonitorEvent> stream, int windowSize, int windowSlide)
+		public HttpApiMonitor (IMediateEvents mediator, int windowSize, int windowSlide)
 		{
+			Ensure.NotNull (mediator, "mediator");
+
+			_eventMediator = mediator;
 			_windowSize = windowSize;
 			_windowSlide = windowSlide;
 
-			stream
-				.Window(_windowSize, _windowSlide)
+			CreateStream (_eventMediator);
+		}
+
+		private void CreateStream(IMediateEvents mediator)
+		{
+			_stream = mediator.GetStream;
+			_stream
+				.Window(_windowSize)
 				.Switch()
 				.GroupBy(w => w.Topic)
 				.Subscribe(groupedByTopic => groupedByTopic
 					.GroupBy(g => g.Key)
-					.Subscribe(groupedByKey => groupedByKey
+					.Subscribe(groupedByKey => 
+						groupedByKey
 						.Aggregate(new WindowState (), WindowState.Calculate)
-						.SelectMany(window =>
-							Observable
-							.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "First" + window.ItemName,
-								Value = window.First.Value.ToString ()
-							})
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "Last" + window.ItemName,
-								Value = window.Last.Value.ToString ()
-							}))
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "Min" + window.ItemName,
-								Value = window.Min.ToString ()
-							}))
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "Max" + window.ItemName,
-								Value = window.Max.ToString ()
-							}))
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "Mean" + window.ItemName,
-								Value = window.Mean.ToString ()
-							}))
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "WindowCount",
-								Value = window.WindowCount.ToString ()
-							}))
-							.Concat (Observable.Return (new MonitorItem {
-								Topic = groupedByTopic.Key,
-								TimeStamp = window.Last.Value,
-								Key = "WindowDurationMs",
-								Value = window.WindowDuration.TotalMilliseconds.ToString ()
-							}))
-						)
-						.Subscribe (monitor => UpdateMonitors (monitor))
+						.Subscribe(windowState => UpdateMonitors(windowState))
 					)
 				);
 		}
 
-		private void UpdateMonitors(MonitorItem item)
+		private void UpdateMonitors(WindowState window)
+		{
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "First" + window.ItemName,
+				Value = window.First.Value.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "Last" + window.ItemName,
+				Value = window.Last.Value.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value, 
+				Key = "Min" + window.ItemName,
+				Value = window.Min.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "Max" + window.ItemName,
+				Value = window.Max.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "Mean" + window.ItemName,
+				Value = window.Mean.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "WindowCount",
+				Value = window.WindowCount.ToString ()
+			});
+			UpdateMonitor (new MonitorItem {
+				Topic = window.ComponentName,
+				TimeStamp = window.Last.Value,
+				Key = "WindowDurationMs",
+				Value = window.WindowDuration.TotalMilliseconds.ToString ()
+			});
+		}
+
+		private void UpdateMonitor(MonitorItem item)
 		{
 			if (!_monitors.ContainsKey (item.Topic))
 				_monitors.Add (item.Topic, MonitorGroup.Create (item));
@@ -88,6 +102,7 @@ namespace ReminderService.API.HTTP.Monitoring
 
 		public List<MonitorGroup> GetMonitors()
 		{
+			//todo: lock this region and in the UpdateMonitors method.
 			return new List<MonitorGroup>(_monitors.Values);
 		}
 

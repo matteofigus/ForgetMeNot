@@ -51,7 +51,8 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 			MonitorItem item = new MonitorItem { 
 				TimeStamp = _now,
 				Key = "key",
-				Value = "value"
+				Value = "value",
+				Topic = "name",
 			};
 			Assert.DoesNotThrow (() =>
 				monitorGroup = new MonitorGroup(item));

@@ -22,9 +22,15 @@ namespace ReminderService.API.HTTP.Models
 			get { return new List<MonitorItem>(_items.Values); }
 		}
 
+		public MonitorGroup ()
+		{
+			//default constructor
+		}
+
 		public MonitorGroup (string name, DateTime timeStamp)
 		{
 			Ensure.NotNullOrEmpty(name, "name");
+
 			Name = name;
 			TimeStamp = timeStamp;
 		}

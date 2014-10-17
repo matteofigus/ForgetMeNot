@@ -64,7 +64,6 @@ namespace ReminderService.API.HTTP.BootStrap
 			var serviceMonitor = GetServiceMonitor ();
 			_bus.Subscribe (serviceMonitor as IHandleQueries<QueryResponse.GetServiceMonitorState, QueryResponse.ServiceMonitorState>);
 			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Delivered>);
-			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Undelivered>);
 			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Undeliverable>);
 
 			return _bus;

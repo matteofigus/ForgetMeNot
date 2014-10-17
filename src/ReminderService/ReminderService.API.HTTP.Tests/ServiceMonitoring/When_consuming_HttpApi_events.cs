@@ -52,8 +52,10 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 				new MonitorEvent ("route/reminders POST", now.AddMilliseconds (1100), "ResponseTime", 120),
 				new MonitorEvent ("route/reminders POST", now.AddMilliseconds (1120), "RequestContentSize", 2300),
 				new MonitorEvent ("route/reminders DELETE", now.AddMilliseconds (1200), "ResponseTime", 120), 
-			}.ToObservable ();
-			var apiMonitor = new HttpApiMonitor (events, 5, 1);
+			};
+
+			IMediateEvents mediator = new TestMediator (events);
+			var apiMonitor = new HttpApiMonitor (mediator, 5, 1);
 			_results = new List<MonitorGroup> (apiMonitor.GetMonitors ());
 		}
 

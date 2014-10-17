@@ -6,12 +6,13 @@ using ReminderService.Messages;
 using ReminderService.API.HTTP.Models;
 using ReminderService.API.HTTP.Modules;
 using ReminderService.API.HTTP.Monitoring;
+using OpenTable.Services.Components.Monitoring.Monitors.HitTracker;
 
 namespace ReminderService.API.HTTP
 {
 	public class ServiceMonitoringModule : RootModule
 	{
-		public ServiceMonitoringModule (IBus bus, HttpApiMonitor httpMonitor)
+		public ServiceMonitoringModule (IBus bus, HitTracker hitTracker)
 			: base()
 		{
 			Ensure.NotNull (bus, "bus");
@@ -19,11 +20,14 @@ namespace ReminderService.API.HTTP
 			Get["/service-status"] = parameters => {
 				var state = bus.Send(new QueryResponse.GetServiceMonitorState());
 				var queueStats = bus.Send(new QueryResponse.GetQueueStats());
-				var monitors = httpMonitor.GetMonitors();
+				var monitorFactory = new MonitorFactory(hitTracker);
+				var monitors = monitorFactory.Build();
 
 				var messageMonitor = MonitorGroup
 					.Create("Message Stats", SystemTime.UtcNow())
-					.AddMonitor(SystemTime.UtcNow(), "UndeliverableCount", state.UndeliverableCount.ToString())
+					.AddMonitor(SystemTime.UtcNow(), "Undeliverable Count", state.UndeliverableCount.ToString())
+					.AddMonitor(SystemTime.UtcNow(), "Delivered Count", state.DeliveredReminderCount.ToString())
+					.AddMonitor(SystemTime.UtcNow(), "Service Started At", state.ServiceStartedAt.ToString("O"))
 					.AddMonitor(SystemTime.UtcNow(), "QueueSize", queueStats.QueueSize.ToString());
 
 				monitors.Add(messageMonitor);

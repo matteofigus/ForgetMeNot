@@ -90,7 +90,12 @@
     <Reference Include="Microsoft.Reactive.Testing">
       <HintPath>..\packages\Rx-Testing.2.2.5\lib\net45\Microsoft.Reactive.Testing.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+    <Reference Include="OpenTable.Services.Components.Common">
+      <HintPath>..\packages\OpenTable.Services.Components.Common.1.0.7\lib\net40\OpenTable.Services.Components.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.Monitoring">
+      <HintPath>..\packages\OpenTable.Services.Components.Monitoring.2.0.7\lib\net40\OpenTable.Services.Components.Monitoring.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusFactory.cs" />
@@ -107,6 +112,11 @@
     <Compile Include="ServiceMonitoring\When_getting_service_monitor_state.cs" />
     <Compile Include="ServiceMonitoring\MonitorGroupTests.cs" />
     <Compile Include="ServiceMonitoring\When_consuming_HttpApi_events.cs" />
+    <Compile Include="ServiceMonitoring\TestMediator.cs" />
+    <Compile Include="ServiceMonitoring\Given_the_service_is_configured_with_monitoring.cs" />
+    <Compile Include="ServiceMonitoring\MonitorModel.cs" />
+    <Compile Include="ServiceMonitoring\MonitorFactoryTests.cs" />
+    <Compile Include="ServiceMonitoring\When_there_are_route_errors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -147,7 +157,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BootStrap\" />
     <Folder Include="ServiceMonitoring\" />
   </ItemGroup>
 </Project>

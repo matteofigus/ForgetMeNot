@@ -88,6 +88,12 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTable.Services.Components.Common">
+      <HintPath>..\packages\OpenTable.Services.Components.Common.1.0.7\lib\net40\OpenTable.Services.Components.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.Monitoring">
+      <HintPath>..\packages\OpenTable.Services.Components.Monitoring.2.0.7\lib\net40\OpenTable.Services.Components.Monitoring.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +116,11 @@
     <Compile Include="Monitoring\ObservableMonitor.cs" />
     <Compile Include="Monitoring\MonitorEvent.cs" />
     <Compile Include="Monitoring\HttpApiMonitor.cs" />
+    <Compile Include="Monitoring\RequestResponseTimer.cs" />
+    <Compile Include="Monitoring\IMediateEvents.cs" />
+    <Compile Include="Monitoring\MonitoringMediator.cs" />
+    <Compile Include="Monitoring\IPushEvents.cs" />
+    <Compile Include="Monitoring\MonitorFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

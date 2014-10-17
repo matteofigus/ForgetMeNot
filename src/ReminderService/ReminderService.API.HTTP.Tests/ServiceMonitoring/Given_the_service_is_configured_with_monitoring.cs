@@ -13,11 +13,78 @@ using ReminderService.Router;
 using ReminderService.Router.MessageInterfaces;
 using ReminderService.Test.Common;
 using RestSharp;
+using ReminderService.API.HTTP.Modules;
+using ReminderService.API.HTTP.Monitoring;
+using System.Diagnostics;
+using OpenTable.Services.Components.Monitoring.Monitors.HitTracker;
 
-namespace ReminderService.API.HTTP.Tests
+namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 {
+	public class Given_the_service_is_configured_with_monitoring : ServiceSpec<ReminderApiModule>
+	{
+		const string RequestTimerKey = "RequestTimer";
+		const string RequestStartTimeKey = "RequestStartTime";
+
+		protected override Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> ServiceConfigurator {
+			get {
+				return with => {
+					var hitTracker = new HitTracker (HitTrackerSettings.Instance);
+					with.Modules (typeof(ReminderApiModule), typeof(ServiceMonitoringModule));
+					with.Dependency<IBus> (_busFactory.Build ());
+					with.Dependency<HitTracker> (hitTracker);
+					with.RequestStartup((container, pipelines, context) => {
+						//response time
+						pipelines.BeforeRequest.AddItemToStartOfPipeline (ctx => {
+							ctx.Items[RequestTimerKey] = Stopwatch.StartNew();
+							ctx.Items[RequestStartTimeKey] = SystemTime.UtcNow();
+							return null;
+						});
+
+						pipelines.AfterRequest.AddItemToEndOfPipeline ((ctx) => {
+							Maybe<DateTime> maybeStarted = MaybeGetItem<DateTime>(RequestStartTimeKey, ctx);
+							Maybe<Stopwatch> maybeTimer = MaybeGetItem<Stopwatch>(RequestTimerKey, ctx);
+
+							if(maybeTimer.HasValue) {
+								var stopwatch = maybeTimer.Value;
+								stopwatch.Stop();
+								var elapsedMs = stopwatch.ElapsedMilliseconds;
+								ctx.Items.Remove(RequestTimerKey);
+
+								container
+									.Resolve<HitTracker>()
+									.AppendHit(ctx.Request.Url.ToString(), new Hit {
+										StartTime = maybeStarted.HasValue ? maybeStarted.Value : DateTime.MinValue,
+										IsError = false,
+										TimeTaken = stopwatch.Elapsed
+									});
+							}
+						});
+					});
+					with.ApplicationStartup ((ioc, pipes) => {
+						ioc.Resolve<IBus> ().Send (new SystemMessage.Start ());
+					});
+					//with.EnableAutoRegistration ();
+				};
+			}
+		}
+
+		protected BrowserResponse GET_ServiceStatus()
+		{
+			return _service.Get ("/service-status/");
+		}
+
+		private static Maybe<T> MaybeGetItem<T>(string key, NancyContext context)
+		{
+			object requestStart;
+			if (context.Items.TryGetValue (key, out requestStart))
+				return new Maybe<T> ((T)requestStart);
+
+			return Maybe<T>.Empty;
+		}
+	}
+
 	[TestFixture ()]
-	public abstract class ServiceSpec<TModule> : PostgresTestBase where TModule : NancyModule
+	public abstract class ServiceMonitorSpec_old : PostgresTestBase
 	{
 		//const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 		protected Browser _service;
@@ -55,8 +122,13 @@ namespace ReminderService.API.HTTP.Tests
 
 		protected virtual Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> ServiceConfigurator {
 			get { return with => {
-					with.Module<TModule> ();
+					var mediator = new MonitoringMediator();
+					with.Modules(typeof(ReminderApiModule), typeof(ServiceMonitoringModule));
+					//with.Module<ReminderApiModule>();
 					with.Dependency<IBus> (_busFactory.Build ());
+					with.Dependency<IMediateEvents> (mediator);
+					with.Dependency<IPushEvents> (mediator);
+					with.Dependency<HttpApiMonitor>(new HttpApiMonitor(mediator, 10, 1));
 					with.ApplicationStartup ((ioc, pipes) => {
 						ioc.Resolve<IBus> ().Send (new SystemMessage.Start ());
 					});
@@ -77,6 +149,11 @@ namespace ReminderService.API.HTTP.Tests
 			_response = _service.Get (url + reminderId, with => {
 				with.Query("reminderId", reminderId.ToString());
 			});
+		}
+
+		protected BrowserResponse GET_ServiceStatus()
+		{
+			return _service.Get ("/service-status/");
 		}
 
 		protected void POST(string url, object message)

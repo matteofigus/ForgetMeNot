@@ -12,6 +12,11 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using ReminderService.Common;
 using ReminderService.API.HTTP.Monitoring;
+using Nancy.TinyIoc;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using OpenTable.Services.Components.Monitoring.Monitors.HitTracker;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
@@ -19,6 +24,7 @@ namespace ReminderService.API.HTTP.BootStrap
 	{
 		private static readonly ILog Logger = LogManager.GetLogger("ReminderService.API.HTTP.Request");
 		const string RequestTimerKey = "RequestTimer";
+		const string RequestStartTimeKey = "RequestStartTime";
 
 		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
 		{
@@ -33,45 +39,59 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		protected override void RequestStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines, NancyContext context)
 		{
-			pipelines.OnError.AddItemToEndOfPipeline((z, a) =>
+			pipelines.OnError.AddItemToEndOfPipeline((ctx, ex) =>
 				{
-					Logger.Error("Unhandled error on request: " + context.Request.Url + " : " + a.Message, a);
-					return ErrorResponse.FromException(a);
+					container
+						.Resolve<HitTracker>()
+						.AppendHit(ctx.Request.Url.ToString(), new Hit {
+							IsError = true,
+							StartTime = SystemTime.UtcNow(),
+							TimeTaken = TimeSpan.Zero
+						});
+
+					Logger.Error("Unhandled error on request: " + context.Request.Url + " : " + ex.Message, ex);
+					return ErrorResponse.FromException(ex);
 				});
 
 			//response time
 			pipelines.BeforeRequest.AddItemToStartOfPipeline (ctx => {
 				ctx.Items[RequestTimerKey] = Stopwatch.StartNew();
+				ctx.Items[RequestStartTimeKey] = SystemTime.UtcNow();
 				return null;
 			});
 
 			pipelines.AfterRequest.AddItemToEndOfPipeline ((ctx) => {
-				object timer;
-				if(ctx.Items.TryGetValue(RequestTimerKey, out timer)) {
-					//todo: wrap the timer and event generation in a class; reuse the timer intance, and reuse the class instance between requests
-					var stopwatch = (Stopwatch)timer;
+				Maybe<DateTime> maybeStarted = MaybeGetItem<DateTime>(RequestStartTimeKey, ctx);
+				Maybe<Stopwatch> maybeTimer = MaybeGetItem<Stopwatch>(RequestTimerKey, ctx);
+
+				if(maybeTimer.HasValue) {
+					var stopwatch = maybeTimer.Value;
 					stopwatch.Stop();
 					var elapsedMs = stopwatch.ElapsedMilliseconds;
 					ctx.Items.Remove(RequestTimerKey);
 
 					container
-						.Resolve<ObservableMonitor<MonitorEvent>>()
-						.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "ResponseTime", elapsedMs));
+						.Resolve<HitTracker>()
+						.AppendHit(ctx.Request.Url.ToString(), new Hit {
+							StartTime = maybeStarted.HasValue ? maybeStarted.Value : DateTime.MinValue,
+							IsError = false,
+							TimeTaken = stopwatch.Elapsed
+						});
 				}
 			});
 
 			//request size
-			pipelines.BeforeRequest.AddItemToEndOfPipeline (ctx => {
-				container
-					.Resolve<ObservableMonitor<MonitorEvent>>()
-					.PushEvent(new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
-			    return null;
-			});
+//			pipelines.BeforeRequest.AddItemToEndOfPipeline (ctx => {
+//				container
+//					.Resolve<IPushEvents>()
+//					.Push (new MonitorEvent(ctx.ResolvedRoute + " " + ctx.Request.Method, SystemTime.UtcNow(), "RequestContentSize", ctx.Request.Headers.ContentLength));
+//			    return null;
+//			});
 
 			base.RequestStartup(container, pipelines, context);
 		}
 
-
+		const string HttpMonitorKey = "HttpApiObservable";
 		protected override void ConfigureApplicationContainer (Nancy.TinyIoc.TinyIoCContainer container)
 		{
 			base.ConfigureApplicationContainer (container);
@@ -82,9 +102,18 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			container.Register(typeof(JsonSerializer), typeof(CustomJsonSerializer));
 
-			var observable = new ObservableMonitor<MonitorEvent> ();
-			container.Register (observable);
-			container.Register<HttpApiMonitor> (new HttpApiMonitor(observable, 1000, 10));
+			//TODO: get setttings from config
+			var hitTracker = new HitTracker (HitTrackerSettings.Instance);
+			container.Register<HitTracker> (hitTracker);
+		}
+
+		private static Maybe<T> MaybeGetItem<T>(string key, NancyContext context)
+		{
+			object requestStart;
+			if (context.Items.TryGetValue (key, out requestStart))
+				return new Maybe<T> ((T)requestStart);
+
+			return Maybe<T>.Empty;
 		}
 	}
 }

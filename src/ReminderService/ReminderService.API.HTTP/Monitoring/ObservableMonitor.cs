@@ -4,24 +4,24 @@ using System.Reactive.Subjects;
 
 namespace ReminderService.API.HTTP.Monitoring
 {
-	public class ObservableMonitorEvent : IObservable<MonitorEvent>
-	{
-		private readonly Subject<MonitorEvent> _subject = new Subject<MonitorEvent> ();
-
-		public ObservableMonitorEvent ()
-		{
-		}
-
-		public IDisposable Subscribe (IObserver<MonitorEvent> observer)
-		{
-			return _subject.Subscribe (observer);
-		}
-
-		public void PushEvent(MonitorEvent evnt)
-		{
-			_subject.OnNext (evnt);
-		}
-	}
+//	public class ObservableMonitorEvent : IObservable<MonitorEvent>
+//	{
+//		private readonly Subject<MonitorEvent> _subject = new Subject<MonitorEvent> ();
+//
+//		public ObservableMonitorEvent ()
+//		{
+//		}
+//
+//		public IDisposable Subscribe (IObserver<MonitorEvent> observer)
+//		{
+//			return _subject.Subscribe (observer);
+//		}
+//
+//		public void PushEvent(MonitorEvent evnt)
+//		{
+//			_subject.OnNext (evnt);
+//		}
+//	}
 
 	public class ObservableMonitor<T> : IObservable<T>
 	{
