@@ -23,6 +23,7 @@ namespace ReminderService.API.HTTP.Tests.ServiceMonitoring
 			settings.DefaultErrorThreshold = 0;
 
 			_hitTracker = new HitTracker(settings);
+			_hitTracker.Clear ();
 
 			_hitTracker.AppendHit ("/route/1", new Hit{IsError = false, StartTime = _now.AddSeconds(100), TimeTaken = TimeSpan.FromMilliseconds(100) });
 			_hitTracker.AppendHit ("/route/1", new Hit{IsError = false, StartTime = _now.AddSeconds(100), TimeTaken = TimeSpan.FromMilliseconds(100) });
