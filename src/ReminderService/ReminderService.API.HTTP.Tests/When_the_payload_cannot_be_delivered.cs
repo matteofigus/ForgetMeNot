@@ -8,6 +8,7 @@ using ReminderService.Common;
 using RestSharp;
 using System.Linq;
 using ReminderService.API.HTTP.Models;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP.Tests
 {

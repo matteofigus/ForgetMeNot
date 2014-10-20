@@ -110,6 +110,8 @@
     <Compile Include="DeliverReminder\When_cannot_deliver.cs" />
     <Compile Include="DeliverReminder\When_attempting_redelivery.cs" />
     <Compile Include="Persistence\Postgres\A_UndeliveredReminderReplayer.cs" />
+    <Compile Include="ReadModels\A_ServiceMonitor_Model.cs" />
+    <Compile Include="ScheduleReminder\Should_handle_queuesize_query.cs" />
     <Compile Include="PublishReminders\A_RabbitMqPublisher.cs" />
   </ItemGroup>
   <ItemGroup>

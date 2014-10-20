@@ -1,13 +1,14 @@
-﻿using NUnit.Framework;
-using System;
-using ReminderService.Messages;
-using ReminderService.Common;
-using ReminderService.Test.Common;
-using RestSharp;
+﻿using System;
+using System.Text;
+using NUnit.Framework;
 using Nancy;
 using Nancy.Testing;
-using System.Text;
 using ReminderService.API.HTTP.Models;
+using ReminderService.API.HTTP.Modules;
+using ReminderService.Common;
+using ReminderService.Messages;
+using ReminderService.Test.Common;
+using RestSharp;
 
 namespace ReminderService.API.HTTP.Tests
 {

@@ -14,6 +14,7 @@ namespace ReminderService.Hosting.NancySelf
 		private static ILog Logger = LogManager.GetLogger("ForgetMeNot.SelfHosted.Host");
 		private static CSDiscoveryClient _discoveryClient;
 		private static IAnnouncementLease _lease;
+		private static bool _useDiscovery = true;
 
 		public static void Main (string[] args)
 		{
@@ -21,10 +22,15 @@ namespace ReminderService.Hosting.NancySelf
 
 			Logger.Info ("Starting ForgetMeNot service...");
 
+			if (args.Length != 0) {
+				if (args [0] == "--without-discovery")
+					_useDiscovery = false;
+			}
+
 			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper())) {
 				host.Start ();
 
-				StandupDiscoveryClient ();
+				if(_useDiscovery) StandupDiscoveryClient ();
 
 				Logger.InfoFormat (string.Format("ForgetMeNot started, listening on {0}...", _hostUri));
 				Console.ReadLine ();

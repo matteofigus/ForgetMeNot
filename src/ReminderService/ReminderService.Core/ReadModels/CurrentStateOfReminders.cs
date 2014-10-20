@@ -13,11 +13,11 @@ namespace ReminderService.Core.ReadModels
 		IConsume<ReminderMessage.Delivered>,
 		IConsume<ReminderMessage.Undelivered>,
 		IConsume<ReminderMessage.Undeliverable>,
-		IHandleQueries<RequestResponse.GetReminderState, Maybe<RequestResponse.CurrentReminderState>>
+		IHandleQueries<QueryResponse.GetReminderState, Maybe<QueryResponse.CurrentReminderState>>
 	{
 		private readonly object lockObject = new object();
-		private readonly Dictionary<Guid, RequestResponse.CurrentReminderState> _states = 
-			new Dictionary<Guid, RequestResponse.CurrentReminderState>();
+		private readonly Dictionary<Guid, QueryResponse.CurrentReminderState> _states = 
+			new Dictionary<Guid, QueryResponse.CurrentReminderState>();
 
 		public CurrentStateOfReminders ()
 		{
@@ -28,9 +28,9 @@ namespace ReminderService.Core.ReadModels
 			lock (lockObject) {
 				if (!_states.ContainsKey (envelope.Message.ReminderId)) {
 					_states.Add (envelope.Message.ReminderId, 
-						new RequestResponse.CurrentReminderState (
+						new QueryResponse.CurrentReminderState (
 							envelope.Message,
-							RequestResponse.ReminderStatusEnum.Scheduled
+							QueryResponse.ReminderStatusEnum.Scheduled
 						)
 					);
 				}
@@ -41,7 +41,7 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (envelope.Message.ReminderId))
-					_states [envelope.Message.ReminderId].Status = RequestResponse.ReminderStatusEnum.Canceled;
+					_states [envelope.Message.ReminderId].Status = QueryResponse.ReminderStatusEnum.Canceled;
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (sent.ReminderId))
-					_states [sent.ReminderId].Status = RequestResponse.ReminderStatusEnum.Delivered;
+					_states [sent.ReminderId].Status = QueryResponse.ReminderStatusEnum.Delivered;
 			}
 		}
 
@@ -65,17 +65,17 @@ namespace ReminderService.Core.ReadModels
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (undeliverable.ReminderId))
-					_states [undeliverable.ReminderId].Status = RequestResponse.ReminderStatusEnum.Undeliverable;
+					_states [undeliverable.ReminderId].Status = QueryResponse.ReminderStatusEnum.Undeliverable;
 			}
 		}
 
-		public Maybe<RequestResponse.CurrentReminderState> Handle (RequestResponse.GetReminderState request)
+		public Maybe<QueryResponse.CurrentReminderState> Handle (QueryResponse.GetReminderState request)
 		{
 			lock (lockObject) {
 				if (_states.ContainsKey (request.ReminderId))
-					return new Maybe<RequestResponse.CurrentReminderState> (_states [request.ReminderId]);
+					return new Maybe<QueryResponse.CurrentReminderState> (_states [request.ReminderId]);
 				else
-					return Maybe<RequestResponse.CurrentReminderState>.Empty;
+					return Maybe<QueryResponse.CurrentReminderState>.Empty;
 			}
 		}
 	}

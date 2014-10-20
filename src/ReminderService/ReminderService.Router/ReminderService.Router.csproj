@@ -40,11 +40,17 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Core">
-      <HintPath>Z:\Documents\Programming\GitHub\ForgetMeNot\src\ReminderService\libs\System.Reactive\V2.0\Net4.5\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Linq">
-      <HintPath>Z:\Documents\Programming\GitHub\ForgetMeNot\src\ReminderService\libs\System.Reactive\V2.0\Net4.5\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +73,8 @@
     <Compile Include="ISubscribeToQueries.cs" />
     <Compile Include="Consumers\QueryDispatcher.cs" />
     <Compile Include="Consumers\ConsumerExtensions.cs" />
+    <Compile Include="Consumers\ObservableConsumer.cs" />
+    <Compile Include="Consumers\AsyncConsumer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,6 +6,7 @@ using Nancy.Testing;
 using ReminderService.Common;
 using System.Text;
 using ReminderService.API.HTTP.Models;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP.Tests
 {

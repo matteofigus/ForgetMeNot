@@ -11,7 +11,7 @@ using ReminderService.Messages;
 using ReminderService.Router.Consumers;
 using ReminderService.API.HTTP.Models;
 
-namespace ReminderService.API.HTTP
+namespace ReminderService.API.HTTP.Modules
 {
 	public class ReminderApiModule : NancyModule, IConsume<SystemMessage.InitializationCompleted>
 	{
@@ -33,7 +33,7 @@ namespace ReminderService.API.HTTP
 					return res;
 				}
 					
-			    var request = new RequestResponse.GetReminderState(reminderId);
+			    var request = new QueryResponse.GetReminderState(reminderId);
                 var response = bus.Send(request);
 
 				if(response.HasValue)

@@ -1,34 +1,30 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
+using System.Threading;
+using NUnit.Framework;
 using Nancy;
 using Nancy.Testing;
-using ReminderService.Common;
-using ReminderService.Messages;
-using ReminderService.API.HTTP.Models;
 using ReminderService.API.HTTP.BootStrap;
+using ReminderService.API.HTTP.Models;
+using ReminderService.Common;
 using ReminderService.Core.DeliverReminder;
+using ReminderService.Messages;
+using ReminderService.Router;
 using ReminderService.Test.Common;
 using RestSharp;
-using System.Threading;
-using ReminderService.Router;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP.Tests
 {
 	[TestFixture ()]
-	public class When_a_schedule_request_is_not_valid
+	public class When_a_schedule_request_is_not_valid : ServiceSpec<ReminderApiModule>
 	{
 		[Test]
 		public void Should_return_a_400()
 		{
-			// Given
-			var bootstrapper = new DefaultNancyBootstrapper();
-			var browser = new Browser(bootstrapper);
-
-			// When
-			var requestBody = new ScheduleReminder (
+			var request = new ScheduleReminder (
 				DateTime.Now.AddDays (1).ToString(),
 				"",
 				"application/json",
@@ -38,14 +34,11 @@ namespace ReminderService.API.HTTP.Tests
 				0,
 				string.Empty
 			);
-			var result = browser.Post("/reminders", with => {
-				with.JsonBody(requestBody);
-			});
 
-			// Then
-			Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-			var responseBody = result.Body.DeserializeJson<IEnumerable<dynamic>> ().ToList();
-			Assert.AreEqual ("'Delivery Url' should not be empty.", responseBody[0]["ErrorMessage"]);
+			POST ("/reminders", request);
+
+			Assert.AreEqual (HttpStatusCode.BadRequest, this.Response.StatusCode);
+			Assert.That (ResponseBody.Contains("'Delivery Url' should not be empty."), Is.True);
 		}
 	}
 }

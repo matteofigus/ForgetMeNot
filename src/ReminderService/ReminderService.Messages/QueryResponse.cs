@@ -4,9 +4,9 @@ using ReminderService.Common;
 
 namespace ReminderService.Messages
 {
-	public static class RequestResponse
+	public static class QueryResponse
 	{
-	    public class GetReminderState : IRequest<Maybe<RequestResponse.CurrentReminderState>>
+	    public class GetReminderState : IRequest<Maybe<QueryResponse.CurrentReminderState>>
 	    {
 	        public Guid ReminderId { get; set; }
 
@@ -43,6 +43,40 @@ namespace ReminderService.Messages
 				Status = status;
 				RedeliveryAttempts = redeliveryAttempts;
 			}
+		}
+
+		public class GetServiceMonitorState : IRequest<QueryResponse.ServiceMonitorState>
+		{
+			//empty
+		}
+
+		public class ServiceMonitorState : IMessage
+		{
+			public DateTime ServiceStartedAt { get; set; }
+			public int QueueSize { get; set; }
+			public int UndeliverableCount { get; set; }
+			public int DeliveredReminderCount { get; set; }
+			public int AverageResponseTime { get; set; }
+			public int MinResponseTime { get; set; }
+			public int MaxResponseTime { get; set; }
+			public int AverageRequestSize { get; set; }
+			public int MinRequestSize { get; set; }
+			public int MaxRequestSize { get; set; }
+
+			public ServiceMonitorState ()
+			{
+				//empty
+			}
+		}
+
+		public class GetQueueStats : IRequest<QueueStats>
+		{
+			//empty
+		}
+
+		public class QueueStats : IMessage
+		{
+			public int QueueSize { get; set; }
 		}
 	}
 }

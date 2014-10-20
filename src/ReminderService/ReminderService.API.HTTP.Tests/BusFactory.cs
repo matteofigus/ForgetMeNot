@@ -86,6 +86,7 @@ namespace ReminderService.API.HTTP.Tests
 			_bus.Subscribe (scheduler as IConsume<ReminderMessage.Rescheduled>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
+			_bus.Subscribe (scheduler as IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>);
 
 			var cancellationFilter = GetCancellationsHandler ();
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
@@ -108,6 +109,11 @@ namespace ReminderService.API.HTTP.Tests
 
 			var deadLetterDeliver = GetDeadLetterDelivery ();
 			_bus.Subscribe (deadLetterDeliver as IConsume<ReminderMessage.Undeliverable>);
+
+			var serviceMonitor = GetServiceMonitor ();
+			_bus.Subscribe (serviceMonitor as IHandleQueries<QueryResponse.GetServiceMonitorState, QueryResponse.ServiceMonitorState>);
+			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Delivered>);
+			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Undeliverable>);
 
 			return _bus;
 		}
@@ -135,7 +141,7 @@ namespace ReminderService.API.HTTP.Tests
 
 		private CancellationFilter GetCancellationsHandler()
 		{
-			var httpDelivery = new HTTPDelivery(_restClient);
+			var httpDelivery = new HTTPDelivery (_restClient);
 			var rabbitDelivery = new RabbitMqDelivery(_rabbitMqPublisher);
 			var router = new DeliveryRouter (_bus, DeadLetterUrl);
 
@@ -144,11 +150,11 @@ namespace ReminderService.API.HTTP.Tests
 					router.AddHandler (handler.Item1, handler.Item2);
 				}
 			else {
-				router.AddHandler(DeliveryTransport.HTTP, httpDelivery);
+				router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
 				router.AddHandler(DeliveryTransport.RabbitMq, rabbitDelivery);
 			}
 
-			var cancellationFilter = new CancellationFilter(router);
+			var cancellationFilter = new CancellationFilter (router);
 			return cancellationFilter;
 		}
 			
@@ -167,6 +173,11 @@ namespace ReminderService.API.HTTP.Tests
 			//this will be configurable in service config...
 			var httpDelivery = new HTTPDelivery (_restClient);
 			return new DeadLetterDelivery (_bus, httpDelivery, DeadLetterUrl);
+		}
+
+		private ServiceMonitor GetServiceMonitor()
+		{
+			return new ServiceMonitor ();
 		}
 	}
 }
