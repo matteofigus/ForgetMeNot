@@ -10,6 +10,7 @@ using Nancy.Testing;
 using System.Text;
 using ReminderService.API.HTTP.Models;
 using OpenTable.Services.Components.RabbitMq;
+using ReminderService.API.HTTP.Modules;
 
 namespace ReminderService.API.HTTP.Tests
 {

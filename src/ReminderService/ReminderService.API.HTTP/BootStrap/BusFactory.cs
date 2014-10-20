@@ -128,6 +128,8 @@ namespace ReminderService.API.HTTP.BootStrap
 		private ServiceMonitor GetServiceMonitor()
 		{
 			return new ServiceMonitor ();
+		}
+
 		private Dictionary<string,string> GetRabbitMqSettings()
 		{
 			var rabbitMqSettings = (NameValueCollection)ConfigurationManager.GetSection("rabbitMqSettings");
