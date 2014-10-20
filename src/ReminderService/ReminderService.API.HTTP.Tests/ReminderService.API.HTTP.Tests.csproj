@@ -95,12 +95,16 @@
     </Reference>
     <Reference Include="OpenTable.Services.Components.Monitoring">
       <HintPath>..\packages\OpenTable.Services.Components.Monitoring.2.0.8\lib\net40\OpenTable.Services.Components.Monitoring.dll</HintPath>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.5\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.RabbitMq">
+      <HintPath>..\packages\OpenTable.Services.Components.RabbitMq.1.0.10\lib\net40\OpenTable.Services.Components.RabbitMq.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusFactory.cs" />
     <Compile Include="ServiceSpec.cs" />
-    <Compile Include="When_scheduling_a_reminder.cs" />
     <Compile Include="When_cancelling_a_reminder.cs" />
     <Compile Include="When_a_cancellation_request_is_not_valid.cs" />
     <Compile Include="When_a_schedule_request_is_not_valid.cs" />
@@ -117,6 +121,8 @@
     <Compile Include="ServiceMonitoring\MonitorModel.cs" />
     <Compile Include="ServiceMonitoring\When_there_are_route_errors.cs" />
     <Compile Include="ServiceMonitoring\When_there_are_no_route_errors.cs" />
+    <Compile Include="When_scheduling_an_http_reminder.cs" />
+    <Compile Include="When_scheduling_a_rabbitmq_reminder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

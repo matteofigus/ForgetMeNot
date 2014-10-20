@@ -12,6 +12,7 @@ using ReminderService.Core.Startup;
 using ReminderService.Messages;
 using ReminderService.Router;
 using RestSharp;
+using OpenTable.Services.Components.RabbitMq;
 
 namespace ReminderService.API.HTTP.Tests
 {
@@ -21,6 +22,7 @@ namespace ReminderService.API.HTTP.Tests
 		private Bus _bus;
 		private ITimer _timerInstance;
 		private IRestClient _restClient;
+		private IMessagePublisher _rabbitMqPublisher;
 		private IJournalEvents _journaler;
 		private string _connectionString;
 		private bool _overrideDeliveryHandlers = false;
@@ -37,6 +39,13 @@ namespace ReminderService.API.HTTP.Tests
 		{
 			Ensure.NotNull (restClient, "restClient");
 			_restClient = restClient;
+			return this;
+		}
+
+		public BusFactory WithRabbitMqPublisher(IMessagePublisher messagePublisher)
+		{
+			Ensure.NotNull(messagePublisher, "messagePublisher");
+			_rabbitMqPublisher = messagePublisher;
 			return this;
 		}
 
@@ -133,6 +142,7 @@ namespace ReminderService.API.HTTP.Tests
 		private CancellationFilter GetCancellationsHandler()
 		{
 			var httpDelivery = new HTTPDelivery (_restClient);
+			var rabbitDelivery = new RabbitMqDelivery(_rabbitMqPublisher);
 			var router = new DeliveryRouter (_bus, DeadLetterUrl);
 
 			if (_overrideDeliveryHandlers)
@@ -141,6 +151,7 @@ namespace ReminderService.API.HTTP.Tests
 				}
 			else {
 				router.AddHandler (DeliveryTransport.HTTP, httpDelivery);
+				router.AddHandler(DeliveryTransport.RabbitMq, rabbitDelivery);
 			}
 
 			var cancellationFilter = new CancellationFilter (router);
