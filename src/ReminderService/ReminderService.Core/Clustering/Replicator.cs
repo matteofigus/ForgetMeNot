@@ -36,15 +36,13 @@ namespace ReminderService.Core.Clustering
 		{
 			// iterate the Uri of each other node in the cluster, 
 			// call SendToNode that returns a Task, 
-			// turn each Task to an Observable => 
-			// we have created a stream of IRestResponse and elements will be pushed as each Task completes
+			// turn each Task to an Observable and merge all the observables together =>
+			// we have created a stream of task results (IRestResponse) and results will be pushed as each Task completes
 			// subscribe to the completed responses and check the state of each response to make sure we replicated the message.
 			_otherNodesInCluster
-				.Select (uri => 
-					Observable.FromAsync (() =>
-						SendToNode (msg.Reminder, uri)))
+				.Select (uri => SendToNode (msg.Reminder, uri))
 				.ToObservable ()
-				.Switch()
+				.Merge()
 				.Subscribe (
 					response => {
 						if (response.ResponseStatus == ResponseStatus.Completed)
