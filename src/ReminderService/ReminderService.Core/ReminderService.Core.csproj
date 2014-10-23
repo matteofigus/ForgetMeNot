@@ -102,12 +102,14 @@
     <Compile Include="DeliverReminder\DeadLetterDelivery.cs" />
     <Compile Include="ReadModels\ServiceMonitor.cs" />
     <Compile Include="DeliverReminder\RabbitMqDelivery.cs" />
+    <Compile Include="Clustering\Replicator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Peristence\Postgres\Scripts\" />
     <Folder Include="ReadModels\" />
     <Folder Include="ServiceMonitoring\" />
+    <Folder Include="Clustering\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Router\ReminderService.Router.csproj">

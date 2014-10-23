@@ -3,6 +3,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
+using System.Linq;
 
 
 namespace ReminderService.Test.Common
@@ -36,6 +37,11 @@ namespace ReminderService.Test.Common
 		public void SetRequestHandler (Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> requestHandler)
 		{
 			_requestHandler = requestHandler;
+		}
+
+		public FakeRestClient ()
+		{
+			//default constructor
 		}
 
 		public FakeRestClient (IEnumerable<IRestResponse> responses)
@@ -183,7 +189,9 @@ namespace ReminderService.Test.Common
 
 		public Task<IRestResponse> ExecutePostTaskAsync (IRestRequest request)
 		{
-			throw new NotImplementedException ();
+			_lastRequest = request;
+			_requests.Add (request);
+			return Task<IRestResponse>.FromResult (_responses.First());
 		}
 
 		public Task<IRestResponse> ExecutePostTaskAsync (IRestRequest request, System.Threading.CancellationToken token)

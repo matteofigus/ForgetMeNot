@@ -113,6 +113,9 @@
     <Compile Include="ReadModels\A_ServiceMonitor_Model.cs" />
     <Compile Include="ScheduleReminder\Should_handle_queuesize_query.cs" />
     <Compile Include="PublishReminders\A_RabbitMqPublisher.cs" />
+    <Compile Include="Clustering\When_replicating_reminders.cs" />
+    <Compile Include="Clustering\When_replication_fails.cs" />
+    <Compile Include="Clustering\Given_a_replicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -150,6 +153,7 @@
   <ItemGroup>
     <Folder Include="ReadModels\" />
     <Folder Include="DeliverReminder\" />
+    <Folder Include="Clustering\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
