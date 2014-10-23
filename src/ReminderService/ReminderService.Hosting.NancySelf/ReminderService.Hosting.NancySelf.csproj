@@ -48,6 +48,21 @@
     <Reference Include="OpenTable.Services.Components.DiscoveryClient">
       <HintPath>..\packages\OpenTable.Services.Components.DiscoveryClient.1.0.13\lib\net40\OpenTable.Services.Components.DiscoveryClient.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.ServiceStack.Redis.1.0.1\lib\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.ServiceStack.Redis.1.0.1\lib\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.ServiceStack.Redis.1.0.1\lib\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.ServiceStack.Redis.1.0.1\lib\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTable.Services.Components.Logging">
+      <HintPath>..\packages\OpenTable.Services.Components.Logging.ServiceStack.Redis.1.0.1\lib\OpenTable.Services.Components.Logging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs">

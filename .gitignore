@@ -182,3 +182,5 @@ FakesAssemblies/
 
 # Other files
 *.data
+log.*txt
+# TODO: figure out how to ignore files .DS_Store
