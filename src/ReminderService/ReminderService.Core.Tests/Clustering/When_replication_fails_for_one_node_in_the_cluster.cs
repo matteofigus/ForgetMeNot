@@ -9,21 +9,36 @@ using System.Net;
 
 namespace ReminderService.Core.Tests.Clustering
 {
-	public class When_replication_fails : Given_a_Replicator
+	[TestFixture]
+	public class When_replication_fails_for_one_node_in_the_cluster : Given_a_Replicator
 	{
 		private Guid _reminderId;
 		private List<Uri> _nodesInCluster;
-		
-		public When_replication_fails ()
+
+		public When_replication_fails_for_one_node_in_the_cluster ()
 		{
 			_nodesInCluster = new List<Uri>{
 				new Uri("http://host1:8080/reminders", UriKind.Absolute),
 				new Uri("http://host2:8080/reminders", UriKind.Absolute),
 			};
 
-			WithReplicatorFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
-			WithResponse (new RestResponse{StatusCode = HttpStatusCode.BadRequest});
+			var responses = new List<IRestResponse>{ 
+				new RestResponse(){
+					StatusCode = System.Net.HttpStatusCode.Created,
+					ResponseStatus = ResponseStatus.Completed
+				},
+				new RestResponse(){
+					StatusCode = System.Net.HttpStatusCode.BadRequest,
+					ResponseStatus = ResponseStatus.Completed
+				}
+			};
 
+			var requestCount = 0;
+			WithReplicatorFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
+			WithRequestHandler ((request, callback) => {
+				callback(responses[requestCount], new RestRequestAsyncHandle());
+				requestCount++;
+				});
 		}
 
 		[TestFixtureSetUp]
@@ -48,15 +63,9 @@ namespace ReminderService.Core.Tests.Clustering
 		[Test]
 		public void Then_the_replicator_should_emit_replication_failed_events()
 		{
-			Assert.AreEqual (3, MessagesReceivedOnTheBus.Count);
+			Assert.AreEqual (2, MessagesReceivedOnTheBus.Count);
 			Assert.IsInstanceOf<ClusterMessage.ReplicationFailed> (MessagesReceivedOnTheBus.First());
-			Assert.IsInstanceOf<ClusterMessage.ReplicationFailed> (MessagesReceivedOnTheBus[1]);
-		}
-
-		[Test]
-		public void Then_the_replicator_should_emit_a_Replicated_event()
-		{
-			Assert.IsInstanceOf<ClusterMessage.Replicated<ReminderMessage.Schedule>> (MessagesReceivedOnTheBus[2]);
+			Assert.IsInstanceOf<ClusterMessage.Replicated<ReminderMessage.Schedule>> (MessagesReceivedOnTheBus[1]);
 		}
 	}
 }

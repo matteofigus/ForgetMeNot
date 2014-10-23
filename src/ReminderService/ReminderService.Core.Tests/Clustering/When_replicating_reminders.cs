@@ -21,7 +21,7 @@ namespace ReminderService.Core.Tests.Clustering
 				new Uri("http://host2:8080/reminders", UriKind.Absolute),
 			};
 
-			WithFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
+			WithReplicatorFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
 			WithResponse (new RestResponse(){
 				StatusCode = System.Net.HttpStatusCode.Created,
 				ResponseStatus = ResponseStatus.Completed

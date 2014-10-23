@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
 using System.Linq;
+using System.Threading;
 
 
 namespace ReminderService.Test.Common
 {
 	public class FakeRestClient : IRestClient
 	{
+		private readonly object _lockObject = new object ();
 		private List<IRestResponse> _responses;
 		private IRestRequest _lastRequest;
 		private List<IRestRequest> _requests = new List<IRestRequest>();
@@ -57,14 +59,14 @@ namespace ReminderService.Test.Common
 		public RestRequestAsyncHandle ExecuteAsync (IRestRequest request, Action<IRestResponse, RestRequestAsyncHandle> callback)
 		{
 			var handle = new RestRequestAsyncHandle ();
+			_lastRequest = request;
+			_requests.Add (request);
 
 			if (_requestHandler != null) {
 				_requestHandler (request, callback);
 				return handle;
 			}
 				
-			_lastRequest = request;
-			_requests.Add (request);
 			callback (GetNextResponse(), handle);
 			return handle;
 		}
@@ -189,9 +191,13 @@ namespace ReminderService.Test.Common
 
 		public Task<IRestResponse> ExecutePostTaskAsync (IRestRequest request)
 		{
-			_lastRequest = request;
-			_requests.Add (request);
-			return Task<IRestResponse>.FromResult (_responses.First());
+			Task<IRestResponse> task = null;
+
+			ExecuteAsync (request, (resp, handle) => {
+				task = Task<IRestResponse>.FromResult (resp);
+			});
+
+			return task;
 		}
 
 		public Task<IRestResponse> ExecutePostTaskAsync (IRestRequest request, System.Threading.CancellationToken token)

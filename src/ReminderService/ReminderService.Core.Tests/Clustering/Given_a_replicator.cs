@@ -18,6 +18,7 @@ namespace ReminderService.Core.Tests.Clustering
 		private Replicator _replicator;
 		private List<IMessage> _messagesReceivedOnBus = new List<IMessage>();
 		private List<IRestResponse> _restResponses;
+		private bool _constructWithHandler = false;
 
 		public List<IMessage> MessagesReceivedOnTheBus {
 			get { return _messagesReceivedOnBus; }
@@ -43,11 +44,16 @@ namespace ReminderService.Core.Tests.Clustering
 			set; 
 		}
 
+		public Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> RequestHandler {
+			get;
+			set;
+		}
+
 		[TestFixtureSetUp]
 		public void SetupFixture ()
 		{
 			Bus = new FakeBus (msg => _messagesReceivedOnBus.Add(msg));
-			RestClient = new FakeRestClient (RestResponses);
+			RestClient = _constructWithHandler ? new FakeRestClient(RequestHandler) : new FakeRestClient (RestResponses);
 			_replicator = ReplicatorFactory ();
 		}
 
@@ -69,9 +75,15 @@ namespace ReminderService.Core.Tests.Clustering
 			);
 		}
 
-		public void WithFactory(Func<Replicator> replicatorFactory)
+		public void WithReplicatorFactory(Func<Replicator> replicatorFactory)
 		{
 			ReplicatorFactory = replicatorFactory;
+		}
+
+		public void WithRequestHandler(Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> requestHandler)
+		{
+			RequestHandler = requestHandler;
+			_constructWithHandler = true;
 		}
 
 		public void WithResponses(IEnumerable<IRestResponse> fakeRestResponses)
