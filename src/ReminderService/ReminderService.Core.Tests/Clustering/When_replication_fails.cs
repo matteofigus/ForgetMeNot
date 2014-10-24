@@ -31,9 +31,8 @@ namespace ReminderService.Core.Tests.Clustering
 		{
 			_reminderId = Guid.NewGuid ();
 			var reminder = BuildReminder (_reminderId);
-			var replicateMe = new ClusterMessage.Replicate<ReminderMessage.Schedule> (reminder);
 
-			HandleMessage (replicateMe);
+			HandleMessage (reminder);
 		}
 
 		[Test]
@@ -48,15 +47,9 @@ namespace ReminderService.Core.Tests.Clustering
 		[Test]
 		public void Then_the_replicator_should_emit_replication_failed_events()
 		{
-			Assert.AreEqual (3, MessagesReceivedOnTheBus.Count);
+			Assert.AreEqual (2, MessagesReceivedOnTheBus.Count);
 			Assert.IsInstanceOf<ClusterMessage.ReplicationFailed> (MessagesReceivedOnTheBus.First());
 			Assert.IsInstanceOf<ClusterMessage.ReplicationFailed> (MessagesReceivedOnTheBus[1]);
-		}
-
-		[Test]
-		public void Then_the_replicator_should_emit_a_Replicated_event()
-		{
-			Assert.IsInstanceOf<ClusterMessage.Replicated<ReminderMessage.Schedule>> (MessagesReceivedOnTheBus[2]);
 		}
 	}
 }

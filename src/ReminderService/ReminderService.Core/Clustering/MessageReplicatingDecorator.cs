@@ -13,20 +13,23 @@ using log4net;
 
 namespace ReminderService.Core.Clustering
 {
-	public class Replicator : IConsume<ReminderMessage.Schedule>
+	public class MessageReplicatingDecorator : IConsume<ReminderMessage.Schedule>
 	{
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Replicator));
 		private const int TimeoutMs = 1000;
 		private readonly ISendMessages _bus;
 		private readonly IRestClient _restClient;
 		private readonly List<Uri> _otherNodesInCluster;
+		private readonly IConsume<ReminderMessage.Schedule> _inner;
 
-		public Replicator (ISendMessages bus, IRestClient restClient, IEnumerable<Uri> otherNodes)
+		public MessageReplicatingDecorator (IConsume<ReminderMessage.Schedule> innerConsumer, ISendMessages bus, IRestClient restClient, IEnumerable<Uri> otherNodes)
 		{
+			Ensure.NotNull (innerConsumer, "innerConsumer");
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (restClient, "restClient");
 			Ensure.NotNull (otherNodes, "otherNodes");
 
+			_inner = innerConsumer;
 			_bus = bus;
 			_restClient = restClient;
 			_otherNodesInCluster = new List<Uri> (otherNodes);
@@ -54,7 +57,7 @@ namespace ReminderService.Core.Clustering
 							OnTransportError(msg, response);
 					},
 					exception => OnException(msg, exception),
-					() => OnReplicated(msg)
+					() => _inner.Handle(msg)
 				);
 		}
 
@@ -65,11 +68,6 @@ namespace ReminderService.Core.Clustering
 				.AddParameter ("application/json", msg, ParameterType.RequestBody);
 
 			return _restClient.ExecutePostTaskAsync (request);
-		}
-
-		private void OnReplicated(ReminderMessage.Schedule msg)
-		{
-			Logger.InfoFormat ("Reminder [{0}] replicated.", msg.ReminderId);
 		}
 
 		private void OnTransportError(ReminderMessage.Schedule msg, IRestResponse response)

@@ -1,6 +1,7 @@
 ﻿using System;
 using ReminderService.Router.MessageInterfaces;
 using ReminderService.Common;
+using System.Collections.Generic;
 
 namespace ReminderService.Messages
 {
@@ -62,10 +63,12 @@ namespace ReminderService.Messages
 			public int AverageRequestSize { get; set; }
 			public int MinRequestSize { get; set; }
 			public int MaxRequestSize { get; set; }
+			public int FailedClusterReplicationAttempts { get; set; }
+			public List<string> FailedClusterReplicationReasons { get; set; }
 
 			public ServiceMonitorState ()
 			{
-				//empty
+				FailedClusterReplicationReasons = new List<string>();
 			}
 		}
 

@@ -57,7 +57,7 @@ namespace ReminderService.Core.Tests.Clustering
 			_replicator = ReplicatorFactory ();
 		}
 
-		protected void HandleMessage(ClusterMessage.Replicate<ReminderMessage.Schedule> replicateMe)
+		protected void HandleMessage(ReminderMessage.Schedule replicateMe)
 		{
 			_replicator.Handle (replicateMe);
 		}

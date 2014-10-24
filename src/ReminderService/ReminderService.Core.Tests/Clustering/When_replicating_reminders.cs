@@ -33,10 +33,9 @@ namespace ReminderService.Core.Tests.Clustering
 		{
 			_reminderId = Guid.NewGuid ();
 			var reminder = BuildReminder (_reminderId);
-			var replicateMe = new ClusterMessage.Replicate<ReminderMessage.Schedule> (reminder);
 
 			Assert.AreEqual (0, MessagesReceivedOnTheBus.Count);
-			HandleMessage (replicateMe);
+			HandleMessage (reminder);
 		}
 
 		[Test]
@@ -46,15 +45,6 @@ namespace ReminderService.Core.Tests.Clustering
 			foreach (var node in _nodesInCluster) {
 				Assert.IsTrue (RestClient.Requests.Exists(r => r.Resource == node.AbsolutePath));
 			}
-		}
-
-		[Test]
-		public void Then_the_replicator_should_emit_a_replication_completed_event()
-		{
-			Assert.AreEqual (1, MessagesReceivedOnTheBus.Count);
-			Assert.IsInstanceOf<ClusterMessage.Replicated<ReminderMessage.Schedule>> (MessagesReceivedOnTheBus.First());
-			var replicatedReminder = (MessagesReceivedOnTheBus.First() as ClusterMessage.Replicated<ReminderMessage.Schedule>).Reminder;
-			Assert.AreEqual (_reminderId, replicatedReminder.ReminderId);
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace ReminderService.Core.ReadModels
 	public class ServiceMonitor : 
 		IConsume<ReminderMessage.Undeliverable>,
 		IConsume<ReminderMessage.Delivered>,
+		IConsume<ClusterMessage.ReplicationFailed>,
 		IHandleQueries<QueryResponse.GetServiceMonitorState, QueryResponse.ServiceMonitorState>
 	{
 		private readonly Object _lockObject = new Object();
@@ -33,6 +34,14 @@ namespace ReminderService.Core.ReadModels
 			}
 		}
 
+		public void Handle (ClusterMessage.ReplicationFailed msg)
+		{
+			lock (_lockObject) {
+				_state.FailedClusterReplicationAttempts++;
+				_state.FailedClusterReplicationReasons.Add (msg.Message);
+			}
+		}
+
 		public QueryResponse.ServiceMonitorState Handle (QueryResponse.GetServiceMonitorState request)
 		{
 			lock (_lockObject) {
@@ -40,7 +49,6 @@ namespace ReminderService.Core.ReadModels
 			}
 		}
 
-		const string Undelivered_Key = "UndeliveredCount";
 	}
 }
 

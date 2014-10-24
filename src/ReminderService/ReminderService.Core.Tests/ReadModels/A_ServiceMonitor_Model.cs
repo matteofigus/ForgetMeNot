@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using ReminderService.Messages;
 using ReminderService.Core.ReadModels;
+using System.Linq;
 
 namespace ReminderService.Core.Tests.ReadModels
 {
@@ -18,6 +19,7 @@ namespace ReminderService.Core.Tests.ReadModels
 			_serviceMonitor.Handle (new ReminderMessage.Delivered(Guid.NewGuid(), DateTime.Now));
 			_serviceMonitor.Handle (new ReminderMessage.Delivered(Guid.NewGuid(), DateTime.Now));
 			_serviceMonitor.Handle (new ReminderMessage.Undeliverable(new ReminderMessage.Schedule{ReminderId = Guid.NewGuid()}, "a reason"));
+			_serviceMonitor.Handle (new ClusterMessage.ReplicationFailed("something went wrong"));
 
 			_monitorState = _serviceMonitor.Handle (new QueryResponse.GetServiceMonitorState());
 		}
@@ -35,9 +37,11 @@ namespace ReminderService.Core.Tests.ReadModels
 		}
 
 		[Test]
-		public void Should_track_QueueSize()
+		public void Should_track_ClusterReplication()
 		{
-
+			Assert.AreEqual (1, _monitorState.FailedClusterReplicationAttempts);
+			Assert.AreEqual (1, _monitorState.FailedClusterReplicationReasons.Count);
+			Assert.AreEqual ("something went wrong", _monitorState.FailedClusterReplicationReasons.First());
 		}
 	}
 }

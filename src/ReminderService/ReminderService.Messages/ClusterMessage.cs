@@ -7,28 +7,6 @@ namespace ReminderService.Messages
 {
 	public static class ClusterMessage
 	{
-		public class Replicate<T> : IMessage where T : class, IMessage
-		{
-			public T Reminder { get; private set; }
-
-			public Replicate (T reminder)
-			{
-				Ensure.NotNull(reminder, "reminder");
-				Reminder = reminder;
-			}
-		}
-
-		public class Replicated<T> : IMessage where T : class, IMessage
-		{
-			public T Reminder { get; private set; }
-
-			public Replicated (T reminder)
-			{
-				Ensure.NotNull(reminder, "reminder");
-				Reminder = reminder;
-			}
-		}
-
 		public class ReplicationFailed : IMessage
 		{
 			public Exception Exception {

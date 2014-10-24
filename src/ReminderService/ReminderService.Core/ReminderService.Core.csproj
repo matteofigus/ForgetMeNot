@@ -103,6 +103,7 @@
     <Compile Include="ReadModels\ServiceMonitor.cs" />
     <Compile Include="DeliverReminder\RabbitMqDelivery.cs" />
     <Compile Include="Clustering\Replicator.cs" />
+    <Compile Include="Clustering\MessageReplicatingDecorator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
