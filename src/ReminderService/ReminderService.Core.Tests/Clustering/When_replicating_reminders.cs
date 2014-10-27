@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ReminderService.Core.Clustering;
 using System.Linq;
 using RestSharp;
+using System.Net;
 
 namespace ReminderService.Core.Tests.Clustering
 {
@@ -22,7 +23,7 @@ namespace ReminderService.Core.Tests.Clustering
 
 			WithClusterMembers (nodesInCluster);
 			WithResponse (new RestResponse(){
-				StatusCode = System.Net.HttpStatusCode.Created,
+				StatusCode = HttpStatusCode.Created,
 				ResponseStatus = ResponseStatus.Completed
 			});
 		}

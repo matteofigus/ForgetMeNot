@@ -40,11 +40,6 @@ namespace ReminderService.Core.Tests.Clustering
 			set;
 		}
 
-//		public Func<Replicator> ReplicatorFactory {
-//			get;
-//			set; 
-//		}
-
 		public Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> RequestHandler {
 			get;
 			set;
@@ -81,11 +76,6 @@ namespace ReminderService.Core.Tests.Clustering
 				0
 			);
 		}
-
-//		public void WithReplicatorFactory(Func<Replicator> replicatorFactory)
-//		{
-//			ReplicatorFactory = replicatorFactory;
-//		}
 
 		public void WithRequestHandler(Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> requestHandler)
 		{
