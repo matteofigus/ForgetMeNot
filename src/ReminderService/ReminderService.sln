@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Hosting.Nan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgetMeNot.TestClient.Http", "ForgetMeNot.TestClient\ForgetMeNot.TestClient.Http.csproj", "{A208F8DD-05B8-4C36-B204-B4F542BA7091}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Clustering", "ReminderService.Clustering\ReminderService.Clustering.csproj", "{F18CBB46-C3C6-4578-8657-A377DC440770}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{D2A0D6A8-7826-4687-AB47-0055D773286B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A0D6A8-7826-4687-AB47-0055D773286B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A0D6A8-7826-4687-AB47-0055D773286B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F18CBB46-C3C6-4578-8657-A377DC440770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18CBB46-C3C6-4578-8657-A377DC440770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F18CBB46-C3C6-4578-8657-A377DC440770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F18CBB46-C3C6-4578-8657-A377DC440770}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = PriorityQueue\ReminderService.DataStructures.csproj

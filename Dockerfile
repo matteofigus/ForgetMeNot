@@ -1,5 +1,6 @@
-FROM thaiphan/mono:3.8.0.9
+FROM seif/mono 
 RUN apt-get update
+RUN apt-get install -y curl mono-devel
 WORKDIR /tmp
 RUN curl -O http://artifactory.otenv.com:8081/artifactory/dev_tools/NuGet/NuGet.exe
 ENV EnableNuGetPackageRestore true

@@ -34,6 +34,17 @@ namespace ReminderService.Messages
 				Message = message;
 			}
 		}
+
+		public class MembershipUpdate : IMessage
+		{
+			public List<Uri> NewMembershipList { get; set; }
+
+			public MembershipUpdate (List<Uri> members)
+			{
+				Ensure.NotNull(members, "members");
+				NewMembershipList = members;
+			}
+		}
 	}
 }
 

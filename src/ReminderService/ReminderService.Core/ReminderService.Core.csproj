@@ -133,6 +133,10 @@
       <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
       <Name>ReminderService.Router.MessageInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Clustering\ReminderService.Clustering.csproj">
+      <Project>{F18CBB46-C3C6-4578-8657-A377DC440770}</Project>
+      <Name>ReminderService.Clustering</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

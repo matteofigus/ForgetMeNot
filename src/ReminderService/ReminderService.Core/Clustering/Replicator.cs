@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Reactive.Linq;
 using log4net;
+using ReminderService.Clustering;
 
 namespace ReminderService.Core.Clustering
 {
-	public class Replicator : IConsume<ReminderMessage.Schedule>
+	public class Replicator : 
+		IConsume<ReminderMessage.Schedule>,
+		IConsume<ClusterMessage.MembershipUpdate>
 	{
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Replicator));
+		private readonly object _lockObject = new object ();
 		private const int TimeoutMs = 1000;
 		private readonly ISendMessages _bus;
 		private readonly IRestClient _restClient;
@@ -32,6 +36,14 @@ namespace ReminderService.Core.Clustering
 			_otherNodesInCluster = new List<Uri> (otherNodes);
 		}
 
+		public void Handle(ClusterMessage.MembershipUpdate update)
+		{
+			lock (_lockObject) {
+				_otherNodesInCluster.Clear ();
+				_otherNodesInCluster.AddRange (update.NewMembershipList);
+			}
+		}
+
 		public void Handle(ReminderMessage.Schedule msg)
 		{
 			// iterate the Uri of each other node in the cluster, 
@@ -39,23 +51,23 @@ namespace ReminderService.Core.Clustering
 			// turn each Task to an Observable and merge all the observables together =>
 			// we have created a stream of task results (IRestResponse) and results will be pushed as each Task completes
 			// subscribe to the completed responses and check the state of each response to make sure we replicated the message.
-			_otherNodesInCluster
+			lock (_lockObject) {
+				_otherNodesInCluster
 				.Select (uri => SendToNode (msg, uri))
 				.ToObservable ()
-				.Merge()
+				.Merge ()
 				.Subscribe (
 					response => {
-						if (response.ResponseStatus == ResponseStatus.Completed)
-						{
+						if (response.ResponseStatus == ResponseStatus.Completed) {
 							if (response.StatusCode != HttpStatusCode.Created)
-								OnHttpError(msg, response);
-						}
-						else
-							OnTransportError(msg, response);
+								OnHttpError (msg, response);
+						} else
+							OnTransportError (msg, response);
 					},
-					exception => OnException(msg, exception),
-					() => OnReplicated(msg)
+					exception => OnException (msg, exception),
+					() => OnReplicated (msg)
 				);
+			}
 		}
 
 		private Task<IRestResponse> SendToNode(ReminderMessage.Schedule msg, Uri node)
