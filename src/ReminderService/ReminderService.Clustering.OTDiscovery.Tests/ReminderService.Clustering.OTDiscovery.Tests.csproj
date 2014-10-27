@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F18CBB46-C3C6-4578-8657-A377DC440770}</ProjectGuid>
+    <ProjectGuid>{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ReminderService.Clustering</RootNamespace>
-    <AssemblyName>ReminderService.Clustering</AssemblyName>
+    <RootNamespace>ReminderService.Clustering.OTDiscovery.Tests</RootNamespace>
+    <AssemblyName>ReminderService.Clustering.OTDiscovery.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,6 +29,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -38,21 +41,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IClusterMembersProvider.cs" />
-    <Compile Include="OTDiscoveryMemberProvider.cs" />
+    <Compile Include="MembershipProviderTests.cs" />
+    <Compile Include="FakeDiscoveryClient.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ReminderService.Router.MessageInterfaces\ReminderService.Router.MessageInterfaces.csproj">
-      <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
-      <Name>ReminderService.Router.MessageInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
-      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
-      <Name>ReminderService.Common</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\ReminderService.Clustering\ReminderService.Clustering.OTDiscovery.csproj">
+      <Project>{F18CBB46-C3C6-4578-8657-A377DC440770}</Project>
+      <Name>ReminderService.Clustering.OTDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Common.Interfaces\ReminderService.Common.Interfaces.csproj">
+      <Project>{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}</Project>
+      <Name>ReminderService.Common.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

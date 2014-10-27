@@ -16,6 +16,7 @@ namespace ReminderService.Core.Tests.Clustering
 		private ISendMessages _bus;
 		private FakeRestClient _restClient;
 		private Replicator _replicator;
+		private List<Uri> _clusterMembers;
 		private List<IMessage> _messagesReceivedOnBus = new List<IMessage>();
 		private List<IRestResponse> _restResponses;
 		private bool _constructWithHandler = false;
@@ -39,12 +40,17 @@ namespace ReminderService.Core.Tests.Clustering
 			set;
 		}
 
-		public Func<Replicator> ReplicatorFactory {
-			get;
-			set; 
-		}
+//		public Func<Replicator> ReplicatorFactory {
+//			get;
+//			set; 
+//		}
 
 		public Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> RequestHandler {
+			get;
+			set;
+		}
+
+		public List<Uri> ClusterMembers {
 			get;
 			set;
 		}
@@ -54,7 +60,8 @@ namespace ReminderService.Core.Tests.Clustering
 		{
 			Bus = new FakeBus (msg => _messagesReceivedOnBus.Add(msg));
 			RestClient = _constructWithHandler ? new FakeRestClient(RequestHandler) : new FakeRestClient (RestResponses);
-			_replicator = ReplicatorFactory ();
+			//_replicator = ReplicatorFactory ();
+			_replicator = new Replicator (Bus, RestClient, new FakeClusterMembershipProvider(ClusterMembers));
 		}
 
 		protected void HandleMessage(ReminderMessage.Schedule replicateMe)
@@ -75,10 +82,10 @@ namespace ReminderService.Core.Tests.Clustering
 			);
 		}
 
-		public void WithReplicatorFactory(Func<Replicator> replicatorFactory)
-		{
-			ReplicatorFactory = replicatorFactory;
-		}
+//		public void WithReplicatorFactory(Func<Replicator> replicatorFactory)
+//		{
+//			ReplicatorFactory = replicatorFactory;
+//		}
 
 		public void WithRequestHandler(Action<IRestRequest, Action<IRestResponse, RestRequestAsyncHandle>> requestHandler)
 		{
@@ -97,6 +104,11 @@ namespace ReminderService.Core.Tests.Clustering
 				RestResponses = new List<IRestResponse> ();
 
 			RestResponses.Add (fakeRestResponse);
+		}
+
+		public void WithClusterMembers(List<Uri> clusterMembers)
+		{
+			ClusterMembers = clusterMembers;
 		}
 	}
 }

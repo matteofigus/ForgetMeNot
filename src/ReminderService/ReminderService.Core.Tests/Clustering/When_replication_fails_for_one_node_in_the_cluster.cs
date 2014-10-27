@@ -13,11 +13,10 @@ namespace ReminderService.Core.Tests.Clustering
 	public class When_replication_fails_for_one_node_in_the_cluster : Given_a_Replicator
 	{
 		private Guid _reminderId;
-		private List<Uri> _nodesInCluster;
 
 		public When_replication_fails_for_one_node_in_the_cluster ()
 		{
-			_nodesInCluster = new List<Uri>{
+			var nodesInCluster = new List<Uri>{
 				new Uri("http://host1:8080/reminders", UriKind.Absolute),
 				new Uri("http://host2:8080/reminders", UriKind.Absolute),
 			};
@@ -34,7 +33,7 @@ namespace ReminderService.Core.Tests.Clustering
 			};
 
 			var requestCount = 0;
-			WithReplicatorFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
+			WithClusterMembers (nodesInCluster);
 			WithRequestHandler ((request, callback) => {
 				callback(responses[requestCount], new RestRequestAsyncHandle());
 				requestCount++;
@@ -54,7 +53,7 @@ namespace ReminderService.Core.Tests.Clustering
 		public void Then_the_replicator_should_have_attempted_to_contact_each_node()
 		{
 			Assert.AreEqual (2, RestClient.Requests.Count);
-			foreach (var node in _nodesInCluster) {
+			foreach (var node in ClusterMembers) {
 				Assert.IsTrue (RestClient.Requests.Exists(r => r.Resource == node.AbsolutePath));
 			}
 		}

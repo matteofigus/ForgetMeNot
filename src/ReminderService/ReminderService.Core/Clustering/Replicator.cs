@@ -11,37 +11,29 @@ using System.Linq;
 using System.Reactive.Linq;
 using log4net;
 using ReminderService.Clustering;
+using ReminderService.Common.Interfaces;
 
 namespace ReminderService.Core.Clustering
 {
 	public class Replicator : 
-		IConsume<ReminderMessage.Schedule>,
-		IConsume<ClusterMessage.MembershipUpdate>
+		IConsume<ReminderMessage.Schedule>
 	{
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Replicator));
 		private readonly object _lockObject = new object ();
 		private const int TimeoutMs = 1000;
 		private readonly ISendMessages _bus;
 		private readonly IRestClient _restClient;
-		private readonly List<Uri> _otherNodesInCluster;
+		private readonly IClusterMembershipProvider _clusterMembershipProvider;
 
-		public Replicator (ISendMessages bus, IRestClient restClient, IEnumerable<Uri> otherNodes)
+		public Replicator (ISendMessages bus, IRestClient restClient, IClusterMembershipProvider membershipProvider)
 		{
 			Ensure.NotNull (bus, "bus");
 			Ensure.NotNull (restClient, "restClient");
-			Ensure.NotNull (otherNodes, "otherNodes");
+			Ensure.NotNull (membershipProvider, "membershipProvider");
 
 			_bus = bus;
 			_restClient = restClient;
-			_otherNodesInCluster = new List<Uri> (otherNodes);
-		}
-
-		public void Handle(ClusterMessage.MembershipUpdate update)
-		{
-			lock (_lockObject) {
-				_otherNodesInCluster.Clear ();
-				_otherNodesInCluster.AddRange (update.NewMembershipList);
-			}
+			_clusterMembershipProvider = membershipProvider;
 		}
 
 		public void Handle(ReminderMessage.Schedule msg)
@@ -52,7 +44,8 @@ namespace ReminderService.Core.Clustering
 			// we have created a stream of task results (IRestResponse) and results will be pushed as each Task completes
 			// subscribe to the completed responses and check the state of each response to make sure we replicated the message.
 			lock (_lockObject) {
-				_otherNodesInCluster
+				_clusterMembershipProvider
+				.NodesInCluster
 				.Select (uri => SendToNode (msg, uri))
 				.ToObservable ()
 				.Merge ()

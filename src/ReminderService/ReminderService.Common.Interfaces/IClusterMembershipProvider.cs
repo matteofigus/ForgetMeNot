@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReminderService.Clustering
+namespace ReminderService.Common.Interfaces
 {
-	public interface IClusterMembersProvider
+	public interface IClusterMembershipProvider
 	{
 		List<Uri> NodesInCluster { get; }
 	}

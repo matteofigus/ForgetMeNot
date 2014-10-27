@@ -133,9 +133,13 @@
       <Project>{510F1AD2-59F7-4C54-B330-DFE328BE555C}</Project>
       <Name>ReminderService.Router.MessageInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReminderService.Clustering\ReminderService.Clustering.csproj">
+    <ProjectReference Include="..\ReminderService.Common.Interfaces\ReminderService.Common.Interfaces.csproj">
+      <Project>{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}</Project>
+      <Name>ReminderService.Common.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Clustering\ReminderService.Clustering.OTDiscovery.csproj">
       <Project>{F18CBB46-C3C6-4578-8657-A377DC440770}</Project>
-      <Name>ReminderService.Clustering</Name>
+      <Name>ReminderService.Clustering.OTDiscovery</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

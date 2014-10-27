@@ -33,7 +33,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Hosting.Nan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgetMeNot.TestClient.Http", "ForgetMeNot.TestClient\ForgetMeNot.TestClient.Http.csproj", "{A208F8DD-05B8-4C36-B204-B4F542BA7091}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Clustering", "ReminderService.Clustering\ReminderService.Clustering.csproj", "{F18CBB46-C3C6-4578-8657-A377DC440770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Clustering.OTDiscovery", "ReminderService.Clustering\ReminderService.Clustering.OTDiscovery.csproj", "{F18CBB46-C3C6-4578-8657-A377DC440770}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Common.Interfaces", "ReminderService.Common.Interfaces\ReminderService.Common.Interfaces.csproj", "{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderService.Clustering.OTDiscovery.Tests", "ReminderService.Clustering.OTDiscovery.Tests\ReminderService.Clustering.OTDiscovery.Tests.csproj", "{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB9D2EE-3C0E-4C6F-A10C-39786D486BF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{510F1AD2-59F7-4C54-B330-DFE328BE555C}.Release|Any CPU.ActiveCfg = Release|Any CPU

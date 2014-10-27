@@ -118,7 +118,7 @@
     <Compile Include="Clustering\Given_a_replicator.cs" />
     <Compile Include="Clustering\When_replication_throws_an_exception.cs" />
     <Compile Include="Clustering\When_replication_fails_for_one_node_in_the_cluster.cs" />
-    <Compile Include="Clustering\When_cluster_membership_changes.cs" />
+    <Compile Include="Clustering\FakeClusterMembershipProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -148,6 +148,10 @@
     <ProjectReference Include="..\ReminderService.Test.Common\ReminderService.Test.Common.csproj">
       <Project>{6096A7F3-7A97-48AF-B816-77BAEAF143E1}</Project>
       <Name>ReminderService.Test.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReminderService.Common.Interfaces\ReminderService.Common.Interfaces.csproj">
+      <Project>{0748B43E-6DCA-4DB4-86AC-26C861FFC0A1}</Project>
+      <Name>ReminderService.Common.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

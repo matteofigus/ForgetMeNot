@@ -13,16 +13,15 @@ namespace ReminderService.Core.Tests.Clustering
 	public class When_replication_throws_an_exception : Given_a_Replicator
 	{
 		private Guid _reminderId;
-		private List<Uri> _nodesInCluster;
 
 		public When_replication_throws_an_exception ()
 		{
-			_nodesInCluster = new List<Uri>{
+			var nodesInCluster = new List<Uri>{
 				new Uri("http://host1:8080/reminders", UriKind.Absolute),
 				new Uri("http://host2:8080/reminders", UriKind.Absolute),
 			};
 
-			WithReplicatorFactory (() => new Replicator (Bus, RestClient, _nodesInCluster));
+			WithClusterMembers (nodesInCluster);
 			WithRequestHandler ((IRestRequest, callback) => {
 				throw new Exception();
 			});
@@ -42,7 +41,7 @@ namespace ReminderService.Core.Tests.Clustering
 		public void Then_the_replicator_should_have_attempted_to_contact_each_node()
 		{
 			Assert.AreEqual (1, RestClient.Requests.Count);
-			foreach (var node in _nodesInCluster) {
+			foreach (var node in ClusterMembers) {
 				Assert.IsTrue (RestClient.Requests.Exists(r => r.Resource == node.AbsolutePath));
 			}
 		}
