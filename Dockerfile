@@ -1,10 +1,7 @@
-FROM seif/mono 
-RUN apt-get update
-RUN apt-get install -y curl mono-devel nuget
+FROM rmacdonaldsmith/docker-debian-mono-devel
+RUN apt-get install -y curl
 WORKDIR /tmp
 ENV EnableNuGetPackageRestore true
-#this imports some required ssl keys http://stackoverflow.com/questions/10781279/c-sharp-the-authentication-or-decryption-has-failed-error-while-using-twitt
-RUN mozroots --import --ask-remove 
 ADD . /app
 WORKDIR /app
 RUN nuget sources Add -Name myget-opentable-dev -Source https://opentable.myget.org/F/dev/ -UserName $MYGET_USERNAME -Password $MYGET_PASSWORD -StorePasswordInClearText
