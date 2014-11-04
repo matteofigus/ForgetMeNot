@@ -4,9 +4,7 @@ WORKDIR /tmp
 ENV EnableNuGetPackageRestore true
 ADD . /app
 WORKDIR /app
-ENV MYGET_USERNAME $MYGET_USERNAME
-ENV MYGET_PASSWORD $MYGET_PASSWORD
-RUN nuget sources Add -Name myget-opentable-dev -Source https://opentable.myget.org/F/dev/ -UserName $MYGET_USERNAME -Password $MYGET_PASSWORD -StorePasswordInClearText
+RUN . /app/auth.sh && nuget sources Add -Name myget-opentable-dev -Source https://opentable.myget.org/F/dev/ -UserName $MYGET_USERNAME -Password $MYGET_PASSWORD -StorePasswordInClearText
 RUN nuget restore src/ReminderService/ReminderService.sln -Source https://opentable.myget.org/F/dev/ -Source https://www.nuget.org/api/v2/
 RUN xbuild src/ReminderService/ReminderService.sln
 EXPOSE 8080
