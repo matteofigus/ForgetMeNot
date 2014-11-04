@@ -3,6 +3,23 @@ ForgetMeNot
 
 Reminder / timeout service to aid coordintation of workflow in a distributed system
 
+Building:
+---------
+
+Create a file called auth.sh with the contents of
+
+```
+  #!/bin/bash
+  
+  export MYGET_USERNAME=#your myget username
+  exprot MYGET_PASSWORD=#your myget password
+```
+
+then run
+`docker build .`
+
+
+
 
 Request a reminder:
 -------------------
