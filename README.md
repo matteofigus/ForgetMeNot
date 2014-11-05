@@ -12,7 +12,7 @@ Create a file called auth.sh with the contents of
   #!/bin/bash
   
   export MYGET_USERNAME=#your myget username
-  exprot MYGET_PASSWORD=#your myget password
+  export MYGET_PASSWORD=#your myget password
 ```
 
 then run
