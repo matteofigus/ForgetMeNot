@@ -67,6 +67,7 @@ namespace ReminderService.Core.Clustering
 		{
 			var request = new RestRequest (node, Method.POST)
 			{ RequestFormat = DataFormat.Json }
+				.AddParameter ("replicated", "true", ParameterType.QueryString)
 				.AddParameter ("application/json", msg, ParameterType.RequestBody);
 
 			return _restClient.ExecutePostTaskAsync (request);

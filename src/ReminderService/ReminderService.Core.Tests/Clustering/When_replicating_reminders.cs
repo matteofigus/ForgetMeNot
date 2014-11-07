@@ -46,6 +46,14 @@ namespace ReminderService.Core.Tests.Clustering
 				Assert.IsTrue (RestClient.Requests.Exists(r => r.Resource == node.AbsolutePath));
 			}
 		}
+
+		[Test]
+		public void Then_replicating_request_specifies_the_url_querystring()
+		{
+			RestClient.Requests.Exists (req => 
+				req.Parameters.Any(parameter => 
+					parameter.Type == ParameterType.QueryString && parameter.Name == "replicated" && (string)parameter.Value == "true"));
+		}
 	}
 }
 
