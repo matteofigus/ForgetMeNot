@@ -37,9 +37,7 @@ namespace ReminderService.API.HTTP.Modules
                 var response = bus.Send(request);
 
 				if(response.HasValue)
-					return Response.AsJson(response.Value);
-
-				//serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+					return Response.AsJson(new ReminderStatus(response.Value.Reminder, response.Value.Status.ToString(), response.Value.RedeliveryAttempts));
 
 				return Response.AsJson(
 					ErrorResponse.FromMessage(
@@ -59,10 +57,10 @@ namespace ReminderService.API.HTTP.Modules
 				}
 
 				var schedule = model.BuildScheduleMessage(Guid.NewGuid());
-				//model.ReminderId = Guid.NewGuid();
-
-				//errors are handled by a request level error handler, no need to try-catch here...
-				_bus.Send(schedule);
+				if(parameters.replicated == "true")
+					_bus.Send(new ClusterMessage.Replicate<ReminderMessage.Schedule>(schedule));
+				else
+					_bus.Send(schedule);
 
 				var scheduleRes = new ScheduledResponse{ReminderId = schedule.ReminderId};
 				var res = Response.AsJson(
@@ -83,9 +81,13 @@ namespace ReminderService.API.HTTP.Modules
 						HttpStatusCode.BadRequest);
 				}
 
-				//do we need to make sure that the reminderId exists and fail if it doesn't?
-				//or can we just ignore the fact that the reminder does not exist?
-				_bus.Send(new ReminderMessage.Cancel(reminderId));
+				var cancel = new ReminderMessage.Cancel(reminderId);
+				if(parameters.replicated == "true")
+					_bus.Send(new ClusterMessage.Replicate<ReminderMessage.Cancel>(cancel));
+				else
+					//do we need to make sure that the reminderId exists and fail if it doesn't?
+					//or can we just ignore the fact that the reminder does not exist?
+					_bus.Send(cancel);
 
 				return HttpStatusCode.NoContent;
 			};

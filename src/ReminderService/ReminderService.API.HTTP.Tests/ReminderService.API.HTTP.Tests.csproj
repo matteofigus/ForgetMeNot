@@ -124,6 +124,8 @@
     <Compile Include="ServiceMonitoring\When_there_are_no_route_errors.cs" />
     <Compile Include="When_scheduling_an_http_reminder.cs" />
     <Compile Include="When_scheduling_a_rabbitmq_reminder.cs" />
+    <Compile Include="When_replicating_a_reminder.cs" />
+    <Compile Include="When_replicating_a_cancellation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

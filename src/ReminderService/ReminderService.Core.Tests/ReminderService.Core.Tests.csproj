@@ -119,6 +119,7 @@
     <Compile Include="Clustering\When_replication_throws_an_exception.cs" />
     <Compile Include="Clustering\When_replication_fails_for_one_node_in_the_cluster.cs" />
     <Compile Include="Clustering\FakeClusterMembershipProvider.cs" />
+    <Compile Include="Clustering\When_replicating_cancellations.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">

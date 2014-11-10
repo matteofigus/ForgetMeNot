@@ -127,6 +127,7 @@
     <Compile Include="Monitoring\MonitoringMediator.cs" />
     <Compile Include="Monitoring\IPushEvents.cs" />
     <Compile Include="Monitoring\MonitorFactory.cs" />
+    <Compile Include="Models\ReminderStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

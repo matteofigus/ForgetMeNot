@@ -45,6 +45,20 @@ namespace ReminderService.Messages
 				NewMembershipList = members;
 			}
 		}
+
+		public class Replicate<T> : IMessage where T : class, IMessage
+		{
+			public T InnerMessage {
+				get;
+				set; 
+			}
+
+			public Replicate (T inner)
+			{
+				Ensure.NotNull(inner, "inner");
+				InnerMessage = inner;
+			}
+		}
 	}
 }
 

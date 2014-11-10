@@ -84,6 +84,7 @@ namespace ReminderService.API.HTTP.Tests
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
 			_bus.Subscribe (scheduler as IConsume<ReminderMessage.Rescheduled>);
+			_bus.Subscribe (scheduler as IConsume<ClusterMessage.Replicate<ReminderMessage.Schedule>>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.Start>);
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 			_bus.Subscribe (scheduler as IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>);
@@ -91,6 +92,7 @@ namespace ReminderService.API.HTTP.Tests
 			var cancellationFilter = GetCancellationsHandler ();
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Cancel>);
+			_bus.Subscribe (cancellationFilter as IConsume<ClusterMessage.Replicate<ReminderMessage.Cancel>>);
 
 			var startupManager = GetStartupManager ();
 			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);

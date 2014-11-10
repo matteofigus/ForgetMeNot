@@ -6,6 +6,7 @@ namespace ReminderService.Common
 {
 	/// <summary>
 	/// wraps a value, representing that it can either have a value, or can have no value.
+	/// Implements IEnumerable<T> to make this more monadic!
 	/// </summary>
 	/// <typeparam name="T">The type of the value that Maybe will wrap.</typeparam>
 	public struct Maybe<T> : IEnumerable<T>, IEquatable<Maybe<T>>

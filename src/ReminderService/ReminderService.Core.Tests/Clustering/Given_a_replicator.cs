@@ -55,11 +55,15 @@ namespace ReminderService.Core.Tests.Clustering
 		{
 			Bus = new FakeBus (msg => _messagesReceivedOnBus.Add(msg));
 			RestClient = _constructWithHandler ? new FakeRestClient(RequestHandler) : new FakeRestClient (RestResponses);
-			//_replicator = ReplicatorFactory ();
 			_replicator = new Replicator (Bus, RestClient, new FakeClusterMembershipProvider(ClusterMembers));
 		}
 
 		protected void HandleMessage(ReminderMessage.Schedule replicateMe)
+		{
+			_replicator.Handle (replicateMe);
+		}
+
+		protected void HandleMessage(ReminderMessage.Cancel replicateMe)
 		{
 			_replicator.Handle (replicateMe);
 		}

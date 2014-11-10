@@ -51,15 +51,12 @@ namespace ReminderService.API.HTTP.Tests
 		[Test]
 		public void Then_the_response_contains_the_expected_reminder()
 		{
-			//TOOD: Encoding the payload should be totally transparent to the client; it is an internal concern of the service
-			//the client should send payload as json string, and should get payload back as json string -> 
-			//client should not know about UTF8 encoding
-			//need to change this test when I fix the encoding
+			//this fails the test because it deserializes the payload (a byte[]) as a base64 encoded string. Hence, I just stringify the body and check for certain values
+			//var reminderStatus = Response.Body.DeserializeJson<ReminderStatus> ();
 			var body = Response.Body.AsString ();
-			//var reminderId = Response.Body.DeserializeJson<RequestResponse.CurrentReminderState> ().Reminder.ReminderId;
-			//_getResponse = Response.Body.DeserializeJson<RequestResponse.CurrentReminderState> ();
 			Assert.IsNotNullOrEmpty (body);
 			Assert.IsTrue (body.Contains(_reminderId.ToString()));
+			Assert.IsTrue (body.Contains("Scheduled"));
 		}
 	}
 }

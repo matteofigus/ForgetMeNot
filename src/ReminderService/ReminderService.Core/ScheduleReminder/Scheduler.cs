@@ -11,9 +11,10 @@ namespace ReminderService.Core.ScheduleReminder
 	public class Scheduler : 
 		IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>, 
 		IConsume<ReminderMessage.Rescheduled>,
+		IConsume<ClusterMessage.Replicate<ReminderMessage.Schedule>>,
 		IConsume<SystemMessage.Start>, 
 		IConsume<SystemMessage.ShutDown>,
-	IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>,
+		IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>,
 		IDisposable
 	{
 		private readonly static ILog Logger = LogManager.GetLogger(typeof(Scheduler));
@@ -50,11 +51,21 @@ namespace ReminderService.Core.ScheduleReminder
 			Stop ();
 		}
 
+		public void Handle (ClusterMessage.Replicate<ReminderMessage.Schedule> replicated)
+		{
+			ScheduleReminder (replicated.InnerMessage);
+		}
+
 		public void Handle (Envelopes.Journaled<ReminderMessage.Schedule> journaled)
 		{
-			Logger.DebugFormat ("Scheduling reminder [{0}]", journaled.Message.ReminderId);
+			ScheduleReminder (journaled.Message);
+		}
+
+		private void ScheduleReminder(ReminderMessage.Schedule reminder)
+		{
+			Logger.DebugFormat ("Scheduling reminder [{0}]", reminder.ReminderId);
 			lock (_locker) {
-				_pq.Insert (journaled.Message);
+				_pq.Insert (reminder);
 				SetTimeout ();
 			}
 		}

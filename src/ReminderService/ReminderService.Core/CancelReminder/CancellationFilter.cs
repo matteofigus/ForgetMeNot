@@ -10,7 +10,8 @@ namespace ReminderService.Core
 {
 	public class CancellationFilter : 
 		IConsume<ReminderMessage.Cancel>, 
-		IConsume<ReminderMessage.Due>
+		IConsume<ReminderMessage.Due>,
+		IConsume<ClusterMessage.Replicate<ReminderMessage.Cancel>>
 	{
 		private readonly HashSet<ReminderMessage.Cancel> _cancellations;
 		private readonly IConsume<ReminderMessage.Due> _innerHandler;
@@ -26,6 +27,11 @@ namespace ReminderService.Core
 			Ensure.NotNull (innerHandler, "innerHandler");
 
 			_innerHandler = innerHandler;
+		}
+
+		public void Handle(ClusterMessage.Replicate<ReminderMessage.Cancel> replicate)
+		{
+			Handle (replicate.InnerMessage);
 		}
 
 		public void Handle (ReminderMessage.Cancel msg)

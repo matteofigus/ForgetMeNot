@@ -12,11 +12,13 @@ using System.Reactive.Linq;
 using log4net;
 using ReminderService.Clustering;
 using ReminderService.Common.Interfaces;
+using ReminderService.Router.MessageInterfaces;
 
 namespace ReminderService.Core.Clustering
 {
 	public class Replicator : 
-		IConsume<ReminderMessage.Schedule>
+		IConsume<ReminderMessage.Schedule>,
+		IConsume<ReminderMessage.Cancel>
 	{
 		private static readonly ILog Logger = LogManager.GetLogger(typeof(Replicator));
 		private readonly object _lockObject = new object ();
@@ -36,7 +38,17 @@ namespace ReminderService.Core.Clustering
 			_clusterMembershipProvider = membershipProvider;
 		}
 
-		public void Handle(ReminderMessage.Schedule msg)
+		public void Handle(ReminderMessage.Schedule schedule)
+		{
+			ReplicateToCluster (schedule);
+		}
+
+		public void Handle(ReminderMessage.Cancel cancel)
+		{
+			ReplicateToCluster (cancel);
+		}
+
+		private void ReplicateToCluster<TMessage>(TMessage msg) where TMessage : class, ReminderMessage.IReminder
 		{
 			// iterate the Uri of each other node in the cluster, 
 			// call SendToNode that returns a Task, 
@@ -45,25 +57,25 @@ namespace ReminderService.Core.Clustering
 			// subscribe to the completed responses and check the state of each response to make sure we replicated the message.
 			lock (_lockObject) {
 				_clusterMembershipProvider
-				.NodesInCluster
-				.Select (uri => SendToNode (msg, uri))
-				.ToObservable ()
-				.Merge ()
-				.Subscribe (
-					response => {
-						if (response.ResponseStatus == ResponseStatus.Completed) {
-							if (response.StatusCode != HttpStatusCode.Created)
-								OnHttpError (msg, response);
-						} else
-							OnTransportError (msg, response);
-					},
-					exception => OnException (msg, exception),
-					() => OnReplicated (msg)
-				);
+					.NodesInCluster
+					.Select (uri => SendToNode (msg, uri))
+					.ToObservable ()
+					.Merge ()
+					.Subscribe (
+						response => {
+							if (response.ResponseStatus == ResponseStatus.Completed) {
+								if (response.StatusCode != HttpStatusCode.Created)
+									OnHttpError (msg, response);
+							} else
+								OnTransportError (msg, response);
+						},
+						exception => OnException (msg, exception),
+						() => OnReplicated (msg)
+					);
 			}
 		}
 
-		private Task<IRestResponse> SendToNode(ReminderMessage.Schedule msg, Uri node)
+		private Task<IRestResponse> SendToNode<TMessage>(TMessage msg, Uri node)
 		{
 			var request = new RestRequest (node, Method.POST)
 			{ RequestFormat = DataFormat.Json }
@@ -73,26 +85,26 @@ namespace ReminderService.Core.Clustering
 			return _restClient.ExecutePostTaskAsync (request);
 		}
 
-		private void OnReplicated(ReminderMessage.Schedule msg)
+		private void OnReplicated(ReminderMessage.IReminder msg)
 		{
 			Logger.InfoFormat ("Reminder [{0}] replicated.", msg.ReminderId);
 		}
 
-		private void OnTransportError(ReminderMessage.Schedule msg, IRestResponse response)
+		private void OnTransportError(ReminderMessage.IReminder msg, IRestResponse response)
 		{
 			var message = string.Format ("There was a transport level exception while attempting to replicate a message to the node [{0}] in the cluster.", response.ErrorMessage, response.ErrorException);
 			Logger.Error (message);
 			_bus.Send (new ClusterMessage.ReplicationFailed(message));
 		}
 
-		private void OnHttpError(ReminderMessage.Schedule msg, IRestResponse response)
+		private void OnHttpError(ReminderMessage.IReminder msg, IRestResponse response)
 		{
 			var message = string.Format ("Received an unexpected HTTPStatusCode [{0} - {1}] while attempting to replicate reminder [{2}] to the other nodes in the cluster.", response.StatusCode, response.StatusDescription, msg.ReminderId);
 			Logger.Error (message);
 			_bus.Send (new ClusterMessage.ReplicationFailed(message));
 		}
 
-		private void OnException(ReminderMessage.Schedule msg, Exception ex)
+		private void OnException(ReminderMessage.IReminder msg, Exception ex)
 		{
 			var message = string.Format("An exception was thrown while attempting to replicate the reminder [{0}] to other nodes in the cluster.", msg.ReminderId);
 			Logger.Error (message, ex);

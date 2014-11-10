@@ -88,9 +88,24 @@ namespace ReminderService.API.HTTP.Tests
 			});
 		}
 
+		protected void POST(string url, object message, string queryKey, string queryValue)
+		{
+			_response = _service.Post(url, with => {
+				with.Query(queryKey, queryValue);
+				with.JsonBody(message);
+			});
+		}
+
 		protected void DELETE(string url, Guid reminderId)
 		{
 			_response = _service.Delete(url + reminderId.ToString());
+		}
+
+		protected void DELETE(string url, Guid reminderId, string queryKey, string queryValue)
+		{
+			_response = _service.Delete(url + reminderId.ToString(), with => {
+				with.Query(queryKey, queryValue);
+			});
 		}
 
 		protected void SetHttpClientResponse(IRestResponse response)

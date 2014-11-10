@@ -1,20 +1,19 @@
 ﻿using System;
 using NUnit.Framework;
-using ReminderService.Messages;
 using System.Collections.Generic;
-using ReminderService.Core.Clustering;
-using System.Linq;
 using RestSharp;
 using System.Net;
+using ReminderService.Messages;
+using System.Linq;
 
 namespace ReminderService.Core.Tests.Clustering
 {
 	[TestFixture]
-	public class When_replicating_reminders : Given_a_Replicator
+	public class When_replicating_cancellations : Given_a_Replicator
 	{
 		private Guid _reminderId;
 
-		public When_replicating_reminders()
+		public When_replicating_cancellations()
 		{
 			var nodesInCluster = new List<Uri>{
 				new Uri("http://host1:8080/reminders", UriKind.Absolute),
@@ -29,13 +28,13 @@ namespace ReminderService.Core.Tests.Clustering
 		}
 
 		[TestFixtureSetUp]
-		public void When_receive_a_reminder()
+		public void When_receive_a_cancellation()
 		{
 			_reminderId = Guid.NewGuid ();
-			var reminder = BuildReminder (_reminderId);
+			var cancellation = new ReminderMessage.Cancel (_reminderId);
 
 			Assert.AreEqual (0, MessagesReceivedOnTheBus.Count);
-			HandleMessage (reminder);
+			HandleMessage (cancellation);
 		}
 
 		[Test]
