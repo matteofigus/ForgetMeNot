@@ -105,6 +105,7 @@
     <Compile Include="Clustering\Replicator.cs" />
     <Compile Include="Clustering\MessageReplicatingDecorator.cs" />
     <Compile Include="DeliverReminder\DeliveryManager.cs" />
+    <Compile Include="DeliverReminder\PostgresDeliveryStateManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

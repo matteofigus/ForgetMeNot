@@ -12,6 +12,8 @@ namespace ReminderService.Core
 
 		IDbCommand GetUndeliveredRemindersCommand ();
 
+		IDbCommand GetDueReminderStateCommand (Guid reminderId, string serviceInstanceId);
+
 		IDbCommand BuildWriteCommand<TMessage> (TMessage message) where TMessage : IMessage;
 	}
 }

@@ -13,6 +13,7 @@ namespace ReminderService.Core.Persistence.Postgres
 		const string GetCurrentReminders_CommandText = "SELECT * FROM public.reminders WHERE sent_time IS NULL AND cancelled = FALSE AND undelivered = FALSE AND undeliverable = FALSE";
 		const string GetCancellations_CommandText = "SELECT reminder_id FROM public.reminders WHERE cancelled = TRUE AND due_time >= '{0}'";
 		const string GetUndeliveredReminders_CommandText = "SELECT * FROM public.reminders WHERE undelivered = TRUE AND undeliverable = FALSE";
+		const string GetDueReminderState_CommandText = "SELECT WITH ROW LOCK * FROM public.reminders WHERE reminderId = '{0}' AND serviceInstanceId NOT NULL";
 		const string WriteCancellation_CommandText = "UPDATE public.reminders SET cancelled = TRUE WHERE reminder_id = '{0}'";
 		const string WriteScheduleReminder_CommandText = "INSERT INTO public.reminders VALUES ('{0}', '{1}', '{2}', NULL, FALSE, NULL, FALSE, FALSE, 1, '{3}')";
 		const string WriteSentReminder_CommandText = "UPDATE public.reminders SET sent_time = '{0}' WHERE reminder_id = '{1}'";
@@ -45,6 +46,11 @@ namespace ReminderService.Core.Persistence.Postgres
 		public IDbCommand GetUndeliveredRemindersCommand ()
 		{
 			return new NpgsqlCommand (GetUndeliveredReminders_CommandText);
+		}
+
+		public IDbCommand GetDueReminderStateCommand (Guid reminderId, string serviceInstanceId)
+		{
+			return new NpgsqlCommand (string.Format(GetDueReminderState_CommandText, reminderId));
 		}
 
 		public IDbCommand BuildWriteCommand<T> (T message) where T : IMessage
