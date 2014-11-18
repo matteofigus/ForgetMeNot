@@ -7,11 +7,15 @@ DROP DATABASE IF EXISTS forgetmenot;
 DROP ROLE IF EXISTS forgetmenot_user;
 
 -- Create the user
-CREATE ROLE forgetmenot_user WITH CREATEDB CREATEUSER LOGIN ENCRYPTED PASSWORD 'forgetmenot_user';
+CREATE ROLE forgetmenot_user WITH LOGIN ENCRYPTED PASSWORD 'forgetmenot_user';
+
+--give the user dstryker the same permissions for forgetmenot_user
+GRANT forgetmenot_user TO dstryker;
 
 -- Create the database
 CREATE DATABASE forgetmenot WITH OWNER forgetmenot_user;
 \connect forgetmenot
+SET ROLE forgetmenot_user;
 
 -- Create the table
 DROP TABLE IF EXISTS reminders;
@@ -27,6 +31,3 @@ CREATE TABLE reminders (
   message_version 		integer NOT NULL,
   time_stamp	  		timestamp with time zone
 );
-
--- Give the user full access to the table
-GRANT ALL PRIVILEGES ON TABLE reminders TO forgetmenot_user;
