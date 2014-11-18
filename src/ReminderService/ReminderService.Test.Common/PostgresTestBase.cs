@@ -7,7 +7,7 @@ namespace ReminderService.Test.Common
 {
 	public abstract class PostgresTestBase
 	{
-		protected const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
+		protected const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=forgetmenot;User Id=forgetmenot_user;Password=forgetmenot_user;";
 
 		protected void AssertReminderExists(Guid reminderId)
 		{
