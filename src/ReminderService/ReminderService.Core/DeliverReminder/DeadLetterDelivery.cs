@@ -28,6 +28,9 @@ namespace ReminderService.Core.DeliverReminder
 
 		public void Handle (ReminderMessage.Undeliverable undeliverable)
 		{
+			Logger.WarnFormat ("Reminder {0} was undelivereable. This log message is a stand-in for the dead-letter queue until we can get the dead-letter queue setup.");
+			return;
+
 			//check that the transport scheme of the url matches the transport of the delivery interface instance??
 			_sender.Send(undeliverable.Reminder, _deadLetterUrl, OnSuccessfulDelivery, OnFailedDelivery);
 			_bus.Send(new ReminderMessage.SentToDeadLetter(undeliverable.ReminderId, SystemTime.UtcNow()));
