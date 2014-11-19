@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="ReminderUndeliverableException.cs" />
     <Compile Include="TimeExtensions.cs" />
     <Compile Include="Maybe.cs" />
+    <Compile Include="OTEnvironmentalConfigurationManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

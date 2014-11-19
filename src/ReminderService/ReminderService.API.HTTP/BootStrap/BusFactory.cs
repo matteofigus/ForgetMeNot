@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
+using ReminderService.Common;
 using ReminderService.Core;
 using ReminderService.Core.DeliverReminder;
 using ReminderService.Core.Persistence;
@@ -24,8 +25,11 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		public IBus Build()
 		{
-			ConnectionString = ConfigurationManager.ConnectionStrings ["postgres"].ConnectionString;
-			DeadLetterUrl = ConfigurationManager.ConnectionStrings ["deadletterqueue"].ConnectionString;
+			//ConnectionString = ConfigurationManager.ConnectionStrings ["postgres"].ConnectionString;
+			//DeadLetterUrl = ConfigurationManager.ConnectionStrings ["deadletterqueue"].ConnectionString;
+
+			ConnectionString = OTEnvironmentalConfigManager.ConnectionStrings ["postgres"].ConnectionString;
+			DeadLetterUrl = OTEnvironmentalConfigManager.ConnectionStrings ["deadletterqueue"].ConnectionString;
 
 			_bus = new Bus ();
 
@@ -132,8 +136,9 @@ namespace ReminderService.API.HTTP.BootStrap
 
 		private Dictionary<string,string> GetRabbitMqSettings()
 		{
-			var rabbitMqSettings = (NameValueCollection)ConfigurationManager.GetSection("rabbitMqSettings");
-			return rabbitMqSettings.AllKeys.ToDictionary(key => key, key => rabbitMqSettings[key]);
+			var section = (AppSettingsSection)OTEnvironmentalConfigManager.GetSection("rabbitMqSettings");
+			var rabbitMqSettings = section.Settings;
+			return rabbitMqSettings.AllKeys.ToDictionary(key => key, key => rabbitMqSettings[key].Value);
 		}
 	}
 }

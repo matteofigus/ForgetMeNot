@@ -19,6 +19,11 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <Commandlineparameters>--without-discovery</Commandlineparameters>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="OT_ENV" value="dev" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -48,6 +53,7 @@
     <Reference Include="OpenTable.Services.Components.DiscoveryClient">
       <HintPath>..\packages\OpenTable.Services.Components.DiscoveryClient.1.0.13\lib\net40\OpenTable.Services.Components.DiscoveryClient.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs">
@@ -59,11 +65,19 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
+    <None Include="config\ci\app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.API.HTTP\ReminderService.API.HTTP.csproj">
       <Project>{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}</Project>
       <Name>ReminderService.API.HTTP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="config\" />
+    <Folder Include="config\pp\" />
+    <Folder Include="config\prod\" />
   </ItemGroup>
 </Project>

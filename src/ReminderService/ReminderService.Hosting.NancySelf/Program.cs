@@ -4,6 +4,10 @@ using OpenTable.Services.Components.DiscoveryClient;
 using ReminderService.API.HTTP.BootStrap;
 using log4net;
 using log4net.Config;
+using System.Configuration;
+using System.Reflection;
+using System.Linq;
+using System.IO;
 
 namespace ReminderService.Hosting.NancySelf
 {
