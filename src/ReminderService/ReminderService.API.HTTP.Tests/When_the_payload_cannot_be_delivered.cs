@@ -65,7 +65,7 @@ namespace ReminderService.API.HTTP.Tests
 		}
 
 		[Test]
-		[Ignore("Temporay ignore until we have a dead letter queue configured in QA and PROD. For now undelivered messages are just logged.")]
+		[Ignore("Temporary ignore until we have a dead letter queue configured in QA and PROD. For now undelivered messages are just logged.")]
 		public void should_deliver_to_the_deadletterqueue()
 		{
 			Assert.AreEqual (0, AllInterceptedHttpRequests.Count);
