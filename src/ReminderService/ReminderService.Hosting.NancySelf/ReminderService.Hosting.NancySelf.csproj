@@ -21,7 +21,7 @@
     <Commandlineparameters>--without-discovery</Commandlineparameters>
     <EnvironmentVariables>
       <EnvironmentVariables>
-        <Variable name="OT_ENV" value="dev" />
+        <Variable name="OT_ENV" value="ci" />
       </EnvironmentVariables>
     </EnvironmentVariables>
   </PropertyGroup>
@@ -73,6 +73,10 @@
     <ProjectReference Include="..\ReminderService.API.HTTP\ReminderService.API.HTTP.csproj">
       <Project>{595454FF-7511-4E5B-A8C7-E72A17B8FCDA}</Project>
       <Name>ReminderService.API.HTTP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\ReminderService.Common.csproj">
+      <Project>{D2A0D6A8-7826-4687-AB47-0055D773286B}</Project>
+      <Name>ReminderService.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -8,13 +8,14 @@ using System.Configuration;
 using System.Reflection;
 using System.Linq;
 using System.IO;
+using ReminderService.Common;
 
 namespace ReminderService.Hosting.NancySelf
 {
 	class MainClass
 	{
 		const string ServiceName = "forgetmenot";
-		private static string _hostUri = "http://localhost:8080";
+		private static string _hostUri = "http://localhost:8080"; //TODO: make this a system call to discover the host name
 		private static ILog Logger = LogManager.GetLogger("ForgetMeNot.SelfHosted.Host");
 		private static CSDiscoveryClient _discoveryClient;
 		private static IAnnouncementLease _lease;
@@ -48,7 +49,7 @@ namespace ReminderService.Hosting.NancySelf
 			_lease = _discoveryClient.CreateAnnouncement (
 				new AnnouncementBuilder()
 				.SetServiceType(ServiceName)
-				.SetServiceUri(new Uri(_hostUri)));
+				.SetServiceUri(new Uri(OTEnvironmentalConfigManager.AppSettings["host-uri"].Value)));
 		}
 	}
 }

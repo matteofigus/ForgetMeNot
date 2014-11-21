@@ -87,15 +87,19 @@ namespace ReminderService.API.HTTP.BootStrap
 		{
 			base.ConfigureApplicationContainer (container);
 
-			Logger.Info ("Configuring bus...");
+			Logger.Info ("Configuring the Nancy HTTP API...");
 			var busInstance = (Bus)container.Resolve<IBusFactory> ().Build ();
 			container.Register<IBus, Bus> (busInstance);
 
+			Logger.Debug ("Registereing the CustomJsonSerializer with the IoC container");
 			container.Register(typeof(JsonSerializer), typeof(CustomJsonSerializer));
 
+			Logger.Debug ("Registering the HitTracker");
 			//TODO: get setttings from config
 			var hitTracker = new HitTracker (HitTrackerSettings.Instance);
 			container.Register<HitTracker> (hitTracker);
+
+			Logger.Info ("Done configuring the Nancy Http API");
 		}
 
 		private static Maybe<T> MaybeGetItem<T>(string key, NancyContext context)

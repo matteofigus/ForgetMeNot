@@ -14,11 +14,13 @@ using ReminderService.Messages;
 using ReminderService.Router;
 using OpenTable.Services.Components.RabbitMq;
 using RestSharp;
+using log4net;
 
 namespace ReminderService.API.HTTP.BootStrap
 {
 	public class BusFactory : IBusFactory
 	{
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(BusFactory));
 		private string ConnectionString; //= "Server=127.0.0.1;Port=5432;Database=reminderservice;User Id=reminder_user;Password=reminder_user;";
 		private string DeadLetterUrl; //= "http://deadletter/url";
 		private Bus _bus;
@@ -33,12 +35,15 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			_bus = new Bus ();
 
+			Logger.Info ("Configuring the Bus...");
+			Logger.Info ("Configuring the Journaler");
 			var journaler = GetJournaler ();
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Schedule>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Cancel>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Delivered>);
 			_bus.Subscribe (journaler as IConsume<ReminderMessage.Undeliverable>);
 
+			Logger.Info ("Configuring the Scheduler");
 			var scheduler = GetScheduler ();
 			_bus.Subscribe (scheduler as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
 			_bus.Subscribe (scheduler as IConsume<ReminderMessage.Rescheduled>);
@@ -46,13 +51,16 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe (scheduler as IConsume<SystemMessage.ShutDown>);
 			_bus.Subscribe (scheduler as IHandleQueries<QueryResponse.GetQueueStats, QueryResponse.QueueStats>);
 
+			Logger.Info ("Configuring the Cancellations Handler");
 			var cancellationFilter = GetCancellationsHandler ();
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Due>);
 			_bus.Subscribe (cancellationFilter as IConsume<ReminderMessage.Cancel>);
 
+			Logger.Info ("Configuring the Startup Manager");
 			var startupManager = GetStartupManager ();
 			_bus.Subscribe (startupManager as IConsume<SystemMessage.Start>);
 
+			Logger.Info ("Configuring the CurrentStateOfReminders");
 			var currentReminderState = GetCurrentStateOfReminders ();
 			_bus.Subscribe (currentReminderState);
 			_bus.Subscribe (currentReminderState as IConsume<Envelopes.Journaled<ReminderMessage.Schedule>>);
@@ -61,18 +69,22 @@ namespace ReminderService.API.HTTP.BootStrap
 			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undelivered>);
 			_bus.Subscribe (currentReminderState as IConsume<ReminderMessage.Undeliverable>);
 
+			Logger.Info ("Configuring the Undeliverable Reminders Process Manager");
 			var undeliveredProcessManager = GetUndeliverableRemindersProcessManager ();
 			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Delivered>);
 			_bus.Subscribe (undeliveredProcessManager as IConsume<ReminderMessage.Undelivered>);
 
+			Logger.Info ("Configuring the Dead Letter Delivery");
 			var deadLetterDeliver = GetDeadLetterDelivery ();
 			_bus.Subscribe (deadLetterDeliver as IConsume<ReminderMessage.Undeliverable>);
 
+			Logger.Info ("Configuring the Service Monitor");
 			var serviceMonitor = GetServiceMonitor ();
 			_bus.Subscribe (serviceMonitor as IHandleQueries<QueryResponse.GetServiceMonitorState, QueryResponse.ServiceMonitorState>);
 			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Delivered>);
 			_bus.Subscribe (serviceMonitor as IConsume<ReminderMessage.Undeliverable>);
 
+			Logger.Info ("Done configuring the bus.");
 			return _bus;
 		}
 
