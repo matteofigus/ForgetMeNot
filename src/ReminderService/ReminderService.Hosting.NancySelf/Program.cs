@@ -15,7 +15,7 @@ namespace ReminderService.Hosting.NancySelf
 	class MainClass
 	{
 		const string ServiceName = "forgetmenot";
-		private static string _hostUri = "http://localhost:8080"; //TODO: make this a system call to discover the host name
+		private static string _hostUri;// = "http://localhost:8080"; //TODO: make this a system call to discover the host name
 		private static ILog Logger = LogManager.GetLogger("ForgetMeNot.SelfHosted.Host");
 		private static CSDiscoveryClient _discoveryClient;
 		private static IAnnouncementLease _lease;
@@ -31,6 +31,8 @@ namespace ReminderService.Hosting.NancySelf
 				if (args [0] == "--without-discovery")
 					_useDiscovery = false;
 			}
+
+			_hostUri = OTEnvironmentalConfigManager.AppSettings ["host-uri"].Value;
 
 			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper())) {
 				host.Start ();

@@ -68,6 +68,7 @@ namespace ReminderService.Common
 
 			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
 			var path = Path.Combine(Environment.CurrentDirectory, configPath);
+			Console.WriteLine ("Loading configuration file from: " + path);
 			configMap.ExeConfigFilename = path;
 			return ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 		}
