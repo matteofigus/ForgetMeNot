@@ -10,7 +10,8 @@ namespace ReminderService.Common
 		const string Deploy_Environment 	= "OT_ENV";
 		const string Default_Environment 	= "dev";
 		const string CI_ENV 				= "ci";
-		const string PP_ENV 				= "preprod";
+		const string PP_ENV 				= "pp";
+		const string PROD_ENV 				= "prod";
 
 		private static Configuration _config;
 
@@ -20,8 +21,8 @@ namespace ReminderService.Common
 			_config = LoadConfigForEnvironment (env);
 		}
 
-		public static AppSettingsSection AppSettings {
-			get { return _config.AppSettings; }
+		public static KeyValueConfigurationCollection AppSettings {
+			get { return _config.AppSettings.Settings; }
 		}
 
 		public static ConnectionStringSettingsCollection ConnectionStrings {
@@ -47,18 +48,23 @@ namespace ReminderService.Common
 			string configPath = string.Empty;
 
 			switch (environment) {
-			case ("ci"): 		configPath = "config/ci/app.config"; break;
-			case ("preprod"):	configPath = ""; break;
-			case ("prod"):		configPath = ""; break;
-				//if set to 'dev' then just fall through to the default case
+			case (CI_ENV):
+				configPath = "config/ci/app.config"; 
+				Console.WriteLine ("OT_ENV set to 'ci'; loading the ci config file");
+				break;
+			case (PP_ENV):
+				configPath = "config/pp/app.config"; 
+				Console.WriteLine ("OT_ENV set to 'pp'; loading the preprod config file");
+				break;
+			case (PROD_ENV):
+				configPath = "config/prod/app.config"; 
+				Console.WriteLine ("OT_ENV set to 'prod'; loading the prod config file");
+				break;
 			default:
 				Console.WriteLine ("OT_ENV set to 'dev' or not set at all; using the default config file");
 				configPath = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 				break;
 			}
-
-			//var mappedConfig = new ConfigurationFileMap (configPath);
-			//ConfigurationManager.OpenMappedMachineConfiguration (mappedConfig);
 
 			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
 			var path = Path.Combine(Environment.CurrentDirectory, configPath);
