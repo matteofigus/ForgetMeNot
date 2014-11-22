@@ -12,6 +12,7 @@ namespace ReminderService.Common
 		const string CI_ENV 				= "ci";
 		const string PP_ENV 				= "pp";
 		const string PROD_ENV 				= "prod";
+		const string ConfigRoot 			= "src/ReminderService/ReminderService.Hosting.NancySelf/bin/Debug/config/";
 
 		private static Configuration _config;
 
@@ -49,15 +50,15 @@ namespace ReminderService.Common
 
 			switch (environment) {
 			case (CI_ENV):
-				configPath = "config/ci/app.config"; 
+				configPath = ConfigRoot + "ci/app.config"; 
 				Console.WriteLine ("OT_ENV set to 'ci'; loading the ci config file");
 				break;
 			case (PP_ENV):
-				configPath = "config/pp/app.config"; 
+				configPath = ConfigRoot + "pp/app.config"; 
 				Console.WriteLine ("OT_ENV set to 'pp'; loading the preprod config file");
 				break;
 			case (PROD_ENV):
-				configPath = "config/prod/app.config"; 
+				configPath = ConfigRoot + "prod/app.config"; 
 				Console.WriteLine ("OT_ENV set to 'prod'; loading the prod config file");
 				break;
 			default:
