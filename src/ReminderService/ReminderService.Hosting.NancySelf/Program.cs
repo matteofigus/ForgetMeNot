@@ -47,11 +47,13 @@ namespace ReminderService.Hosting.NancySelf
 
 		private static void StandupDiscoveryClient()
 		{
+			var discoveryServer = OTEnvironmentalConfigManager.AppSettings ["host-uri"].Value;
+			Logger.DebugFormat ("Announcing to the discovery server [{0}] with host address [{1}]", discoveryServer, _hostUri);
 			_discoveryClient = new CSDiscoveryClient ();
 			_lease = _discoveryClient.CreateAnnouncement (
 				new AnnouncementBuilder()
 				.SetServiceType(ServiceName)
-				.SetServiceUri(new Uri(OTEnvironmentalConfigManager.AppSettings["host-uri"].Value)));
+				.SetServiceUri(new Uri(discoveryServer)));
 		}
 	}
 }

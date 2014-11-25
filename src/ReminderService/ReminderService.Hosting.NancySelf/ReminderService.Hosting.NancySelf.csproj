@@ -21,7 +21,7 @@
     <Commandlineparameters>--without-discovery</Commandlineparameters>
     <EnvironmentVariables>
       <EnvironmentVariables>
-        <Variable name="OT_ENV" value="ci" />
+        <Variable name="OT_ENV" value="dev" />
       </EnvironmentVariables>
     </EnvironmentVariables>
   </PropertyGroup>
