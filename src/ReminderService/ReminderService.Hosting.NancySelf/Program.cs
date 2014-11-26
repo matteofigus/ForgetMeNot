@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Linq;
 using System.IO;
 using ReminderService.Common;
+using System.Threading;
 
 namespace ReminderService.Hosting.NancySelf
 {
@@ -33,6 +34,10 @@ namespace ReminderService.Hosting.NancySelf
 			}
 
 			_hostUri = OTEnvironmentalConfigManager.AppSettings ["host-uri"].Value;
+				var hostSettings = new HostConfiguration ();
+			hostSettings.UnhandledExceptionCallback = ex => {
+				Logger.Error("There was an error encountered in the host process:", ex);
+			};
 
 			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper())) {
 				host.Start ();
@@ -41,9 +46,9 @@ namespace ReminderService.Hosting.NancySelf
 
 				Logger.InfoFormat (string.Format("ForgetMeNot started, listening on {0}...", _hostUri));
 
-				var fromStdIn = Console.ReadLine ();
-				Console.WriteLine ("Received from stdIn: " + fromStdIn + " . Shutting down...");
+				Thread.Sleep (0);
 
+				Logger.Info ("ForgetMeNot shutting down...");
 				host.Stop ();
 				_lease.Unannounce ();
 			}
