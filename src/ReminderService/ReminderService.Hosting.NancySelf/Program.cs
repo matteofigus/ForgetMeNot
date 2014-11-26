@@ -40,7 +40,11 @@ namespace ReminderService.Hosting.NancySelf
 				if(_useDiscovery) StandupDiscoveryClient ();
 
 				Logger.InfoFormat (string.Format("ForgetMeNot started, listening on {0}...", _hostUri));
-				Console.ReadLine ();
+
+				var fromStdIn = Console.ReadLine ();
+				Console.WriteLine ("Received from stdIn: " + fromStdIn + " . Shutting down...");
+
+				host.Stop ();
 				_lease.Unannounce ();
 			}
 		}
