@@ -21,6 +21,7 @@ namespace ReminderService.Hosting.NancySelf
 		private static CSDiscoveryClient _discoveryClient;
 		private static IAnnouncementLease _lease;
 		private static bool _useDiscovery = true;
+		private static ManualResetEvent _resetEvent = new ManualResetEvent (false);
 
 		public static void Main (string[] args)
 		{
@@ -46,7 +47,8 @@ namespace ReminderService.Hosting.NancySelf
 
 				Logger.InfoFormat (string.Format("ForgetMeNot started, listening on {0}...", _hostUri));
 
-				Thread.Sleep (0);
+				//wait here, forever!
+				_resetEvent.WaitOne ();
 
 				Logger.Info ("ForgetMeNot shutting down...");
 				host.Stop ();
