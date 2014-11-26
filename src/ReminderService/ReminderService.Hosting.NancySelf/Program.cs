@@ -16,7 +16,7 @@ namespace ReminderService.Hosting.NancySelf
 	class MainClass
 	{
 		const string ServiceName = "forgetmenot";
-		private static string _hostUri;// = "http://localhost:8080"; //TODO: make this a system call to discover the host name
+		private static string _hostUri;
 		private static ILog Logger = LogManager.GetLogger("ForgetMeNot.SelfHosted.Host");
 		private static CSDiscoveryClient _discoveryClient;
 		private static IAnnouncementLease _lease;
@@ -35,12 +35,13 @@ namespace ReminderService.Hosting.NancySelf
 			}
 
 			_hostUri = OTEnvironmentalConfigManager.AppSettings ["host-uri"].Value;
-				var hostSettings = new HostConfiguration ();
+			var hostSettings = new HostConfiguration ();
+			hostSettings.RewriteLocalhost = true;
 			hostSettings.UnhandledExceptionCallback = ex => {
 				Logger.Error("There was an error encountered in the host process:", ex);
 			};
 
-			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper())) {
+			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper(), hostSettings)) {
 				host.Start ();
 
 				if(_useDiscovery) StandupDiscoveryClient ();
