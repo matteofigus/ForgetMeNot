@@ -28,6 +28,7 @@ namespace ReminderService.Hosting.NancySelf
 			XmlConfigurator.Configure ();
 
 			Logger.Info ("Starting ForgetMeNot service...");
+			Console.WriteLine ("The machine name according to System.Environment.MachineName is ", System.Environment.MachineName);
 
 			if (args.Length != 0) {
 				if (args [0] == "--without-discovery")
