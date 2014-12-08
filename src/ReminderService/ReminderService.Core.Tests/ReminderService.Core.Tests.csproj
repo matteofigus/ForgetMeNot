@@ -120,6 +120,7 @@
     <Compile Include="Clustering\When_replication_fails_for_one_node_in_the_cluster.cs" />
     <Compile Include="Clustering\FakeClusterMembershipProvider.cs" />
     <Compile Include="Clustering\When_replicating_cancellations.cs" />
+    <Compile Include="DeliverReminder\MessageReplication\When_cannot_lock_record.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.Core\ReminderService.Core.csproj">
@@ -162,6 +163,7 @@
     <Folder Include="ReadModels\" />
     <Folder Include="DeliverReminder\" />
     <Folder Include="Clustering\" />
+    <Folder Include="DeliverReminder\MessageReplication\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

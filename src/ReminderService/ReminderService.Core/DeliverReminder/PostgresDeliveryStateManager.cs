@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ReminderService.Messages;
 using ReminderService.Common;
 
@@ -6,7 +7,7 @@ namespace ReminderService.Core.DeliverReminder
 {
 	public interface IDeliveryStateProvider
 	{
-		bool CheckAndLock(Guid reminderId, string serviceInstanceId);
+		//bool CheckAndLock(Guid reminderId, string serviceInstanceId);
 
 		Task<bool> GetLock (Guid reminderId, string serviceInstanceId);
 
@@ -20,6 +21,8 @@ namespace ReminderService.Core.DeliverReminder
 
 	public class PostgresDeliveryStateManager : IDeliveryStateManager
 	{
+		const string ServiceInstanceId = "FMN01";
+		private readonly IDeliveryStateProvider _deliveryStateProvider;
 		private readonly ICommandFactory _commandFactory;
 
 		public PostgresDeliveryStateManager (ICommandFactory commandFactory)
@@ -29,21 +32,21 @@ namespace ReminderService.Core.DeliverReminder
 			_commandFactory = commandFactory;
 		}
 
-		public void Deliver (ReminderMessage.IReminder reminder)
-		{
-			throw new NotImplementedException ();
-			//check the DB to see if this reminder has been locked to send
-			if (_deliveryStateProvider.CheckAndLock (due.ReminderId, ServiceInstanceId)) {
-				//if not, lock the row, set the row's service-name with this service instance id
-				//_deliveryStateProvider.MarkAsDelivered (due.ReminderId, ServiceInstanceId);
-				//send message to the router
-				_router.Handle (due);
-				//unlock the row
-				//_deliveryStateProvider.Unlock (due.ReminderId);
-			}
-		}
+//		public void Deliver (ReminderMessage.IReminder reminder)
+//		{
+//			throw new NotImplementedException ();
+//			//check the DB to see if this reminder has been locked to send
+//			if (_deliveryStateProvider.CheckAndLock (due.ReminderId, ServiceInstanceId)) {
+//				//if not, lock the row, set the row's service-name with this service instance id
+//				//_deliveryStateProvider.MarkAsDelivered (due.ReminderId, ServiceInstanceId);
+//				//send message to the router
+//				_router.Handle (due);
+//				//unlock the row
+//				//_deliveryStateProvider.Unlock (due.ReminderId);
+//			}
+//		}
 
-		private void Deliver(ReminderMessage.Due due)
+		public void Deliver(ReminderMessage.Due due)
 		{
 			_deliveryStateProvider.GetLock (due.ReminderId, ServiceInstanceId)
 				.ContinueWith (lockTask => {
@@ -94,7 +97,7 @@ namespace ReminderService.Core.DeliverReminder
 				.GetDueReminderStateCommand (reminderId, serviceInstanceId)
 				.ExecuteReader (System.Data.CommandBehavior.SingleRow);
 
-			return 
+			return true;
 		}
 	}
 }
