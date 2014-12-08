@@ -28,14 +28,19 @@ namespace ReminderService.Hosting.NancySelf
 			XmlConfigurator.Configure ();
 
 			Logger.Info ("Starting ForgetMeNot service...");
-			Console.WriteLine ("The machine name according to System.Environment.MachineName is ", System.Environment.MachineName);
 
 			if (args.Length != 0) {
 				if (args [0] == "--without-discovery")
 					_useDiscovery = false;
 			}
 
-			_hostUri = OTEnvironmentalConfigManager.AppSettings ["host-uri"].Value;
+			_hostUri = System.Environment.GetEnvironmentVariable ("TASK_HOST");
+			string port = System.Environment.GetEnvironmentVariable ("PORT0");
+			//for monitoring, PORT1 is available as another env variable
+			Logger.Info ("Host Name: " + _hostUri);
+			_hostUri = string.Format ("http://{0}:{1}", _hostUri, port);
+			OTEnvironmentalConfigManager.Environment = "ci-uswest2";
+
 			var hostSettings = new HostConfiguration ();
 			hostSettings.RewriteLocalhost = true;
 			hostSettings.UnhandledExceptionCallback = ex => {
@@ -66,7 +71,7 @@ namespace ReminderService.Hosting.NancySelf
 			_lease = _discoveryClient.CreateAnnouncement (
 				new AnnouncementBuilder()
 				.SetServiceType(ServiceName)
-				.SetServiceUri(new Uri(discoveryServer)));
+				.SetServiceUri(new Uri(_hostUri)));
 		}
 	}
 }

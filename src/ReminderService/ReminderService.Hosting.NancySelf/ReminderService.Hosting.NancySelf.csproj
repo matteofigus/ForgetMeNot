@@ -65,9 +65,10 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
-    <None Include="config\ci\app.config">
+    <None Include="config\ci-uswest2\app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="config\ci-uswest2\singularity.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReminderService.API.HTTP\ReminderService.API.HTTP.csproj">

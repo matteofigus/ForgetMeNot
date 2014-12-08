@@ -34,6 +34,10 @@ namespace ReminderService.API.HTTP
 
 				return Response.AsJson(monitors);
 			};
+
+			Get ["/health"] = parameters => {
+				return "ok";
+			};
 		}
 	}
 }
