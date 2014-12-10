@@ -25,6 +25,13 @@ namespace ReminderService.API.HTTP.BootStrap
 		private static readonly ILog Logger = LogManager.GetLogger("ReminderService.API.HTTP.Request");
 		const string RequestTimerKey = "RequestTimer";
 		const string RequestStartTimeKey = "RequestStartTime";
+		private readonly string _serviceInstanceId;
+
+		public BootStrapper (string serviceInstanceId)
+		{
+			Ensure.NotNullOrEmpty (serviceInstanceId, "serviceInstanceId");
+			_serviceInstanceId = serviceInstanceId;
+		}
 
 		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
 		{
@@ -89,6 +96,7 @@ namespace ReminderService.API.HTTP.BootStrap
 
 			Logger.Info ("Configuring the Nancy HTTP API...");
 			var busInstance = (Bus)container.Resolve<IBusFactory> ().Build ();
+			//set the service instance id on the bus instance, or pass it in to the bus factory...??
 			container.Register<IBus, Bus> (busInstance);
 
 			Logger.Debug ("Registereing the CustomJsonSerializer with the IoC container");

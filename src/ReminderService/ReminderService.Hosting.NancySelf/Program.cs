@@ -33,12 +33,17 @@ namespace ReminderService.Hosting.NancySelf
 
 		public static void Main (string[] args)
 		{
+			AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
+				Logger.Error ("Unhandled exception within the AppDomain.", e.ExceptionObject as Exception);
+			};
+
 			if (!ParseArgs (args)) {
 				Logger.Error ("Failed to start the service. Exiting...");
 				return;
 			}
 
 			XmlConfigurator.Configure ();
+			OTEnvironmentalConfigManager.SetEnvironment (_environment);
 
 			Logger.Info ("Starting ForgetMeNot service...");
 
@@ -50,7 +55,7 @@ namespace ReminderService.Hosting.NancySelf
 				Logger.Error("There was an unhandled exception in the host process:", ex);
 			};
 
-			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper(), hostSettings)) {
+			using (var host = new NancyHost (new Uri(_hostUri), new BootStrapper(_instanceId), hostSettings)) {
 				host.Start ();
 
 				if(_useDiscovery) StandupDiscoveryClient ();

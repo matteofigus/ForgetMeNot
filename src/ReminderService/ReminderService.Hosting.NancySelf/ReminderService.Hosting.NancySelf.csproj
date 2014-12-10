@@ -66,7 +66,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
-    <None Include="config\ci\app.config">
+    <None Include="config\ci-uswest2\app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -84,5 +84,6 @@
     <Folder Include="config\" />
     <Folder Include="config\pp\" />
     <Folder Include="config\prod\" />
+    <Folder Include="config\ci-uswest2\" />
   </ItemGroup>
 </Project>
