@@ -7,11 +7,7 @@ namespace ReminderService.Common
 {
 	public static class OTEnvironmentalConfigManager
 	{
-		//const string Deploy_Environment 	= "OT_ENV";
 		const string Default_Environment 	= "dev";
-		//const string CI_ENV 				= "ci";
-		//const string PP_ENV 				= "pp";
-		//const string PROD_ENV 				= "prod";
 		const string ConfigRoot 			= "config/";
 		const string LogMessageBase 		= "Environment set to '{0}'; loading the config file";
 
@@ -32,21 +28,18 @@ namespace ReminderService.Common
 
 		public static KeyValueConfigurationCollection AppSettings {
 			get {
-				CheckAndLoadConfig ();
 				return _config.AppSettings.Settings; 
 			}
 		}
 
 		public static ConnectionStringSettingsCollection ConnectionStrings {
 			get { 
-				CheckAndLoadConfig ();
 				return _config.ConnectionStrings.ConnectionStrings; 
 			}
 		}
 
 		public static object GetSection (string sectionName)
 		{
-			CheckAndLoadConfig ();
 			return _config.GetSection (sectionName);
 		}
 
