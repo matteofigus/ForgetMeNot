@@ -7,17 +7,27 @@ namespace ReminderService.Common
 {
 	public static class OTEnvironmentalConfigManager
 	{
-		const string CI_ENV 				= "ci-uswest2";
-		const string PP_ENV 				= "pp-uswest2";
-		const string PROD_ENV 				= "prod-uswest2";
-		const string ConfigRoot 			= "src/ReminderService/ReminderService.Hosting.NancySelf/bin/Debug/config/";
-		//const string ConfigRoot 			= "src/config/";
+		//const string Deploy_Environment 	= "OT_ENV";
+		const string Default_Environment 	= "dev";
+		//const string CI_ENV 				= "ci";
+		//const string PP_ENV 				= "pp";
+		//const string PROD_ENV 				= "prod";
+		const string ConfigRoot 			= "config/";
+		const string LogMessageBase 		= "Environment set to '{0}'; loading the config file";
 
+		//private static readonly ILog Logger = LogManager.GetLogger();
 		private static Configuration _config;
+		private static string _environment;
 
-		public static string Environment {
-			get;
-			set;
+		public static void SetEnvironment(string environment)
+		{
+			_environment = environment;
+			LoadConfig (environment);
+		}
+
+		public static string Environment 
+		{
+			get { return _environment; }
 		}
 
 		public static KeyValueConfigurationCollection AppSettings {
@@ -40,44 +50,56 @@ namespace ReminderService.Common
 			return _config.GetSection (sectionName);
 		}
 
-		private static void CheckAndLoadConfig()
+		private static void LoadConfig(string environment)
 		{
-			if (string.IsNullOrEmpty (Environment))
-				return;
+			string pathToConfig;
+			string pathToConfigFile;
 
-			if (_config == null)
-				LoadConfigForEnvironment (Environment);
-		}
-
-		private static Configuration LoadConfigForEnvironment(string environment)
-		{
-			string configPath = string.Empty;
-
-			switch (environment) {
-			case (CI_ENV):
-				configPath = ConfigRoot + CI_ENV + "/app.config"; 
-				Console.WriteLine ("OT_ENV set to 'ci'; loading the ci config file");
-				break;
-			case (PP_ENV):
-				configPath = ConfigRoot + PP_ENV + "/app.config"; 
-				Console.WriteLine ("OT_ENV set to 'pp'; loading the preprod config file");
-				break;
-			case (PROD_ENV):
-				configPath = ConfigRoot + PROD_ENV + "/app.config"; 
-				Console.WriteLine ("OT_ENV set to 'prod'; loading the prod config file");
-				break;
-			default:
+			if (string.IsNullOrEmpty (environment) || environment == Default_Environment) {
 				Console.WriteLine ("OT_ENV set to 'dev' or not set at all; using the default config file");
-				configPath = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-				break;
+				pathToConfigFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+			} else {
+				pathToConfig = Path.Combine (ConfigRoot, environment);
+				pathToConfigFile = Path.Combine (pathToConfig, "app.config");
 			}
 
+			if (!File.Exists (pathToConfigFile))
+				throw new FileNotFoundException (string.Format("The config file for environment [{0}] does not exist.", environment));
+				
 			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-			var path = Path.Combine(System.Environment.CurrentDirectory, configPath);
+			var path = Path.Combine(System.Environment.CurrentDirectory, pathToConfigFile);
 			Console.WriteLine ("Loading configuration file from: " + path);
 			configMap.ExeConfigFilename = path;
-			return ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+			_config =  ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 		}
+
+
+
+//		private static Configuration LoadConfigForEnvironment(string environment)
+//		{
+//			string configPath = string.Empty;
+//
+//			switch (environment) {
+//			case (CI_ENV):
+//				configPath = Path.Combine(_pathToConfig, "app.config"); 
+//				Console.WriteLine (string.Format(LogMessageBase, environment));
+//				break;
+//			case (PP_ENV):
+//				configPath = ConfigRoot + "pp/app.config"; 
+//				Console.WriteLine (string.Format(LogMessageBase, environment));
+//				break;
+//			case (PROD_ENV):
+//				configPath = ConfigRoot + "prod/app.config"; 
+//				Console.WriteLine (string.Format(LogMessageBase, environment));
+//				break;
+//			default:
+//				Console.WriteLine ("OT_ENV set to 'dev' or not set at all; using the default config file");
+//				configPath = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+//				break;
+//			}
+//
+//
+//		}
 	}
 }
 
