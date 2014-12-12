@@ -8,4 +8,4 @@ RUN . /app/auth.sh && nuget sources Add -Name myget-opentable-dev -Source https:
 RUN nuget restore src/ReminderService/ReminderService.sln -Source https://opentable.myget.org/F/dev/ -Source https://www.nuget.org/api/v2/
 RUN xbuild src/ReminderService/ReminderService.sln
 EXPOSE 8080
-CMD mono src/ReminderService/ReminderService.Hosting.NancySelf/bin/Debug/ForgetMeNot.SelfHosted.exe --host-name ${TASK_HOST:-localhost} --port ${PORT_0:-8080} --environment ${OT_ENV:-dev} --instance-id ${INSTANCE_NO:-forgetmenot01}
+CMD mono src/ReminderService/ReminderService.Hosting.NancySelf/bin/Debug/ForgetMeNot.SelfHosted.exe --host-name ${TASK_HOST:-localhost} --port ${PORT0:-8080} --environment ${OT_ENV:-dev} --instance-id ${INSTANCE_NO:-forgetmenot01}
