@@ -43,10 +43,14 @@ namespace ReminderService.Hosting.NancySelf
 			}
 
 			XmlConfigurator.Configure ();
+
+			Logger.Info ("Starting ForgetMeNot service with args...");
+			Logger.InfoFormat ("host-name: {0}", _hostName);
+			Logger.InfoFormat ("port: {0}", _port);
+			Logger.InfoFormat ("environment: {0}", _environment);
+			Logger.InfoFormat ("instance-id: {0}", _instanceId);
+
 			OTEnvironmentalConfigManager.SetEnvironment (_environment);
-
-			Logger.Info ("Starting ForgetMeNot service...");
-
 			_hostUri = string.Format ("http://{0}:{1}", _hostName, _port);
 			Console.WriteLine ("Host URI: " + _hostUri);
 
