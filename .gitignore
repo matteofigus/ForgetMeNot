@@ -186,3 +186,4 @@ FakesAssemblies/
 # Other files
 *.data
 credentials.sh
+**/.DS_Store
