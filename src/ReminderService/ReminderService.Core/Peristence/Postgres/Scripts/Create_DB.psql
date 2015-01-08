@@ -2,6 +2,9 @@
 -- This script can be executed from the command line as follows:
 --     sudo -u postgres psql < Create_DB.psql
 
+—- OR you can run from the psql command line like this:
+—-	rsmith=# \i path-to-file.sql
+
 -- Destroy any pre-existing version of DB 
 DROP DATABASE IF EXISTS forgetmenot;
 DROP ROLE IF EXISTS forgetmenot_user;
