@@ -52,7 +52,6 @@ namespace ReminderService.Hosting.NancySelf
 
 			OTEnvironmentalConfigManager.SetEnvironment (_environment);
 			_hostUri = string.Format ("http://{0}:{1}", _hostName, _port);
-			Console.WriteLine ("Host URI: " + _hostUri);
 
 			var hostSettings = new HostConfiguration ();
 			hostSettings.UnhandledExceptionCallback = ex => {

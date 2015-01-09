@@ -59,41 +59,13 @@ namespace ReminderService.Common
 			var path = Path.Combine(System.Environment.CurrentDirectory, pathToConfigFile);
 
 			if (!File.Exists (path))
-				throw new FileNotFoundException (string.Format("The config file for environment [{0}] does not exist.", environment));
+				throw new FileNotFoundException (string.Format("Could not find the config file for environment [{0}]. Expected path to be: {1}", environment, path));
 				
 			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
 			Logger.InfoFormat ("Loading configuration file from: {0}", path);
 			configMap.ExeConfigFilename = path;
 			_config =  ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 		}
-
-
-
-//		private static Configuration LoadConfigForEnvironment(string environment)
-//		{
-//			string configPath = string.Empty;
-//
-//			switch (environment) {
-//			case (CI_ENV):
-//				configPath = Path.Combine(_pathToConfig, "app.config"); 
-//				Console.WriteLine (string.Format(LogMessageBase, environment));
-//				break;
-//			case (PP_ENV):
-//				configPath = ConfigRoot + "pp/app.config"; 
-//				Console.WriteLine (string.Format(LogMessageBase, environment));
-//				break;
-//			case (PROD_ENV):
-//				configPath = ConfigRoot + "prod/app.config"; 
-//				Console.WriteLine (string.Format(LogMessageBase, environment));
-//				break;
-//			default:
-//				Console.WriteLine ("OT_ENV set to 'dev' or not set at all; using the default config file");
-//				configPath = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-//				break;
-//			}
-//
-//
-//		}
 	}
 }
 
