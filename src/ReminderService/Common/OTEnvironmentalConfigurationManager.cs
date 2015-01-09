@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Collections.Specialized;
+using log4net;
 
 namespace ReminderService.Common
 {
@@ -11,7 +12,7 @@ namespace ReminderService.Common
 		const string ConfigRoot 			= "config/";
 		const string LogMessageBase 		= "Environment set to '{0}'; loading the config file";
 
-		//private static readonly ILog Logger = LogManager.GetLogger();
+		private static readonly ILog Logger = LogManager.GetLogger("OTEnvironmentalConfigManager");
 		private static Configuration _config;
 		private static string _environment;
 
@@ -45,23 +46,23 @@ namespace ReminderService.Common
 
 		private static void LoadConfig(string environment)
 		{
-			string pathToConfig;
 			string pathToConfigFile;
 
 			if (string.IsNullOrEmpty (environment) || environment == Default_Environment) {
-				Console.WriteLine ("OT_ENV set to 'dev' or not set at all; using the default config file");
+				Logger.Info ("Environment set to [dev] or not set at all; using the default config file");
 				pathToConfigFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 			} else {
-				pathToConfig = Path.Combine (ConfigRoot, environment);
-				pathToConfigFile = Path.Combine (pathToConfig, "app.config");
+				Logger.InfoFormat ("Environment set to [{0}]", environment);
+				pathToConfigFile = Path.Combine (ConfigRoot, environment, "app.config");
 			}
 
-			if (!File.Exists (pathToConfigFile))
+			var path = Path.Combine(System.Environment.CurrentDirectory, pathToConfigFile);
+
+			if (!File.Exists (path))
 				throw new FileNotFoundException (string.Format("The config file for environment [{0}] does not exist.", environment));
 				
 			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-			var path = Path.Combine(System.Environment.CurrentDirectory, pathToConfigFile);
-			Console.WriteLine ("Loading configuration file from: " + path);
+			Logger.InfoFormat ("Loading configuration file from: {0}", path);
 			configMap.ExeConfigFilename = path;
 			_config =  ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 		}
