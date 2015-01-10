@@ -1,0 +1,8 @@
+{
+  "requestId": "ci-forget-me-not",
+  "resources": {
+    "cpus": 0.1,
+    "memoryMb": 2100,
+    "numPorts": 2
+  }
+}
